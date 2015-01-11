@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="Salaryitemunit" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+	    <!-- 
+        <global-results>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+		 -->
+		
+		<!-- 奖金模板页面显示 -->
+		<!-- 显示奖金模板列表页 -->
+		<action name="listSalaryitemunitPage" class="com.salary.action.SalaryitemunitAction" method="listSalaryitemunitPage">
+			<result name="success">/salaryitemunit/listSalaryitemunitPage.jsp</result>
+		</action>
+		<!-- 添加奖金模板页面 -->
+		<action name="addSalaryitemunitPage" class="com.salary.action.SalaryitemunitAction" method="addSalaryitemunitPage">
+			<result name="success">/salaryitemunit/addSalaryitemunitPage.jsp</result>
+		</action>
+		<!-- 修改奖金模板页面 -->
+		<action name="editSalaryitemunitPage" class="com.salary.action.SalaryitemunitAction" method="editSalaryitemunitPage">
+			<result name="success">/salaryitemunit/editSalaryitemunitPage.jsp</result>
+		</action>
+		
+		
+		<!-- 奖金模板业务处理 -->
+		<!-- 添加奖金模板 -->
+		<action name="addSalaryitemunit" class="com.salary.action.SalaryitemunitAction" method="addSalaryitemunit">
+			<result name="success">/salaryitemunit/listSalaryitemunitPage.jsp</result>
+		</action>
+		<!-- 删除奖金模板 -->
+		<action name="delSalaryitemunit" class="com.salary.action.SalaryitemunitAction" method="delSalaryitemunit">
+			<result name="success">/salaryitemunit/listSalaryitemunitPage.jsp</result>
+		</action>
+		<!-- 修改奖金模板 -->
+		<action name="editSalaryitemunit" class="com.salary.action.SalaryitemunitAction" method="editSalaryitemunit">
+			<result name="success">/salaryitemunit/listSalaryitemunitPage.jsp</result>
+		</action>
+		
+		
+		<!-- 奖金模板json数据 -->
+		<!-- 获取奖金模板列表json数据 -->
+		<action name="getSalaryitemunitlist" class="com.salary.action.SalaryitemunitAction" method="getSalaryitemunitlist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+    </package>
+</struts>

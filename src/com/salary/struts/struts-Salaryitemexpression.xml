@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="Salaryitemexpression" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+	    <!-- 
+        <global-results>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+         -->
+        
+        
+        
+        <!-- 奖金项目公式页面显示 -->
+        <!-- 显示奖金项目公式列表页面 -->
+        <action name="listSalaryitemexpressionPage" class="com.salary.action.SalaryitemexpressionAction" method="listSalaryitemexpressionPage">
+        	<result name="success">/salaryitemexpression/listSalaryitemexpressionPage.jsp</result>
+        </action>
+        <!-- 添加奖金项目公式页面 -->
+        <action name="addSalaryitemexpressionPage" class="com.salary.action.SalaryitemexpressionAction" method="addSalaryitemexpressionPage">
+        	<result name="success">/salaryitemexpression/addSalaryitemexpressionPage.jsp</result>
+        </action>
+        <!-- 修改奖金项目公式页面 -->
+        <action name="editSalaryitemexpressionPage" class="com.salary.action.SalaryitemexpressionAction" method="editSalaryitemexpressionPage">
+        	<result name="success">/salaryitemexpression/editSalaryitemexpressionPage.jsp</result>
+        </action>
+        
+        
+        
+        <!-- 奖金项目公式业务处理 -->
+        <!-- 添加奖金项目公式 -->
+        <action name="addSalaryitemexpression" class="com.salary.action.SalaryitemexpressionAction" method="addSalaryitemexpression">
+        	<result name="success">/salaryitemexpression/listSalaryitemexpressionPage.jsp</result>
+        </action>
+        <!-- 修改奖金项目公式 -->
+        <action name="editSalaryitemexpression" class="com.salary.action.SalaryitemexpressionAction" method="editSalaryitemexpression">
+        	<result name="success">/salaryitemexpression/listSalaryitemexpressionPage.jsp</result>
+        </action>
+        <!-- 删除奖金项目公式 -->
+        <action name="delSalaryitemexpression" class="com.salary.action.SalaryitemexpressionAction" method="delSalaryitemexpression">
+        	<result name="success">/salaryitemexpression/listSalaryitemexpressionPage.jsp</result>
+        </action>
+        
+        
+        
+        <!-- 奖金项目公式json数据 -->
+        <!-- 获取奖金项目公式列表json数据 -->
+        <action name="getSalaryitemexpressionlist" class="com.salary.action.SalaryitemexpressionAction" method="getSalaryitemexpressionlist">
+        	<result type="json">
+        		<param name="root">jsonobj</param>
+        	</result>
+        </action>
+        
+    </package>
+
+</struts>

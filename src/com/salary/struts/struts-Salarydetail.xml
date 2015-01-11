@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="Salarydetail" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+	    <!-- 
+        <global-results>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+		 -->
+		
+		<!-- 页面显示部分 -->
+		<!-- 显示奖金明细页面 -->
+		<action name="listSalarydetailPage" class="com.salary.action.SalarydetailAction" method="listSalarydetailPage">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 自动核算奖金 -->
+		<action name="calcSalarydetail" class="com.salary.action.SalarydetailAction" method="calcSalarydetail">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		<!-- 自动核算奖金 -->
+		<action name="editSalarydetailFromDatagrid" class="com.salary.action.SalarydetailAction" method="editSalarydetailFromDatagrid">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		
+		
+		
+		<!-- json数据部分 -->
+		<!-- 获取奖金明细json数据 -->
+		<action name="getSalarydetaillist" class="com.salary.action.SalarydetailAction" method="getSalarydetaillist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+    </package>
+</struts>

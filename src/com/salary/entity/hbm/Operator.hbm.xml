@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping 
+	package="com.salary.entity" >
+	<class name="Operator" table="operator">
+		<id name="id">
+			<generator class="increment"/>
+		</id>
+
+		<property name="name" />
+		<property name="pass" />
+		<property name="role_id" />
+		<property name="isdel" />
+	</class>
+</hibernate-mapping>

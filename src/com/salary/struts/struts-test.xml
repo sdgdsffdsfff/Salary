@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="testpackage" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+    	<!-- 
+        <global-results>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+		 -->
+		<!-- 根据账套id来初始化本月的工资项目明细 -->
+        <action name="callprInitsalarydetail" class="com.salary.action.testAction" method="callprInitsalarydetail">
+            <result name="success">/mainframe.jsp</result>
+        </action>
+        
+        <!-- 设置员工工资项目金额 -->
+        <action name="callprSetsalarydetail" class="com.salary.action.testAction" method="callprSetsalarydetail">
+            <result name="success">/mainframe.jsp</result>
+        </action>
+        
+        <!-- 测试动态sql语句执行结果-->
+        <action name="testDynmaicsql" class="com.salary.action.testAction" method="testDynmaicsql">
+            <result name="success">/mainframe.jsp</result>
+        </action>
+        
+        <!-- 奖金查询语句-->
+        <action name="callfnGetsalarysql" class="com.salary.action.testAction" method="callfnGetsalarysql">
+            <result name="success">/mainframe.jsp</result>
+        </action>
+        
+        <!-- 测试Easyui表格传递的东东 -->
+        <action name="testDatagridsend" class="com.salary.action.testAction" method="testDatagridsend">
+        	<result type="json">
+        		<param name="root">jsonobj</param>
+        	</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="Role" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+	    <!-- 
+        <global-results>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+		 -->
+		
+		<!-- 页面显示部分 -->
+		<!-- 显示操作员添加页面 -->
+		<action name="addRolePage" class="com.salary.action.RoleAction" method="addRolePage">
+			<result name="success">/role/addRolePage.jsp</result>
+		</action>
+		<!-- 显示操作员编辑页面 -->
+		<action name="editRolePage" class="com.salary.action.RoleAction" method="editRolePage">
+			<result name="success">/role/editRolePage.jsp</result>
+		</action>
+		<!-- 显示操作员列表页面 -->
+		<action name="listRolePage" class="com.salary.action.RoleAction" method="listRolePage">
+			<result name="success">/role/listRolePage.jsp</result>
+		</action>
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 操作员 -->
+		<action name="addRole" class="com.salary.action.RoleAction" method="addRole">
+			<result name="success">/role/listRolePage.jsp</result>
+		</action>
+		<!-- 操作员 -->
+		<action name="editRole" class="com.salary.action.RoleAction" method="editRole">
+			<result name="success">/role/listRolePage.jsp</result>
+		</action>
+		<!-- 操作员 -->
+		<action name="delRole" class="com.salary.action.RoleAction" method="delRole">
+			<result name="success">/role/listRolePage.jsp</result>
+		</action>
+		
+		
+		
+		<!-- json数据部分 -->
+		<!-- 操作员 -->
+		<action name="getRolelist" class="com.salary.action.RoleAction" method="getRolelist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+		
+    </package>
+</struts>

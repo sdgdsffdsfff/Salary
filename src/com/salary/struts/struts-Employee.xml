@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="Employee" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+	    <!-- 
+        <global-results>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+		 -->
+		
+		<!-- 页面显示部分 -->
+		<!-- 添加员工页面 -->
+		<action name="addEmployeePage" class="com.salary.action.EmployeeAction" method="addEmployeePage">
+			<result name="success">/employee/addEmployeePage.jsp</result>
+		</action>
+		<!-- 修改员工页面 -->
+		<action name="editEmployeePage" class="com.salary.action.EmployeeAction" method="editEmployeePage">
+			<result name="success">/employee/editEmployeePage.jsp</result>
+		</action>
+		<!-- 显示员工列表页面 -->
+		<action name="listEmployeePage" class="com.salary.action.EmployeeAction" method="listEmployeePage">
+			<result name="success">/employee/listEmployeePage.jsp</result>
+		</action>
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 添加员工 -->
+		<action name="addEmployee" class="com.salary.action.EmployeeAction" method="addEmployee">
+			<result name="success">/employee/listEmployeePage.jsp</result>
+		</action>
+		<!-- 删除员工 -->
+		<action name="delEmployee" class="com.salary.action.EmployeeAction" method="delEmployee">
+			<result name="success">/employee/listEmployeePage.jsp</result>
+		</action>
+		<!-- 修改员工 -->
+		<action name="editEmployee" class="com.salary.action.EmployeeAction" method="editEmployee">
+			<result name="success">/employee/listEmployeePage.jsp</result>
+		</action>
+		
+		
+		
+		<!-- json数据处理 -->
+		<!-- 获取员工列表json数据 -->
+		<action name="getEmployeelist" class="com.salary.action.EmployeeAction" method="getEmployeelist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+		
+    </package>
+</struts>
