@@ -19,8 +19,7 @@
             $('#tb_employee').datagrid({ 
                 title:'员工信息管理', 
                 iconCls:'icon-save', 
-                width:700, 
-                height:350, 
+                height:500, 
                 singleSelect:true,
                 onDblClickRow:edit,
                 nowrap: true, 

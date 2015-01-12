@@ -38,6 +38,173 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 		}
 	}
 		
+	@Override
+	public void add(T t) {
+		try {
+			Session session=sessionFactory.openSession();
+			Transaction tr=session.beginTransaction();
+			session.save(t);
+			tr.commit();
+			
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	@Override
+	public void del(T t) {
+		try {
+			Session session=sessionFactory.openSession();
+			Transaction tr=session.beginTransaction();
+			session.delete(t);
+			tr.commit();
+			
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	@Override
+	public void edit(T t) {
+		try {
+			Session session=sessionFactory.openSession();
+			Transaction tr=session.beginTransaction();
+			session.update(t);
+			tr.commit();
+			
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	@Override
+	public T get(String hql,Map<String,Object> params) {
+		return this.query(hql, params).get(0);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> queryNaviSql(String sql,Map<String, Object> params) {
+		try {
+			Session session=sessionFactory.openSession();
+			Query query=session.createSQLQuery(sql);
+			if(params!=null && !params.isEmpty()){
+				for(String key:params.keySet()){
+					query.setParameter(key, params.get(key));
+				}
+			}
+			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+			
+			return query.list();
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	
+	/**
+	 * 利用动态sql语句来获取工资项目明细表的金额
+	 * @param dynmaicsql	动态sql语句
+	 * @return				工资明细表的金额
+	 */
+	public BigDecimal getSalarydetailmoney(String dynmaicsql){
+		try {
+			return (BigDecimal) queryNaviSql(dynmaicsql, null).get(0).get("money");
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> query(String hql, Map<String, Object> params) {
+		try {
+			Session session = sessionFactory.openSession();
+			Query query=session.createQuery(hql);
+			if(params!=null && !params.isEmpty()){
+				for(String key:params.keySet())
+				query.setParameter(key, params.get(key));
+			}
+			
+			return (List<T>) query.list();
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> queryByPage(String hql, Map<String, Object> params,int pageNum, int pageSize) {
+		try {
+			Session session = sessionFactory.openSession();
+			Query query=session.createQuery(hql);
+			if(params!=null && !params.isEmpty()){
+				for(String key:params.keySet())
+				query.setParameter(key, params.get(key));
+			}
+			int firstResultNum=(pageNum-1)*pageSize;
+			query.setFirstResult(firstResultNum);
+			query.setMaxResults(pageSize);
+			
+			return (List<T>) query.list();
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> queryNaviSqlByPage(String sql,Map<String, Object> params, int pageNum, int pageSize) {
+		try {
+			Session session=sessionFactory.openSession();
+			Query query=session.createSQLQuery(sql);
+			if(params!=null && !params.isEmpty()){
+				for(String key:params.keySet()){
+					query.setParameter(key, params.get(key));
+				}
+			}
+			
+			int firstResultNum=(pageNum-1)*pageSize;
+			query.setFirstResult(firstResultNum);
+			query.setMaxResults(pageSize);
+			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+			
+			return query.list();
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	
+	
+	/**
+	 * 执行SQL语句
+	 * @param sql
+	 */
+	public void executeSQL(String sql){
+		try {
+			Session session=sessionFactory.openSession();
+			Transaction tr=session.beginTransaction();
+			Query query=session.createSQLQuery(sql);
+			query.executeUpdate();
+			tr.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * 根据账套id来初始化本月的工资项目明细
@@ -112,156 +279,6 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 		}
 		
 		return null;
-		
 	}
-	
-	@Override
-	public void add(T t) {
-		try {
-			Session session=sessionFactory.openSession();
-			Transaction tr=session.beginTransaction();
-			session.save(t);
-			tr.commit();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-	}
-	
-	@Override
-	public void del(T t) {
-		try {
-			Session session=sessionFactory.openSession();
-			Transaction tr=session.beginTransaction();
-			session.delete(t);
-			tr.commit();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-	}
-	
-	@Override
-	public void edit(T t) {
-		try {
-			Session session=sessionFactory.openSession();
-			Transaction tr=session.beginTransaction();
-			session.update(t);
-			tr.commit();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-	}
-	
-	@Override
-	public T get(String hql,Map<String,Object> params) {
-		return this.query(hql, params).get(0);
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Map<String, Object>> queryNaviSql(String sql,Map<String, Object> params) {
-		try {
-			Session session=sessionFactory.openSession();
-			Query query=session.createSQLQuery(sql);
-			if(params!=null && !params.isEmpty()){
-				for(String key:params.keySet()){
-					query.setParameter(key, params.get(key));
-				}
-			}
-			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-			return query.list();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return null;
-	}
-	
-	
-	/**
-	 * 利用动态sql语句来获取工资项目明细表的金额
-	 * @param dynmaicsql	动态sql语句
-	 * @return				工资明细表的金额
-	 */
-	public BigDecimal getSalarydetailmoney(String dynmaicsql){
-		try {
-			return (BigDecimal) queryNaviSql(dynmaicsql, null).get(0).get("money");
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		
-		return null;
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<T> query(String hql, Map<String, Object> params) {
-		try {
-			Session session = sessionFactory.openSession();
-			Query query=session.createQuery(hql);
-			if(params!=null && !params.isEmpty()){
-				for(String key:params.keySet())
-				query.setParameter(key, params.get(key));
-			}
-			return (List<T>) query.list();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return null;
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<T> queryByPage(String hql, Map<String, Object> params,int pageNum, int pageSize) {
-		try {
-			Session session = sessionFactory.openSession();
-			Query query=session.createQuery(hql);
-			if(params!=null && !params.isEmpty()){
-				for(String key:params.keySet())
-				query.setParameter(key, params.get(key));
-			}
-			int firstResultNum=(pageNum-1)*pageSize;
-			query.setFirstResult(firstResultNum);
-			query.setMaxResults(pageSize);
-			
-			return (List<T>) query.list();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Map<String, Object>> queryNaviSqlByPage(String sql,Map<String, Object> params, int pageNum, int pageSize) {
-		try {
-			Session session=sessionFactory.openSession();
-			Query query=session.createSQLQuery(sql);
-			if(params!=null && !params.isEmpty()){
-				for(String key:params.keySet()){
-					query.setParameter(key, params.get(key));
-				}
-			}
-			
-			int firstResultNum=(pageNum-1)*pageSize;
-			query.setFirstResult(firstResultNum);
-			query.setMaxResults(pageSize);
-			query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-			return query.list();
-		} catch (HibernateException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return null;
-	}
-	
-	
-	
-	
-	
 	
 }

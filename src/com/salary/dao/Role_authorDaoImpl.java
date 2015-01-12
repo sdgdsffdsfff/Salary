@@ -15,19 +15,5 @@ import com.salary.entity.Role_author;
  */
 public class Role_authorDaoImpl extends CRUDDaoImpl<Role_author> {
 	
-	/**
-	 * 执行SQL语句
-	 * @param sql
-	 */
-	public void executeSQL(String sql){
-		try {
-			Session session=sessionFactory.openSession();
-			Transaction tr=session.beginTransaction();
-			Query query=session.createSQLQuery(sql);
-			query.executeUpdate();
-			tr.commit();
-		} catch (HibernateException e) {
-			e.printStackTrace();
-		}
-	}
+
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>添加奖金期间</title>
+<title>修改操作员</title>
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
 	<script type="text/javascript" src="./easyui/jquery.min.js"></script>
@@ -14,12 +14,14 @@
 </head>
 <body>
 <div style="padding:20px;">
-	<form id="addAccountForm" action="addAccount" method="POST" >
+	<form id="editOperatorForm" action="editOperator" method="POST" >
+		<input type="hidden" name="operator.id" value='<s:property value="operator.id" />' />
 		<table cellpadding="5" >
 			<tr>
-				<td>期间名称:</td>
+				<td>操作员名称:</td>
 				<td>
-					<input type="text" class="easyui-textbox" name="account.name" 
+					<input type="text" class="easyui-textbox" name="operator.name" 
+					value='<s:property value="operator.name" />'
 					data-options="
 					required:true,
 					width:150,
@@ -27,19 +29,31 @@
 				</td>
 			</tr>
 			<tr>
-				<td>开始日期:</td>
+				<td>角色:</td>
 				<td>
-					<input id="daystart" type="text" class="easyui-datebox" name="account.daystart"
-					data-options="required:true,validType:'validDate'" />
+					<select name="operator.role_id" class="easyui-combobox" 
+					data-options='width:150,value:<s:property value="operator.role_id" />'>
+						<s:iterator value="listrole">
+							<option value='<s:property value="id" />'><s:property value="name" /></option>
+						</s:iterator>
+					</select>
 				</td>
 			</tr>
 			<tr>
-				<td>结束日期:</td>
+				<td>密码:</td>
 				<td>
-					<input id="dayend" type="text" class="easyui-datebox" name="account.dayend"
-					data-options="required:true,validType:'validDate'" />
+					<input id="pass1" type="password" class="easyui-textbox" name="operator.pass"
+					data-options="required:true," />
 				</td>
 			</tr>
+			<tr>
+				<td>确认密码:</td>
+				<td>
+					<input id="pass2" type="password" class="easyui-textbox"
+					data-options="required:true," />
+				</td>
+			</tr>
+			
 			<tr>
 			<td colspan="2" align="center">
 				<a onclick="submit()" class="easyui-linkbutton" 
@@ -50,14 +64,21 @@
 	</form>
 </div>
 <script type="text/javascript">
+	$(function(){
+		//验证密码是否一致
+		$('#pass2').textbox({
+			validType:["equals['#pass1']",],
+		});
+	});
+	
 	function submit(){
-		var isValid=$('#addAccountForm').form('validate');
+		var isValid=$('#editOperatorForm').form('validate');
 		if(!isValid){
 			$.messager.alert('提示','请输入完整的信息!','warning');
 			return false;
 		}
 		
-		$('#addAccountForm').submit();
+		$('#editOperatorForm').submit();
 	}
 	
 </script>

@@ -72,4 +72,10 @@ public interface CRUDDao<T> {
 	 */
 	public List<Map<String,Object>> queryNaviSqlByPage(String sql,Map<String,Object> params,int pageNum,int pageSize);
 	
+	
+	/**
+	 * 执行SQL语句
+	 * @param sql
+	 */
+	public void executeSQL(String sql);
 }

@@ -159,6 +159,7 @@ public class EmployeeAction extends ActionSupport {
 		
 		hql="From Department where isdel=0";
 		listdepartment=departmentService.query(hql, null);
+		
 		hql="From Salary_item_unit";
 		listsalary_item_unit=salary_item_unitService.query(hql, null);
 		

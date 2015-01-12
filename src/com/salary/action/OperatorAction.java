@@ -9,8 +9,10 @@ import net.sf.json.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Operator;
+import com.salary.entity.Role;
 import com.salary.entity.Salary_item;
 import com.salary.service.OperatorService;
+import com.salary.service.RoleService;
 
 /**
  * 操作员处理action
@@ -20,6 +22,7 @@ import com.salary.service.OperatorService;
 @SuppressWarnings("serial")
 public class OperatorAction extends ActionSupport {
 	private OperatorService operatorService;
+	private RoleService roleService;
 	private Operator operator;						//操作员
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -29,6 +32,10 @@ public class OperatorAction extends ActionSupport {
 	private JSONObject jsonobj;						//json对象，传递给Easyui表格
 	private Integer page;							//Easyui分页号
 	private Integer rows;							//Easyui分页大小
+	private List<Role> listrole;					//角色信息列表
+	private Role role;								//角色信息
+	
+	
 	/**
 	 * 初始化分页
 	 */
@@ -37,6 +44,14 @@ public class OperatorAction extends ActionSupport {
 		rows=(rows==null || rows==0)?new Integer(10):rows;
 	}
 	
+	public RoleService getRoleService() {
+		return roleService;
+	}
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
+
 	public Operator getOperator() {
 		return operator;
 	}
@@ -100,11 +115,30 @@ public class OperatorAction extends ActionSupport {
 		this.rows = rows;
 	}
 	
+	public List<Role> getListrole() {
+		return listrole;
+	}
+
+	public void setListrole(List<Role> listrole) {
+		this.listrole = listrole;
+	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
 	/**
 	 * 添加操作员页面
 	 * @return
 	 */
 	public String addOperatorPage(){
+		String hql="From Role where isdel=0";
+		listrole=roleService.query(hql, null);
+		
 		return SUCCESS;
 	}
 	
@@ -115,6 +149,9 @@ public class OperatorAction extends ActionSupport {
 	public String editOperatorPage(){
 		String hql="From Operator where id="+id;
 		operator=operatorService.get(hql, null);
+		
+		hql="From Role where isdel=0";
+		listrole=roleService.query(hql, null);
 		
 		return SUCCESS;
 	}
@@ -167,6 +204,9 @@ public class OperatorAction extends ActionSupport {
 		
 		jsonMap.put("rows", listoperator);
 		jsonMap.put("total", operatorService.query(hql, null).size());
+		
+		jsonobj=new JSONObject();
+		jsonobj=JSONObject.fromObject(jsonMap);
 		
 		return SUCCESS;
 	}

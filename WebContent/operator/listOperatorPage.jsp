@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>奖金期间管理</title>
+<title>操作员管理</title>
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
 	<script type="text/javascript" src="./easyui/jquery.min.js"></script>
@@ -16,34 +16,29 @@
 	<!-- 分页代码 -->
     <script type="text/javascript"> 
         $(function(){ 
-            $('#tb_account').datagrid({ 
-                title:'奖金期间管理', 
+            $('#tb_operator').datagrid({ 
+                title:'操作员管理', 
+                height:500,
                 iconCls:'icon-save', 
-                width:700, 
-                height:350, 
                 singleSelect:true,
                 onDblClickRow:edit,
                 nowrap: true, 
                 autoRowHeight: false, 
                 striped: true,
-                url:'getAccountlist', //服务器地址,返回json格式数据
+                url:'getOperatorlist', //服务器地址,返回json格式数据
                 remoteSort: false, 
                 idField:'id', 
                 columns:[[
-					{field:'id',title:'期间编号',width:80}, 
-                    {field:'name',title:'奖金期间名称',width:220}, 
-                    {field:'daystart',title:'开始日期',width:150,formatter:function(val,rec){
-                    	return formatTime(val);
-                    }}, 
-                    {field:'dayend',title:'结束日期',width:150,formatter:function(val,rec){
-                    	return formatTime(val);
-                    }} 
+					{field:'id',title:'操作员编号',width:80}, 
+                    {field:'name',title:'操作员名称',width:220},
+                    {field:'role_id',title:'角色编号',width:80},
+                    {field:'isdel',title:'是否删除',width:80},
                 ]], 
                 pagination:true,  //分页控件
                 rownumbers:true,  //行号
                 toolbar:'#tbar'
             });
-            var p = $('#tb_account').datagrid('getPager'); 
+            var p = $('#tb_operator').datagrid('getPager'); 
             $(p).pagination({ 
                 pageSize: 10,//每页显示的记录条数，默认为10
                 pageList:[5,10,15,20],//每页显示几条记录
@@ -58,62 +53,52 @@
         });
 
     </script>
-	<table id="tb_account"></table>
+	<table id="tb_operator"></table>
 	<div id="di_edit"></div>
 	<div id="tbar" style="padding:5px;">
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
-		<a onclick="listSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">查看奖金明细</a>
 	</div>
 	
 	<script type="text/javascript">
 
-		//增加奖金项目
+		//增加操作员
 		function add(){
 			$('#di_edit').dialog({
-				title:'增加奖金期间',
+				title:'增加操作员',
 				width:'350',
 				height:'250',
-				href:'addAccountPage',
+				href:'addOperatorPage',
 				modal:true,
 			});
 		}
 		
-		//修改奖金项目
+		//修改操作员
 		function edit(){
-			var row=$('#tb_account').datagrid('getSelected');
+			var row=$('#tb_operator').datagrid('getSelected');
 			if(row){
 				$('#di_edit').dialog({
-					title:'修改奖金期间',
+					title:'修改操作员',
 					width:'350',
 					height:'250',
-					href:'editAccountPage?id='+row.id,
+					href:'editOperatorPage?id='+row.id,
 					modal:true,
 				});
 			}
 		}
 		
-		//删除奖金项目
+		//删除操作员
 		function del(){
-			var row=$('#tb_account').datagrid('getSelected');
+			var row=$('#tb_operator').datagrid('getSelected');
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delAccount?id="+row.id;
+						location.href="delOperator?id="+row.id;
 					}
 				});
 			}
 		}
-		
-		//查看奖金明细
-		function listSalarydetail(){
-			var row=$('#tb_account').datagrid('getSelected');
-			if(row){
-				location.href="listSalarydetailPage?account_id="+row.id;
-			}
-		}
-		
 		
 	</script>
 </body>

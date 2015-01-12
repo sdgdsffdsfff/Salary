@@ -31,7 +31,11 @@
 						href="javascript:addTab('tab_listEmployeePage','员工信息管理','listEmployeePage');" 
 						data-options="plain:true,width:100" >员工信息管理</a>
 					</li>
-					<li><a class="easyui-linkbutton" href="javascript:functionUpdate();" data-options="plain:true,width:100" >操作员管理</a></li>
+					<li>
+						<a class="easyui-linkbutton" 
+						href="javascript:addTab('tab_listOperatorPage','操作员管理','listOperatorPage');" 
+						data-options="plain:true,width:100" >操作员管理</a>
+					</li>
 					<li>
 					<a class="easyui-linkbutton" 
 					href="javascript:addTab('tab_listRolePage','角色权限管理','listRolePage');" 
