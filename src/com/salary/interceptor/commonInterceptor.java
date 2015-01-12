@@ -37,13 +37,11 @@ public class commonInterceptor extends AbstractInterceptor {
 		
 		//检测用户是否有权限
 		String actionName=invocation.getProxy().getActionName();
-		System.out.println("actionName:"+actionName);
-		
 		if(!actionName.toLowerCase().contains("page")){
 			Map<String,Object> maprole_author=(Map<String, Object>) session.get("maprole_author");
 			
 			if(maprole_author==null || !maprole_author.containsKey(actionName)){
-				System.out.println("无此权限:"+actionName);
+				System.out.println(operator.getName()+"-->无此权限:"+actionName);
 				return Action.NONE;
 			}
 		};

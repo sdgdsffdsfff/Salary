@@ -31,49 +31,54 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		try {
-			this.sessionFactory = sessionFactory;
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
+		this.sessionFactory = sessionFactory;
 	}
 		
 	@Override
 	public void add(T t) {
+		Session session=sessionFactory.openSession();
 		try {
-			Session session=sessionFactory.openSession();
 			Transaction tr=session.beginTransaction();
 			session.save(t);
 			tr.commit();
 			
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 	}
 	
 	@Override
 	public void del(T t) {
+		Session session=sessionFactory.openSession();
 		try {
-			Session session=sessionFactory.openSession();
 			Transaction tr=session.beginTransaction();
 			session.delete(t);
 			tr.commit();
 			
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 	}
 	
 	@Override
 	public void edit(T t) {
+		Session session=sessionFactory.openSession();
 		try {
-			Session session=sessionFactory.openSession();
 			Transaction tr=session.beginTransaction();
 			session.update(t);
 			tr.commit();
 			
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 	}
 	
@@ -86,8 +91,8 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> queryNaviSql(String sql,Map<String, Object> params) {
+		Session session=sessionFactory.openSession();
 		try {
-			Session session=sessionFactory.openSession();
 			Query query=session.createSQLQuery(sql);
 			if(params!=null && !params.isEmpty()){
 				for(String key:params.keySet()){
@@ -99,6 +104,9 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			return query.list();
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 		
 		return null;
@@ -124,8 +132,8 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> query(String hql, Map<String, Object> params) {
+		Session session = sessionFactory.openSession();
 		try {
-			Session session = sessionFactory.openSession();
 			Query query=session.createQuery(hql);
 			if(params!=null && !params.isEmpty()){
 				for(String key:params.keySet())
@@ -135,6 +143,9 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			return (List<T>) query.list();
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 		
 		return null;
@@ -144,8 +155,8 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> queryByPage(String hql, Map<String, Object> params,int pageNum, int pageSize) {
+		Session session = sessionFactory.openSession();
 		try {
-			Session session = sessionFactory.openSession();
 			Query query=session.createQuery(hql);
 			if(params!=null && !params.isEmpty()){
 				for(String key:params.keySet())
@@ -158,6 +169,9 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			return (List<T>) query.list();
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 		
 		return null;
@@ -166,8 +180,8 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> queryNaviSqlByPage(String sql,Map<String, Object> params, int pageNum, int pageSize) {
+		Session session=sessionFactory.openSession();
 		try {
-			Session session=sessionFactory.openSession();
 			Query query=session.createSQLQuery(sql);
 			if(params!=null && !params.isEmpty()){
 				for(String key:params.keySet()){
@@ -183,6 +197,9 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			return query.list();
 		} catch (HibernateException e) {
 			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
 		}
 		
 		return null;
@@ -195,14 +212,18 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	 * @param sql
 	 */
 	public void executeSQL(String sql){
+		Session session=sessionFactory.openSession();
 		try {
-			Session session=sessionFactory.openSession();
 			Transaction tr=session.beginTransaction();
 			Query query=session.createSQLQuery(sql);
 			query.executeUpdate();
 			tr.commit();
+			
 		} catch (HibernateException e) {
 			e.printStackTrace();
+		}finally{
+			session.clear();
+			session.close();
 		}
 	}
 	
@@ -212,19 +233,32 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	 */
 	@SuppressWarnings("deprecation")
 	public void callprInitsalarydetail(Integer account_id){
-		
+		Session session=sessionFactory.openSession();
+		Connection conn=null;
+		CallableStatement stmt=null;
 		try {
-			Session session=sessionFactory.openSession();
 			Transaction tr=session.beginTransaction();
-			Connection conn=session.connection();
+			conn=session.connection();
 			String procudure="{call prInitsalarydetail(?)}";
-			CallableStatement stmt=conn.prepareCall(procudure);
+			stmt=conn.prepareCall(procudure);
 			stmt.setInt(1, account_id);
 			stmt.executeUpdate();
 			conn.commit();
 			tr.commit();
+			
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
+		}finally{
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			session.clear();
+			session.close();
 		}
 	}
 	
@@ -238,13 +272,15 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	 */
 	@SuppressWarnings("deprecation")
 	public void callprSetsalarydetail(int account_id,int emp_id,int salary_item_id,BigDecimal money){
-		
+		Session session = sessionFactory.openSession();
+		Connection conn=null;
+		CallableStatement stmt=null;
 		try {
-			Session session = sessionFactory.openSession();
+			
 			Transaction tr = session.beginTransaction();
-			Connection conn=session.connection();
+			conn=session.connection();
 			String procedure="{call prSetsalarydetail(?,?,?,?)}";
-			CallableStatement stmt=conn.prepareCall(procedure);
+			stmt=conn.prepareCall(procedure);
 			stmt.setInt(1, account_id);
 			stmt.setInt(2, emp_id);
 			stmt.setInt(3, salary_item_id);
@@ -254,6 +290,16 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
+		}finally{
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			session.clear();
+			session.close();
 		}
 	}
 	
@@ -265,17 +311,30 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	 */
 	@SuppressWarnings("deprecation")
 	public String callfnGetsalarysql(int account_id){
+		Session session = sessionFactory.openSession();
+		Connection conn = null;
+		CallableStatement stmt=null;
+		
 		try {
-			Session session = sessionFactory.openSession();
-			Connection conn = session.connection();
+			conn = session.connection();
 			String sql="{?=call fnGetsalarysql(?)}";
-			CallableStatement stmt=conn.prepareCall(sql);
+			stmt=conn.prepareCall(sql);
 			stmt.registerOutParameter(1,Types.VARCHAR);
 			stmt.setInt(2, account_id);
 			stmt.execute();
 			return stmt.getString(1);
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
+		}finally{
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			session.clear();
+			session.close();
 		}
 		
 		return null;

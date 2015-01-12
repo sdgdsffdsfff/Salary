@@ -1,5 +1,8 @@
 package com.salary.test;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -23,5 +26,19 @@ public class testCallable {
 		
 		System.out.println(sql);
 		Assert.assertEquals(sql, result);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static double randMoney(String emp_code,Date daystart,Date dayend){
+		return Math.random();
+	}
+	
+	@Test
+	public void testRandmoney(){
+		Date dt=new Date();
+		System.out.println(testCallable.randMoney("1",dt,dt));
 	}
 }

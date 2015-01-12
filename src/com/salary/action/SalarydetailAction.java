@@ -258,6 +258,10 @@ public class SalarydetailAction extends ActionSupport {
 		}
 		
 		
+		/**
+		 * 这段很要命，在计算的时候，霸占了所有的连接数
+		 *
+		 *
 		for(Employee employee:listemployee){
 			//第二步，读取该人员的公式模板
 			String unit_hql="From Salary_item_unit where id="+employee.getSalary_item_unit_id();
@@ -272,6 +276,40 @@ public class SalarydetailAction extends ActionSupport {
 				salary_detailService.callprSetsalarydetail(account_id, employee.getId(), salary_item_expression.getSalary_item_id(), money);
 			}
 		}
+		*
+		*
+		*/
+		
+		/**
+		 * 优化很要命的这段操作2015-01-12  20:53
+		 */
+		
+		String unit_hql="From Salary_item_unit";
+		List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(unit_hql, null);
+		Map<String,String> mapsalary_item_unit=new HashMap<String,String>();
+		
+		for(Salary_item_unit salary_item_unit:listsalary_item_unit){
+			mapsalary_item_unit.put(Integer.toString(salary_item_unit.getId()), salary_item_unit.getSequence());
+		}
+		
+		
+		for(Employee employee:listemployee){
+			//第二步，读取该人员的公式模板
+			String[] salary_item_expressionid=mapsalary_item_unit.
+					get(Integer.toString(employee.getSalary_item_unit_id())).split(",");
+			//第三步，循环执行该计算公式
+			for(String expressionid:salary_item_expressionid){
+				Salary_item_expression salary_item_expression=expressionMap.get(expressionid);
+				String hql_money=salary_item_expression.getDynmaicsql();
+				hql_money=SalaryUtils.parseSQL(hql_money, account_id, employee.getId());
+				BigDecimal money=(BigDecimal) salary_item_expressionService.queryNaviSql(hql_money, null).get(0).get("money");
+				salary_detailService.callprSetsalarydetail(account_id, employee.getId(), salary_item_expression.getSalary_item_id(), money);
+			}
+		}
+		
+		/**
+		 * 优化结束2015-01-12  20:53
+		 */
 		
 		
 		//第四部，显示计算好的页面
@@ -301,11 +339,8 @@ public class SalarydetailAction extends ActionSupport {
 		
 		hql="From Account where id="+account_id;
 		account=accountService.get(hql, null);
-		
 		dynmaicBuffer.append("]]");
-		
 		dynmaiccolumn=dynmaicBuffer.toString();
-		
 		
 		System.out.println("calcSalarydetail:"+dynmaiccolumn);
 		return SUCCESS;

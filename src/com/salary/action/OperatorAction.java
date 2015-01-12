@@ -9,10 +9,12 @@ import net.sf.json.JSONObject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
+import com.salary.entity.Author;
 import com.salary.entity.Operator;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
 import com.salary.entity.Salary_item;
+import com.salary.service.AuthorService;
 import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
@@ -27,6 +29,7 @@ public class OperatorAction extends ActionSupport {
 	private OperatorService operatorService;
 	private RoleService roleService;
 	private Role_authorService role_authorService;
+	private AuthorService authorService;
 	private Operator operator;						//操作员
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -62,6 +65,14 @@ public class OperatorAction extends ActionSupport {
 
 	public void setOperator(Operator operator) {
 		this.operator = operator;
+	}
+	
+	public AuthorService getAuthorService() {
+		return authorService;
+	}
+
+	public void setAuthorService(AuthorService authorService) {
+		this.authorService = authorService;
 	}
 
 	public OperatorService getOperatorService() {
@@ -238,10 +249,19 @@ public class OperatorAction extends ActionSupport {
 				List<Role_author> listrole_author=role_authorService.query(hql_author, null);
 				Map<String,Object> maprole_author=new HashMap<String,Object>();
 				
+				String hql_author_basic="From Author";
+				List<Author> listauthor=authorService.query(hql_author_basic, null);
+				Map<String,String> mapauthor=new HashMap<String,String>();
+				
+				//先将权限导入到mapauthor中待用
+				for(Author author:listauthor){
+					mapauthor.put(Integer.toString(author.getId()), author.getCode());
+				}
+				
 				for(Role_author role_author:listrole_author){
 					if(role_author.getIsallow()==1){
-						maprole_author.put(role_author.getAuthor().getCode(), 1);
-						System.out.println("拥有权限:"+role_author.getAuthor().getCode());
+						maprole_author.put(
+								mapauthor.get(Integer.toString(role_author.getAuthor_id())), 1);
 					}
 				}
 				
