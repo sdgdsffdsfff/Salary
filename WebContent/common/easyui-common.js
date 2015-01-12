@@ -26,6 +26,26 @@ function defaultparser(s){
 	}
 }
 
+
+/**
+ * 取得当前时间 戳
+ */
+function getTimeStamp()  
+{  
+    // 声明变量。  
+    var d, s;  
+    // 创建 Date 对象。  
+    d = new Date();  
+    s = d.getFullYear() + "-";  
+    s += ("0"+(d.getMonth()+1)).slice(-2) + "-";  
+    s += ("0"+d.getDate()).slice(-2) + " ";  
+    s += ("0"+d.getHours()).slice(-2) + ":";  
+    s += ("0"+d.getMinutes()).slice(-2) + ":";  
+    s += ("0"+d.getSeconds()).slice(-2) + ".";  
+    s += ("00"+d.getMilliseconds()).slice(-3);  
+    return s;  
+}
+
 /**
  * 格式化日期(格式化Easyui的date类型object)
  * @param val
@@ -46,6 +66,26 @@ function formatTime(val) {
 	var time=year+'-'+month+'-'+date;
 	return time;
 }
+
+/**
+ * 生成随机字符串
+ * @param dstObj
+ * @param charsLength
+ * @param chars
+ */
+function randomString(charsLength) { 
+    var length=charsLength;
+    var chars="abcdefghijkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
+    var randomChars="";
+
+    for(var x=0; x<length; x++) {
+        var i=Math.floor(Math.random()*chars.length);
+        randomChars+=chars.charAt(i);
+    }
+    
+    return randomChars;
+}
+
 
 /**
  * 用于添加tab页面

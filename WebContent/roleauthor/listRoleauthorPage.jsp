@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
 <title>角色授权信息</title>
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
@@ -46,9 +49,10 @@
 	</form>
 </div>
 <script type="text/javascript">
-	
+
 	$(function(){
-		var uri="getRoleauthorlist?id="+$('#roleid').val();
+		//tokenDate为的是防止读取缓存，而不去数据库里面找更新的数据
+		var uri="getRoleauthorlist?id="+$('#roleid').val()+"&randomString="+randomString(10);
 	    $.getJSON(uri, function(json){
 	        $('#ul_roleauthor').tree({
 	            data:json.data,
@@ -59,7 +63,6 @@
 	    		textFiled:"text",
 	        });
 	    });
-	    
 	});
 	
 	function submit(){
