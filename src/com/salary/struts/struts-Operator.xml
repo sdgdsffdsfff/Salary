@@ -6,11 +6,37 @@
 <struts>
 
     <constant name="struts.devMode" value="true" />
-
+	
+	<package name="no-author" namespace="/" extends="struts-default">
+		<global-results>
+            <result name="input">/login.jsp</result>
+            <result name="none">/common/noAuthor.jsp</result>
+        </global-results>
+		<!-- 操作员登录 -->
+		<action name="login" class="com.salary.action.OperatorAction" method="login">
+			<result name="success">/mainframe.jsp</result>
+		</action>
+	</package>
+	
+	
     <package name="Operator" namespace="/" extends="struts-default">
     	<result-types>
 	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
 	    </result-types>
+	    <interceptors>
+	    	<!-- 检测用户的session是否有效 -->
+	    	<interceptor name="commonInterceptor" class="com.salary.interceptor.commonInterceptor" />
+	    	<interceptor-stack name="mydefaultinterceptor">
+	    		<interceptor-ref name="defaultStack" />
+	    		<interceptor-ref name="commonInterceptor" />
+	    	</interceptor-stack>
+	    </interceptors>
+	    <default-interceptor-ref name="mydefaultinterceptor" />
+	    
+	   	<global-results>
+            <result name="input">/login.jsp</result>
+            <result name="none">/common/noAuthor.jsp</result>
+        </global-results>
 	    <!-- 
         <global-results>
             <result name="error">/common/Error.jsp</result>
@@ -37,20 +63,18 @@
 		
 		
 		<!-- 业务处理部分 -->
-		<!-- 操作员 -->
+		<!-- 添加操作员 -->
 		<action name="addOperator" class="com.salary.action.OperatorAction" method="addOperator">
 			<result name="success">/operator/listOperatorPage.jsp</result>
 		</action>
-		<!-- 操作员 -->
+		<!-- 修改操作员 -->
 		<action name="editOperator" class="com.salary.action.OperatorAction" method="editOperator">
 			<result name="success">/operator/listOperatorPage.jsp</result>
 		</action>
-		<!-- 操作员 -->
+		<!-- 删除操作员 -->
 		<action name="delOperator" class="com.salary.action.OperatorAction" method="delOperator">
 			<result name="success">/operator/listOperatorPage.jsp</result>
 		</action>
-		
-		
 		
 		<!-- json数据部分 -->
 		<!-- 操作员 -->

@@ -6,13 +6,16 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Operator;
 import com.salary.entity.Role;
+import com.salary.entity.Role_author;
 import com.salary.entity.Salary_item;
 import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
+import com.salary.service.Role_authorService;
 
 /**
  * 操作员处理action
@@ -23,6 +26,7 @@ import com.salary.service.RoleService;
 public class OperatorAction extends ActionSupport {
 	private OperatorService operatorService;
 	private RoleService roleService;
+	private Role_authorService role_authorService;
 	private Operator operator;						//操作员
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -130,7 +134,15 @@ public class OperatorAction extends ActionSupport {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
+	public Role_authorService getRole_authorService() {
+		return role_authorService;
+	}
 
+	public void setRole_authorService(Role_authorService role_authorService) {
+		this.role_authorService = role_authorService;
+	}
+	
 	/**
 	 * 添加操作员页面
 	 * @return
@@ -211,5 +223,35 @@ public class OperatorAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	
+	public String login(){
+		if(operator!=null && operator.getName()!=null && operator.getPass()!=null){
+			String hql="From Operator where name=:name and pass=:pass";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", operator.getName());
+			params.put("pass", operator.getPass());
+			
+			List<Operator> listoperator=operatorService.query(hql, params);
+			if(listoperator!=null && listoperator.size()>0){
+				operator=listoperator.get(0);
+				String hql_author="From Role_author where role_id="+operator.getRole_id();
+				List<Role_author> listrole_author=role_authorService.query(hql_author, null);
+				Map<String,Object> maprole_author=new HashMap<String,Object>();
+				
+				for(Role_author role_author:listrole_author){
+					if(role_author.getIsallow()==1){
+						maprole_author.put(role_author.getAuthor().getCode(), 1);
+						System.out.println("拥有权限:"+role_author.getAuthor().getCode());
+					}
+				}
+				
+				ActionContext.getContext().getSession().put("operatorinfo", operator);
+				ActionContext.getContext().getSession().put("maprole_author", maprole_author);
+				return SUCCESS;
+			}
+		}
+		
+		return INPUT;
+	}
 	
 }

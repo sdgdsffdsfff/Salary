@@ -191,11 +191,15 @@
 	
 	<bean id="operatorAction" class="com.salary.action.OperatorAction">
 		<property name="operatorService" ref="operatorService" />
+		<property name="roleService" ref="roleService" />
+		<property name="role_authorService" ref="role_authorService" />
 	</bean>
+	
 	<bean id="roleauthorAction" class="com.salary.action.RoleauthorAction">
 		<property name="role_authorService" ref="role_authorService" />
 		<property name="roleService" ref="roleService" />
 	</bean>
+	
 	<bean id="roleAction" class="com.salary.action.RoleAction">
 		<property name="roleService" ref="roleService" />
 	</bean>
