@@ -58,7 +58,6 @@
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
-		<a onclick="grant()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">分配模板</a>
 	</div>
 	
 	<script type="text/javascript">

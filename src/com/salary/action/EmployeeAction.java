@@ -193,7 +193,8 @@ public class EmployeeAction extends ActionSupport {
 	public String delEmployee(){
 		String hql="From Employee where id="+id;
 		employee=employeeService.get(hql, null);
-		employeeService.del(employee);
+		employee.setIsdel(1);
+		employeeService.edit(employee);
 		
 		return SUCCESS;
 	}

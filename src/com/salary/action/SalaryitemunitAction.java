@@ -7,9 +7,11 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.salary.entity.Employee;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
+import com.salary.service.EmployeeService;
 import com.salary.service.Salary_item_expressionService;
 import com.salary.service.Salary_item_unitService;
 
@@ -22,6 +24,7 @@ import com.salary.service.Salary_item_unitService;
 public class SalaryitemunitAction extends ActionSupport {
 	private Salary_item_unitService salary_item_unitService;
 	private Salary_item_expressionService salary_item_expressionService;
+	private EmployeeService employeeService;
 	private Integer id;								//奖金期间id
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
@@ -30,7 +33,8 @@ public class SalaryitemunitAction extends ActionSupport {
 	private Integer page;							//Easyui分页号
 	private Integer rows;							//Easyui分页大小
 	private List<Salary_item_expression> listsalary_item_expression;//奖金公式列表
-	private Salary_item_unit salary_item_unit;
+	private Salary_item_unit salary_item_unit;		//奖金公式单元
+	private String errormessage;					//错误消息
 	
 	/**
 	 * 初始化分页
@@ -40,6 +44,14 @@ public class SalaryitemunitAction extends ActionSupport {
 		rows=(rows==null || rows==0)?new Integer(10):rows;
 	}
 	
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -131,6 +143,14 @@ public class SalaryitemunitAction extends ActionSupport {
 		this.listsalary_item_expression = listsalary_item_expression;
 	}
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+
 	/**
 	 * 显示添加奖金项目单元页
 	 * @return
@@ -180,6 +200,16 @@ public class SalaryitemunitAction extends ActionSupport {
 	 * @return
 	 */
 	public String delSalaryitemunit(){
+		//先加载员工的salary_item_unit,判断是否能删除
+		String hql_emp="From Employee where isdel=0";
+		List<Employee> listemployee=employeeService.query(hql_emp, null);
+		for(Employee employee:listemployee){
+			if(employee.getSalary_item_unit_id()==id){
+				errormessage="删除失败，此奖金公式模板已在使用中。";
+				return ERROR;
+			}
+		}
+		
 		String hql="From Salary_item_unit where id="+id;
 		salary_item_unit=salary_item_unitService.get(hql, null);
 		salary_item_unitService.del(salary_item_unit);

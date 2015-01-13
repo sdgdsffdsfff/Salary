@@ -32,7 +32,7 @@
 					{field:'id',title:'编号',width:80},
 					{field:'code',title:'员工编号',width:120},
 					{field:'name',title:'姓名',width:120},
-                    {field:'department_id',title:'部门id',width:120},
+                    {field:'department_id',title:'部门编号',width:120},
                     {field:'level',title:'等级',width:120},
                     {field:'salary_item_unit_id',title:'公式模板',width:120},
                     {field:'isdel',title:'是否删除',width:120},

@@ -145,7 +145,8 @@ public class DepartmentAction extends ActionSupport {
 	public String delDepartment(){
 		String hql="From Department where id="+id;
 		department=departmentService.get(hql, null);
-		departmentService.del(department);
+		department.setIsdel(1);
+		departmentService.edit(department);
 		
 		return SUCCESS;
 	}

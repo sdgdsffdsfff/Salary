@@ -141,7 +141,8 @@ public class SalaryitemAction extends ActionSupport{
 	public String delSalaryitem(){
 		String hql="From Salary_item where id="+id;
 		salary_item=salary_itemService.get(hql, null);
-		salary_itemService.del(salary_item);
+		salary_item.setIsdel(1);
+		salary_itemService.edit(salary_item);
 		
 		return SUCCESS;
 	}

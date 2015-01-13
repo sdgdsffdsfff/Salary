@@ -138,7 +138,8 @@ public class RoleAction extends ActionSupport {
 	public String delRole(){
 		String hql="From Role where id="+id;
 		role=roleService.get(hql, null);
-		roleService.del(role);
+		role.setIsdel(1);
+		roleService.edit(role);
 		
 		return SUCCESS;
 	}

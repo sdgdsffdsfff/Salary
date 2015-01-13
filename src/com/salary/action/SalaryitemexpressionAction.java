@@ -3,12 +3,16 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
+import com.salary.entity.Salary_item_unit;
 import com.salary.service.Salary_itemService;
 import com.salary.service.Salary_item_expressionService;
+import com.salary.service.Salary_item_unitService;
 
 /**
  * 奖金项目公式
@@ -19,6 +23,7 @@ import com.salary.service.Salary_item_expressionService;
 public class SalaryitemexpressionAction extends ActionSupport{
 	private Salary_item_expressionService salary_item_expressionService;
 	private Salary_itemService salary_itemService;
+	private Salary_item_unitService salary_item_unitService;
 	private Salary_item_expression salary_item_expression;	//奖金项目公式
 	private Integer id;										//奖金项目公式id
 	private Integer account_id;								//奖金期间id
@@ -29,6 +34,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	private JSONObject jsonobj;								//json对象，传递给Easyui表格
 	private Integer page;									//Easyui分页号
 	private Integer rows;									//Easyui分页大小
+	private String errormessage;							//错误信息
 	
 	/**
 	 * 初始化分页
@@ -132,7 +138,23 @@ public class SalaryitemexpressionAction extends ActionSupport{
 		this.salary_item_expressionService = salary_item_expressionService;
 	}
 	
+	public Salary_item_unitService getSalary_item_unitService() {
+		return salary_item_unitService;
+	}
+
+	public void setSalary_item_unitService(
+			Salary_item_unitService salary_item_unitService) {
+		this.salary_item_unitService = salary_item_unitService;
+	}
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+
 	/**
 	 * 添加奖金公式页面
 	 * @return
@@ -200,6 +222,25 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 * @return
 	 */
 	public String delSalaryitemexpression(){
+		//先查询出奖金模板的计算序列，查看是否含有此id号
+		String hql_unit="From Salary_item_unit";
+		List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(hql_unit, null);
+		StringBuffer unitBuffer=new StringBuffer(200);
+		for(Salary_item_unit salary_item_unit:listsalary_item_unit){
+			unitBuffer.append(salary_item_unit.getSequence());
+		}
+		
+		
+		//检测是否存在此id
+		String[] sequence=unitBuffer.toString().split(",");
+		for(String str_seq:sequence){
+			if(Integer.parseInt(str_seq)==id){
+				errormessage="删除奖金公式失败，该奖金公式已在使用中!";
+				return ERROR;
+			}
+		}
+		
+		
 		String hql="From Salary_item_expression where id="+id;
 		salary_item_expression=salary_item_expressionService.get(hql, null);
 		salary_item_expressionService.del(salary_item_expression);

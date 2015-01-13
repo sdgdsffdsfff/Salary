@@ -219,6 +219,7 @@
 	<bean id="salaryitemexpressionAction" class="com.salary.action.SalaryitemexpressionAction">
 		<property name="salary_item_expressionService" ref="salary_item_expressionService" />
 		<property name="salary_itemService" ref="salary_itemService" />
+		<property name="salary_item_unitService" ref="salary_item_unitService" />
 	</bean>
 	
 	<bean id="salaryitemunitAction" class="com.salary.action.SalaryitemunitAction">

@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE struts PUBLIC
-	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
-	"http://struts.apache.org/dtds/struts-2.3.dtd">
-
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-
     <constant name="struts.devMode" value="true" />
 
     <package name="default" namespace="/" extends="struts-default">
     	<result-types>
 	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
 	    </result-types>
-	    <!-- 
-        <global-results>
-            <result name="error">/common/Error.jsp</result>
-        </global-results>
-
-        <global-exception-mappings>
-            <exception-mapping exception="java.lang.Exception" result="error"/>
-        </global-exception-mappings>
-		-->
-		
-		
     </package>
     
     <include file="com/salary/struts/struts-test.xml" />
