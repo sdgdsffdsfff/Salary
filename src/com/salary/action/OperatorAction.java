@@ -249,7 +249,7 @@ public class OperatorAction extends ActionSupport {
 		
 		for(String unsupport:unsupports){
 			if(agent.contains(unsupport)){
-				ServletActionContext.getContext().getSession().put("errormsg", "浏览器版本太低，请升级浏览器!");
+				ServletActionContext.getContext().getSession().put("errormsg", "浏览器版本太低，请升级!");
 				return INPUT;
 			}
 		}
@@ -293,7 +293,7 @@ public class OperatorAction extends ActionSupport {
 		}
 		
 		//session域登录错误信息
-		ServletActionContext.getContext().getSession().put("errormsg", "用户名或密码错误，请重新输入!");
+		ServletActionContext.getContext().getSession().put("errormsg", "用户名或密码错误!");
 		return INPUT;
 	}
 	
