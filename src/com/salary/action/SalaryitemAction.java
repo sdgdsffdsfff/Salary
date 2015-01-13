@@ -94,6 +94,25 @@ public class SalaryitemAction extends ActionSupport{
 		this.salary_item = salary_item;
 	}
 	
+	
+	/**
+	 * 显示添加奖金项目页面
+	 * @return
+	 */
+	public String addSalaryitemPage(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示修改奖金项目页面
+	 * @return
+	 */
+	public String editSalaryitemPage(){
+		String hql="From Salary_item where id="+id;
+		salary_item=salary_itemService.get(hql, null);
+		return SUCCESS;
+	}
+	
 	/**
 	 * 添加工资项目
 	 * @return
@@ -101,21 +120,6 @@ public class SalaryitemAction extends ActionSupport{
 	public String addSalaryitem(){
 		salary_item.setIsdel(0);
 		salary_itemService.add(salary_item);
-		return SUCCESS;
-	}
-	
-	/**
-	 * 删除工资项目
-	 * @return
-	 */
-	public String delSalaryitem(){
-		try {
-			String hql="From Salary_item where id="+id;
-			salary_item=salary_itemService.get(hql, null);
-			salary_itemService.del(salary_item);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 		return SUCCESS;
 	}
@@ -130,38 +134,14 @@ public class SalaryitemAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	public String addSalaryitemPage(){
-		return SUCCESS;
-	}
-	public String delSalaryitemPage(){
-		return SUCCESS;
-	}
-	public String editSalaryitemPage(){
-		String hql="From Salary_item where id="+id;
-		salary_item=salary_itemService.get(hql, null);
-		return SUCCESS;
-	}
-	
 	/**
-	 * 获取工资项目列表json数据
+	 * 删除工资项目
 	 * @return
 	 */
-	public String getSalaryitemlist(){
-		try {
-			this.init();
-			String hql="From Salary_item where isdel=0";
-			Map<String,Object> params=new HashMap<String,Object>();
-			
-			List<Salary_item> listSalaryitem=salary_itemService.queryByPage(hql, params,page, rows);
-			Map<String,Object> jsonMap=new HashMap<String,Object>();
-			
-			jsonMap.put("rows", listSalaryitem);
-			jsonMap.put("total", salary_itemService.query(hql, null).size());
-			jsonobj=new JSONObject();
-			jsonobj=JSONObject.fromObject(jsonMap);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
+	public String delSalaryitem(){
+		String hql="From Salary_item where id="+id;
+		salary_item=salary_itemService.get(hql, null);
+		salary_itemService.del(salary_item);
 		
 		return SUCCESS;
 	}
@@ -171,6 +151,26 @@ public class SalaryitemAction extends ActionSupport{
 	 * @return
 	 */
 	public String listSalaryitemPage(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 获取工资项目列表json数据
+	 * @return
+	 */
+	public String getSalaryitemlist(){
+		this.init();
+		String hql="From Salary_item where isdel=0";
+		Map<String,Object> params=new HashMap<String,Object>();
+		
+		List<Salary_item> listSalaryitem=salary_itemService.queryByPage(hql, params,page, rows);
+		Map<String,Object> jsonMap=new HashMap<String,Object>();
+		
+		jsonMap.put("rows", listSalaryitem);
+		jsonMap.put("total", salary_itemService.query(hql, null).size());
+		jsonobj=new JSONObject();
+		jsonobj=JSONObject.fromObject(jsonMap);
+	
 		return SUCCESS;
 	}
 	

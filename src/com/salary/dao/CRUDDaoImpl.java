@@ -33,7 +33,8 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-		
+	
+	
 	@Override
 	public void add(T t) {
 		Session session=sessionFactory.openSession();
@@ -81,6 +82,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			session.close();
 		}
 	}
+	
 	
 	@Override
 	public T get(String hql,Map<String,Object> params) {
@@ -245,8 +247,6 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			stmt.executeUpdate();
 			conn.commit();
 			tr.commit();
-			
-			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}finally{
@@ -323,6 +323,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			stmt.setInt(2, account_id);
 			stmt.execute();
 			return stmt.getString(1);
+			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}finally{

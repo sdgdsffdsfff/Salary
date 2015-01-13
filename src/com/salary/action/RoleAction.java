@@ -122,19 +122,12 @@ public class RoleAction extends ActionSupport {
 	}
 	
 	/**
-	 * 显示角色列表页面
-	 * @return
-	 */
-	public String listRolePage(){
-		return SUCCESS;
-	}
-	
-	/**
 	 *  添加角色
 	 * @return
 	 */
 	public String addRole(){
 		roleService.add(role);
+		
 		return SUCCESS;
 	}
 	
@@ -146,6 +139,7 @@ public class RoleAction extends ActionSupport {
 		String hql="From Role where id="+id;
 		role=roleService.get(hql, null);
 		roleService.del(role);
+		
 		return SUCCESS;
 	}
 	
@@ -155,6 +149,14 @@ public class RoleAction extends ActionSupport {
 	 */
 	public String editRole(){
 		roleService.edit(role);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示角色列表页面
+	 * @return
+	 */
+	public String listRolePage(){
 		return SUCCESS;
 	}
 	

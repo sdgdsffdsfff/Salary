@@ -99,11 +99,18 @@ public class DepartmentAction extends ActionSupport {
 		this.department = department;
 	}
 	
-	
+	/**
+	 * 显示添加部门页面
+	 * @return
+	 */
 	public String addDepartmentPage(){
 		return SUCCESS;
 	}
 	
+	/**
+	 * 显示修改部门页面
+	 * @return
+	 */
 	public String editDepartmentPage(){
 		String hql="From Department where id="+id;
 		department=departmentService.get(hql, null);
@@ -111,16 +118,30 @@ public class DepartmentAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public String listDepartmentPage(){
-		return SUCCESS;
-	}
-	
+	/**
+	 * 添加部门
+	 * @return
+	 */
 	public String addDepartment(){
 		departmentService.add(department);
 		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 修改部门
+	 * @return
+	 */
+	public String editDepartment(){
+		departmentService.edit(department);
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 删除部门
+	 * @return
+	 */
 	public String delDepartment(){
 		String hql="From Department where id="+id;
 		department=departmentService.get(hql, null);
@@ -129,12 +150,18 @@ public class DepartmentAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public String editDepartment(){
-		departmentService.edit(department);
-		
+	/**
+	 * 显示部门列表信息
+	 * @return
+	 */
+	public String listDepartmentPage(){
 		return SUCCESS;
 	}
 	
+	/**
+	 * 获取部门列表josn数据
+	 * @return
+	 */
 	public String getDepartmentlist(){
 		this.init();
 		String hql="From Department where isdel=0";

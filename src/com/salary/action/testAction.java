@@ -27,9 +27,6 @@ public class testAction extends ActionSupport {
 	private JSONObject jsonobj;
 	private String str;
 	
-	
-	
-	
 	public Integer getAccount_id() {
 		return account_id;
 	}

@@ -157,6 +157,7 @@ public class OperatorAction extends ActionSupport {
 		this.role_authorService = role_authorService;
 	}
 	
+	
 	/**
 	 * 添加操作员页面
 	 * @return
@@ -173,20 +174,12 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editOperatorPage(){
-		String hql="From Operator where id="+id;
-		operator=operatorService.get(hql, null);
+		String hql_oper="From Operator where id="+id;
+		operator=operatorService.get(hql_oper, null);
 		
-		hql="From Role where isdel=0";
-		listrole=roleService.query(hql, null);
+		String hql_role="From Role where isdel=0";
+		listrole=roleService.query(hql_role, null);
 		
-		return SUCCESS;
-	}
-	
-	/**
-	 * 显示操作员页面列表
-	 * @return
-	 */
-	public String listOperatorPage(){
 		return SUCCESS;
 	}
 	
@@ -207,6 +200,7 @@ public class OperatorAction extends ActionSupport {
 		String hql="From Operator where id="+id;
 		operator=operatorService.get(hql, null);
 		operatorService.del(operator);
+		
 		return SUCCESS;
 	}
 	
@@ -216,6 +210,15 @@ public class OperatorAction extends ActionSupport {
 	 */
 	public String editOperator(){
 		operatorService.edit(operator);
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示操作员页面列表
+	 * @return
+	 */
+	public String listOperatorPage(){
 		return SUCCESS;
 	}
 	
@@ -240,7 +243,7 @@ public class OperatorAction extends ActionSupport {
 	
 	public String login(){
 		String agent=ServletActionContext.getRequest().getHeader("user-agent");
-		//System.out.println("agent:"+agent);
+		System.out.println("浏览器信息:"+agent);
 		//不兼容的浏览器版本号
 		String[] unsupports=SalaryUtils.unSupportBrowser;
 		
@@ -280,12 +283,16 @@ public class OperatorAction extends ActionSupport {
 					}
 				}
 				
+				//session域操作员信息
 				ActionContext.getContext().getSession().put("operatorinfo", operator);
+				//session域权限信息
 				ActionContext.getContext().getSession().put("maprole_author", maprole_author);
+				
 				return SUCCESS;
 			}
 		}
 		
+		//session域登录错误信息
 		ServletActionContext.getContext().getSession().put("errormsg", "用户名或密码错误，请重新输入!");
 		return INPUT;
 	}

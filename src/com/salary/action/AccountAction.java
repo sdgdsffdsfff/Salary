@@ -130,32 +130,7 @@ public class AccountAction extends ActionSupport {
 		this.dayend = dayend;
 	}
 
-	/**
-	 * 获取奖金期间列表json数据
-	 * @return
-	 */
-	public String getAccountlist(){
-		this.init();
-		String hql="From Account";
-		List<Account> listaccount=accountService.queryByPage(hql, null,page,rows);
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listaccount);
-		jsonMap.put("total", accountService.query(hql,null).size());
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
-		
-		return SUCCESS;
-	}
-	
-	/**
-	 * 显示奖金期间列表页
-	 * @return
-	 */
-	public String listAccountPage(){
-		return SUCCESS;
-	}
-	
+
 	/**
 	 * 增加奖金期间页面
 	 * @return
@@ -183,8 +158,16 @@ public class AccountAction extends ActionSupport {
 	 */
 	public String addAccount(){
 		accountService.add(account);
-		salary_detailService.callprInitsalarydetail(account.getId());
 		salary_detailService.initSalaryDetail(account);
+		return SUCCESS;
+	}
+	
+	/**
+	 * 修改奖金期间
+	 * @return
+	 */
+	public String editAccount(){
+		accountService.edit(account);
 		return SUCCESS;
 	}
 	
@@ -200,13 +183,29 @@ public class AccountAction extends ActionSupport {
 	}
 	
 	/**
-	 * 修改奖金期间
+	 * 显示奖金期间列表页
 	 * @return
 	 */
-	public String editAccount(){
-		accountService.edit(account);
+	public String listAccountPage(){
 		return SUCCESS;
 	}
 	
+	/**
+	 * 获取奖金期间列表json数据
+	 * @return
+	 */
+	public String getAccountlist(){
+		this.init();
+		String hql="From Account";
+		List<Account> listaccount=accountService.queryByPage(hql, null,page,rows);
+		
+		Map<String,Object> jsonMap=new HashMap<String,Object>();
+		jsonMap.put("rows", listaccount);
+		jsonMap.put("total", accountService.query(hql,null).size());
+		jsonobj=new JSONObject();
+		jsonobj=JSONObject.fromObject(jsonMap);
+		
+		return SUCCESS;
+	}
 	
 }

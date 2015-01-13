@@ -132,33 +132,6 @@ public class SalaryitemexpressionAction extends ActionSupport{
 		this.salary_item_expressionService = salary_item_expressionService;
 	}
 	
-	/**
-	 * 显示奖金公式页面
-	 * @return
-	 */
-	public String listSalaryitemexpressionPage(){
-		return SUCCESS;
-	}
-	
-	/**
-	 * 获取奖金公式列表json数据
-	 * @return
-	 */
-	public String getSalaryitemexpressionlist(){
-		this.init();
-		String hql="From Salary_item_expression";
-		Map<String,Object> params=new HashMap<String,Object>();
-		List<Salary_item_expression> listSalaryitemexpression=salary_item_expressionService.queryByPage(hql, params, page, rows);
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listSalaryitemexpression);
-		jsonMap.put("total", salary_item_expressionService.query(hql, params).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
-		
-		return SUCCESS;
-	}
 	
 	/**
 	 * 添加奖金公式页面
@@ -218,6 +191,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 */
 	public String editSalaryitemexpression(){
 		salary_item_expressionService.edit(salary_item_expression);
+		
 		return SUCCESS;
 	}
 	
@@ -229,6 +203,37 @@ public class SalaryitemexpressionAction extends ActionSupport{
 		String hql="From Salary_item_expression where id="+id;
 		salary_item_expression=salary_item_expressionService.get(hql, null);
 		salary_item_expressionService.del(salary_item_expression);
+		
+		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 显示奖金公式页面
+	 * @return
+	 */
+	public String listSalaryitemexpressionPage(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 获取奖金公式列表json数据
+	 * @return
+	 */
+	public String getSalaryitemexpressionlist(){
+		this.init();
+		String hql="From Salary_item_expression";
+		Map<String,Object> params=new HashMap<String,Object>();
+		List<Salary_item_expression> listSalaryitemexpression=
+				salary_item_expressionService.queryByPage(hql, params, page, rows);
+		
+		Map<String,Object> jsonMap=new HashMap<String,Object>();
+		jsonMap.put("rows", listSalaryitemexpression);
+		jsonMap.put("total", salary_item_expressionService.query(hql, params).size());
+		
+		jsonobj=new JSONObject();
+		jsonobj=JSONObject.fromObject(jsonMap);
+		
 		return SUCCESS;
 	}
 	

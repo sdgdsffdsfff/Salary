@@ -65,6 +65,10 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	public void initSalaryDetail(Account account){
 		//注意:由于需要调用公司内部数据，因此以下代码是手工写死的
 		
+		
+		//首先初始化本期间奖金信息
+		salary_detailDaoimpl.callprInitsalarydetail(account.getId());
+		
 		//先读取出人员信息
 		String hql_emp="From Employee where isdel=0";
 		List<Employee> listemployee=employeeDaoimpl.query(hql_emp, null);

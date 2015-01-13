@@ -136,6 +136,7 @@ public class EmployeeAction extends ActionSupport {
 		this.employeeService = employeeService;
 	}
 	
+	
 	/**
 	 * 添加员工页面
 	 * @return
@@ -154,14 +155,14 @@ public class EmployeeAction extends ActionSupport {
 	 * @return
 	 */
 	public String editEmployeePage(){
-		String hql="From Employee where id="+id;
-		employee=employeeService.get(hql, null);
+		String hql_emp="From Employee where id="+id;
+		employee=employeeService.get(hql_emp, null);
 		
-		hql="From Department where isdel=0";
-		listdepartment=departmentService.query(hql, null);
+		String hql_dept="From Department where isdel=0";
+		listdepartment=departmentService.query(hql_dept, null);
 		
-		hql="From Salary_item_unit";
-		listsalary_item_unit=salary_item_unitService.query(hql, null);
+		String hql_sala="From Salary_item_unit";
+		listsalary_item_unit=salary_item_unitService.query(hql_sala, null);
 		
 		return SUCCESS;
 	}

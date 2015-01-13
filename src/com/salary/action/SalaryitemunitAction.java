@@ -131,7 +131,10 @@ public class SalaryitemunitAction extends ActionSupport {
 		this.listsalary_item_expression = listsalary_item_expression;
 	}
 	
-	
+	/**
+	 * 显示添加奖金项目单元页
+	 * @return
+	 */
 	public String addSalaryitemunitPage(){
 		String hql="From Salary_item_expression";
 		listsalary_item_expression=salary_item_expressionService.query(hql, null);
@@ -139,14 +142,10 @@ public class SalaryitemunitAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public String delSalaryitemunit(){
-		String hql="From Salary_item_unit where id="+id;
-		salary_item_unit=salary_item_unitService.get(hql, null);
-		salary_item_unitService.del(salary_item_unit);
-		
-		return SUCCESS;
-	}
-	
+	/**
+	 * 显示修改奖金项目公式单元页
+	 * @return
+	 */
 	public String editSalaryitemunitPage(){
 		String hql="From Salary_item_expression";
 		listsalary_item_expression=salary_item_expressionService.query(hql, null);
@@ -156,22 +155,56 @@ public class SalaryitemunitAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 添加奖金公式单元
+	 * @return
+	 */
 	public String addSalaryitemunit(){
 		salary_item_unitService.add(salary_item_unit);
 		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 修改奖金公式单元
+	 * @return
+	 */
 	public String editSalaryitemunit(){
 		salary_item_unitService.edit(salary_item_unit);
 		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 删除奖金公式单元
+	 * @return
+	 */
+	public String delSalaryitemunit(){
+		String hql="From Salary_item_unit where id="+id;
+		salary_item_unit=salary_item_unitService.get(hql, null);
+		salary_item_unitService.del(salary_item_unit);
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示奖金公式单元列表页
+	 * @return
+	 */
+	public String listSalaryitemunitPage(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 获取奖金公式单元列表json数据
+	 * @return
+	 */
 	public String getSalaryitemunitlist(){
 		this.init();
 		String hql="From Salary_item_unit";
-		List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.queryByPage(hql, null,page,rows);
+		List<Salary_item_unit> listsalary_item_unit=
+				salary_item_unitService.queryByPage(hql, null,page,rows);
+		
 		Map<String,Object> jsonMap=new HashMap<String,Object>();
 		jsonMap.put("rows", listsalary_item_unit);
 		jsonMap.put("total", salary_item_unitService.query(hql,null).size());
@@ -179,10 +212,6 @@ public class SalaryitemunitAction extends ActionSupport {
 		jsonobj=new JSONObject();
 		jsonobj=JSONObject.fromObject(jsonMap);
 		
-		return SUCCESS;
-	}
-	
-	public String listSalaryitemunitPage(){
 		return SUCCESS;
 	}
 	

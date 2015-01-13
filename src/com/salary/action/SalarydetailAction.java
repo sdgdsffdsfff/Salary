@@ -250,6 +250,10 @@ public class SalarydetailAction extends ActionSupport {
 		this.money = money;
 	}
 	
+	
+	/**
+	 * 初始化奖金项目明细页面数据
+	 */
 	public void initlistSalarydetailPage(){
 		String hql="From Salary_item where isdel=:isdel and isshow=:isshow";
 		Map<String,Object> params=new HashMap<String,Object>();
@@ -280,8 +284,8 @@ public class SalarydetailAction extends ActionSupport {
 		dynmaicBuffer.append("]]");
 		dynmaiccolumn=dynmaicBuffer.toString();
 		
-		logger.info("dynmaiccolumn length:"+dynmaiccolumn.length());
-		System.out.println("dynmaiccolumn length:"+dynmaiccolumn.length());
+		logger.info("initlistSalarydetailPage-->dynmaiccolumn length:"+dynmaiccolumn.length());
+		System.out.println("initlistSalarydetailPage-->dynmaiccolumn length:"+dynmaiccolumn.length());
 	}
 	
 	
@@ -300,10 +304,10 @@ public class SalarydetailAction extends ActionSupport {
 	 * @return
 	 */
 	public String getSalarydetaillist(){
-		
+		//先初始化本期奖金明细表
 		salary_detailService.callprInitsalarydetail(account_id);
-		
 		String sql=salary_detailService.callfnGetsalarysql(account_id);
+		
 		List<Map<String,Object>> listsalarydetail=salary_detailService.queryNaviSql(sql, null);
 		
 		Map<String,Object> jsonMap=new HashMap<String,Object>();
@@ -411,6 +415,10 @@ public class SalarydetailAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 批量设置奖金明细
+	 * @return
+	 */
 	public String batchSetSalarydetail(){
 		StringBuffer sqlbuffer=new StringBuffer(500);
 		sqlbuffer.append("update salary_detail set money="+money);

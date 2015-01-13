@@ -97,6 +97,7 @@ public class RoleauthorAction extends ActionSupport {
 		this.id = id;
 	}
 
+	
 	/**
 	 * 添加角色权限页面
 	 * @return
@@ -117,17 +118,6 @@ public class RoleauthorAction extends ActionSupport {
 	}
 	
 	/**
-	 * 显示角色权限列表页面
-	 * @return
-	 */
-	public String listRoleauthorPage(){
-		String hql="From Role where id="+id;
-		role=roleService.get(hql, null);
-		
-		return SUCCESS;
-	}
-	
-	/**
 	 * 添加角色权限
 	 * @return
 	 */
@@ -142,18 +132,14 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRoleauthor(){
+		String sql="update Role_author set isallow=0 where role_id="+role.getId();
+		role_authorService.executeSQL(sql);
+		
 		if(authorids!=null && !authorids.trim().isEmpty()){
-			
-			String sql="update Role_author set isallow=0 where role_id="+role.getId();
-			role_authorService.executeSQL(sql);
-			
 			String sql2="update Role_author set isallow=1 where role_id="+role.getId()
 					+" and author_id in ("+authorids.substring(0,authorids.length()-1)+")";
 			
 			role_authorService.executeSQL(sql2);
-		}else{
-			String sql="update Role_author set isallow=0 where role_id="+role.getId();
-			role_authorService.executeSQL(sql);
 		}
 	
 		return SUCCESS;
@@ -164,6 +150,17 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String delRoleauthor(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示角色权限列表页面
+	 * @return
+	 */
+	public String listRoleauthorPage(){
+		String hql="From Role where id="+id;
+		role=roleService.get(hql, null);
+		
 		return SUCCESS;
 	}
 	
@@ -187,20 +184,21 @@ public class RoleauthorAction extends ActionSupport {
 		for(Role_author role_author:listrole_author){
 			Author author=new Author();
 			AuthorJson authorjson=new AuthorJson();
-			
 			author=authorMap.get(Integer.toString(role_author.getAuthor_id()));
 			authorjson.setId(author.getId());
+			authorjson.setText(author.getName());
+			authorjson.setChecked(false);
+			
+			//除了根目录展开外，tree子目录全部关闭
 			if(author.getId()>1){
 				authorjson.setPid(author.getPid());
 				authorjson.setState("closed");
 			}
-			authorjson.setText(author.getName());
 			
-			authorjson.setChecked(false);
+			//如果取到isallow的值为1，则tree勾选框选中
 			if(role_author.getIsallow()==1){
 				authorjson.setChecked(true);
 			}
-			
 			
 			list_jsonauthor.add(authorjson);
 		}
