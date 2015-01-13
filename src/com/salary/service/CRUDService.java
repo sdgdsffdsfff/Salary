@@ -144,4 +144,12 @@ public class CRUDService <T>{
 	public List<Map<String, Object>> queryNaviSqlByPage(String sql,Map<String, Object> params, int pageNum, int pageSize) {
 		return crudDaoimpl.queryNaviSqlByPage(sql, params, pageNum, pageSize);
 	}
+	
+	/**
+	 * 执行SQL语句
+	 * @param sql	需要执行的SQL语句
+	 */
+	public void executeSQL(String sql){
+		crudDaoimpl.executeSQL(sql);
+	}
 }

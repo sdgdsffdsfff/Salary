@@ -7,13 +7,18 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
+import com.salary.entity.Department;
 import com.salary.entity.Employee;
+import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
 import com.salary.service.AccountService;
+import com.salary.service.DepartmentService;
 import com.salary.service.EmployeeService;
 import com.salary.service.Salary_detailService;
 import com.salary.service.Salary_itemService;
@@ -28,12 +33,15 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class SalarydetailAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(SalarydetailAction.class);
+	
 	private Salary_detailService salary_detailService;
 	private Salary_itemService salary_itemService;
 	private AccountService accountService;
 	private EmployeeService employeeService;
 	private Salary_item_unitService salary_item_unitService;
 	private Salary_item_expressionService salary_item_expressionService;
+	private DepartmentService departmentService;
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
 	private Integer emp_id;							//员工id
@@ -44,6 +52,12 @@ public class SalarydetailAction extends ActionSupport {
 	private String dynmaiccolumn;					//Easyui动态的数据列
 	private Account account;						//奖金期间
 	private String json_str;						//获取Easyui表格修改后保存的json数据
+	private List<Salary_item> listsalary_item;		//奖金项目列表
+	private List<Department> listdepartment;		//部门列表
+	private Salary_detail salary_detail;			//奖金明细项目
+	private Integer salary_item_id;					//奖金项目id
+	private Integer departmentid;					//部门id
+	private float money;							//金额
 	
 	/**
 	 * 初始化分页
@@ -172,6 +186,14 @@ public class SalarydetailAction extends ActionSupport {
 		this.salary_item_expressionService = salary_item_expressionService;
 	}
 	
+	public DepartmentService getDepartmentService() {
+		return departmentService;
+	}
+
+	public void setDepartmentService(DepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
+
 	public String getJson_str() {
 		return json_str;
 	}
@@ -179,12 +201,56 @@ public class SalarydetailAction extends ActionSupport {
 	public void setJson_str(String json_str) {
 		this.json_str = json_str;
 	}
+	
+	public List<Salary_item> getListsalary_item() {
+		return listsalary_item;
+	}
 
-	/**
-	 * 显示奖金明细页
-	 * @return
-	 */
-	public String listSalarydetailPage(){
+	public void setListsalary_item(List<Salary_item> listsalary_item) {
+		this.listsalary_item = listsalary_item;
+	}
+
+	public List<Department> getListdepartment() {
+		return listdepartment;
+	}
+
+	public void setListdepartment(List<Department> listdepartment) {
+		this.listdepartment = listdepartment;
+	}
+	
+	public Salary_detail getSalary_detail() {
+		return salary_detail;
+	}
+
+	public void setSalary_detail(Salary_detail salary_detail) {
+		this.salary_detail = salary_detail;
+	}
+	
+	public Integer getSalary_item_id() {
+		return salary_item_id;
+	}
+
+	public void setSalary_item_id(Integer salary_item_id) {
+		this.salary_item_id = salary_item_id;
+	}
+
+	public Integer getDepartmentid() {
+		return departmentid;
+	}
+
+	public void setDepartmentid(Integer departmentid) {
+		this.departmentid = departmentid;
+	}
+	
+	public float getMoney() {
+		return money;
+	}
+
+	public void setMoney(float money) {
+		this.money = money;
+	}
+	
+	public void initlistSalarydetailPage(){
 		String hql="From Salary_item where isdel=:isdel and isshow=:isshow";
 		Map<String,Object> params=new HashMap<String,Object>();
 		params.put("isdel", 0);
@@ -193,7 +259,7 @@ public class SalarydetailAction extends ActionSupport {
 		List<Salary_item> listsalaryitem=salary_itemService.query(hql, params);
 		
 		StringBuffer dynmaicBuffer=new StringBuffer(5000);
-		dynmaicBuffer.append("[[{field:'empid',title:'人员id'},{field:'empname',title:'姓名'},");
+		dynmaicBuffer.append("[[{field:'empid',title:'人员编号'},{field:'empname',title:'姓名'},");
 		dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
 		
 		if(listsalaryitem!=null){
@@ -213,7 +279,18 @@ public class SalarydetailAction extends ActionSupport {
 		account=accountService.get(hql, null);
 		dynmaicBuffer.append("]]");
 		dynmaiccolumn=dynmaicBuffer.toString();
-		System.out.println("listSalarydetailPage:"+dynmaiccolumn);
+		
+		logger.info("dynmaiccolumn length:"+dynmaiccolumn.length());
+		System.out.println("dynmaiccolumn length:"+dynmaiccolumn.length());
+	}
+	
+	
+	/**
+	 * 显示奖金明细页
+	 * @return
+	 */
+	public String listSalarydetailPage(){
+		initlistSalarydetailPage();
 		
 		return SUCCESS;
 	}
@@ -256,34 +333,7 @@ public class SalarydetailAction extends ActionSupport {
 					Integer.toString(salary_item_expression.getId()), 
 					salary_item_expression);
 		}
-		
-		
-		/**
-		 * 这段很要命，在计算的时候，霸占了所有的连接数
-		 *
-		 *
-		for(Employee employee:listemployee){
-			//第二步，读取该人员的公式模板
-			String unit_hql="From Salary_item_unit where id="+employee.getSalary_item_unit_id();
-			Salary_item_unit salary_item_unit=salary_item_unitService.get(unit_hql, null);
-			String[] salary_item_expressionid=salary_item_unit.getSequence().split(",");
-			//第三步，循环执行该计算公式
-			for(String expressionid:salary_item_expressionid){
-				Salary_item_expression salary_item_expression=expressionMap.get(expressionid);
-				String hql_money=salary_item_expression.getDynmaicsql();
-				hql_money=SalaryUtils.parseSQL(hql_money, account_id, employee.getId());
-				BigDecimal money=(BigDecimal) salary_item_expressionService.queryNaviSql(hql_money, null).get(0).get("money");
-				salary_detailService.callprSetsalarydetail(account_id, employee.getId(), salary_item_expression.getSalary_item_id(), money);
-			}
-		}
-		*
-		*
-		*/
-		
-		/**
-		 * 优化很要命的这段操作2015-01-12  20:53
-		 */
-		
+
 		String unit_hql="From Salary_item_unit";
 		List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(unit_hql, null);
 		Map<String,String> mapsalary_item_unit=new HashMap<String,String>();
@@ -307,42 +357,10 @@ public class SalarydetailAction extends ActionSupport {
 			}
 		}
 		
-		/**
-		 * 优化结束2015-01-12  20:53
-		 */
-		
-		
+
 		//第四部，显示计算好的页面
-		hql="From Salary_item where isdel=:isdel and isshow=:isshow";
-		Map<String,Object> params=new HashMap<String,Object>();
-		params.put("isdel", 0);
-		params.put("isshow", 1);
+		initlistSalarydetailPage();
 		
-		List<Salary_item> listsalaryitem=salary_itemService.query(hql, params);
-		
-		StringBuffer dynmaicBuffer=new StringBuffer(5000);
-		dynmaicBuffer.append("[[{field:'empid',title:'人员id'},{field:'empname',title:'姓名'},");
-		dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
-		
-		if(listsalaryitem!=null){
-			for(Salary_item salaryitem:listsalaryitem){
-				if(salaryitem.getIsedit()==1){
-					dynmaicBuffer.append(
-							"{field:\'"+salaryitem.getName()+
-							"\',title:\'"+salaryitem.getName()+
-							"\',editor:{type:\'numberbox\',options:{precision:1}}},");
-				}else{
-					dynmaicBuffer.append("{field:\'"+salaryitem.getName()+"\',title:\'"+salaryitem.getName()+"\',},");
-				}
-			}
-		}
-		
-		hql="From Account where id="+account_id;
-		account=accountService.get(hql, null);
-		dynmaicBuffer.append("]]");
-		dynmaiccolumn=dynmaicBuffer.toString();
-		
-		System.out.println("calcSalarydetail:"+dynmaiccolumn);
 		return SUCCESS;
 	}
 	
@@ -374,38 +392,52 @@ public class SalarydetailAction extends ActionSupport {
 		}
 		
 		//显示奖金明细
-		hql="From Salary_item where isdel=:isdel and isshow=:isshow";
-		Map<String,Object> params=new HashMap<String,Object>();
-		params.put("isdel", 0);
-		params.put("isshow", 1);
-		
-		List<Salary_item> listsalaryitem=salary_itemService.query(hql, params);
-		
-		StringBuffer dynmaicBuffer=new StringBuffer(5000);
-		dynmaicBuffer.append("[[{field:'empid',title:'人员id'},{field:'empname',title:'姓名'},");
-		dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
-		
-		if(listsalaryitem!=null){
-			for(Salary_item salaryitem:listsalaryitem){
-				if(salaryitem.getIsedit()==1){
-					dynmaicBuffer.append(
-							"{field:\'"+salaryitem.getName()+
-							"\',title:\'"+salaryitem.getName()+
-							"\',editor:{type:\'numberbox\',options:{precision:1}}},");
-				}else{
-					dynmaicBuffer.append("{field:\'"+salaryitem.getName()+"\',title:\'"+salaryitem.getName()+"\',},");
-				}
-			}
-		}
-		
-		System.out.println("editSalarydetailFromDatagrid->account_id:"+account_id);
-		hql="From Account where id="+account_id;
-		account=accountService.get(hql, null);
-		dynmaicBuffer.append("]]");
-		dynmaiccolumn=dynmaicBuffer.toString();
-		System.out.println("editSalarydetailFromDatagrid:"+dynmaiccolumn);
+		initlistSalarydetailPage();
 		
 		return SUCCESS;
 	}
 	
+	/**
+	 * 批量设置奖金明细页面
+	 * @return
+	 */
+	public String batchSetSalarydetailPage(){
+		String hql_salary_item="From Salary_item where isdel=0 and isedit=1";
+		listsalary_item=salary_itemService.query(hql_salary_item, null);
+		
+		String hql_dept="From Department where isdel=0";
+		listdepartment=departmentService.query(hql_dept, null);
+		
+		return SUCCESS;
+	}
+	
+	public String batchSetSalarydetail(){
+		StringBuffer sqlbuffer=new StringBuffer(500);
+		sqlbuffer.append("update salary_detail set money="+money);
+		sqlbuffer.append(" where account_id="+account_id);
+		sqlbuffer.append(" and salary_item_id="+salary_item_id);
+		
+		if(departmentid!=null && departmentid!=0){
+			String hql="From Employee where department_id="+departmentid;
+			List<Employee> listemployee=employeeService.query(hql, null);
+			StringBuffer sqlbuffer2=new StringBuffer(500);
+			sqlbuffer2.append(" and emp_id in(");
+			
+			for(Employee employee:listemployee){
+				sqlbuffer2.append(employee.getId()+",");
+			}
+			
+			String sql2=sqlbuffer2.substring(0, sqlbuffer2.length()-1)+")";
+			
+			sqlbuffer.append(sql2);
+		}
+		
+		System.out.println(sqlbuffer.length());
+		salary_detailService.executeSQL(sqlbuffer.toString());
+		
+		//显示奖金明细页面数据
+		initlistSalarydetailPage();
+		
+		return SUCCESS;
+	}
 }

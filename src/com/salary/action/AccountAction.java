@@ -10,6 +10,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Salary_item;
 import com.salary.service.AccountService;
+import com.salary.service.Salary_detailService;
 
 /**
  * 奖金期间action
@@ -19,6 +20,7 @@ import com.salary.service.AccountService;
 @SuppressWarnings("serial")
 public class AccountAction extends ActionSupport {
 	private AccountService accountService;
+	private Salary_detailService salary_detailService;
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
 	private Account account;						//账户期间
@@ -38,6 +40,14 @@ public class AccountAction extends ActionSupport {
 		rows=(rows==null || rows==0)?new Integer(10):rows;
 	}
 	
+	public Salary_detailService getSalary_detailService() {
+		return salary_detailService;
+	}
+
+	public void setSalary_detailService(Salary_detailService salary_detailService) {
+		this.salary_detailService = salary_detailService;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -173,6 +183,8 @@ public class AccountAction extends ActionSupport {
 	 */
 	public String addAccount(){
 		accountService.add(account);
+		salary_detailService.callprInitsalarydetail(account.getId());
+		salary_detailService.initSalaryDetail(account);
 		return SUCCESS;
 	}
 	

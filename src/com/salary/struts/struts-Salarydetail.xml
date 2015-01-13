@@ -40,7 +40,10 @@
 		<action name="listSalarydetailPage" class="com.salary.action.SalarydetailAction" method="listSalarydetailPage">
 			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
 		</action>
-		
+		<!-- 显示批量设置奖金明细页面 -->
+		<action name="batchSetSalarydetailPage" class="com.salary.action.SalarydetailAction" method="batchSetSalarydetailPage">
+			<result name="success">/salarydetail/batchSetSalarydetailPage.jsp</result>
+		</action>
 		
 		
 		<!-- 业务处理部分 -->
@@ -52,7 +55,10 @@
 		<action name="editSalarydetailFromDatagrid" class="com.salary.action.SalarydetailAction" method="editSalarydetailFromDatagrid">
 			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
 		</action>
-		
+		<!-- 批量设置奖金明细 -->
+		<action name="batchSetSalarydetail" class="com.salary.action.SalarydetailAction" method="batchSetSalarydetail">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
 		
 		
 		<!-- json数据部分 -->

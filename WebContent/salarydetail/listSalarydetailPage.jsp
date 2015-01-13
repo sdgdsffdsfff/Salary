@@ -57,15 +57,11 @@
 		<input id="account_id" type="hidden" value='<s:property value="account_id" />' />
 		<a onclick="save()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
 		<a onclick="calcSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">自动核算</a>
-		<a onclick="test()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">测试</a>
+		<a onclick="batchSetSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">批量设置</a>
 		
 	</div>
 	
 	<script type="text/javascript">
-		//测试函数
-		function test(){
-
-		}
 		//保存奖金明细修改改
 		function save(){
 			var updated=$('#tb_salarydetail').datagrid('getChanges','updated');
@@ -136,6 +132,17 @@
 						.datagrid('editCell', {index:index,field:field});
 				editIndex = index;
 			}
+		}
+		
+		//批量设置奖金明细
+		function batchSetSalarydetail(){
+			$('#di_edit').dialog({
+				title:'增加角色信息',
+				width:'350',
+				height:'250',
+				href:'batchSetSalarydetailPage?account_id='+$('#account_id').val(),
+				modal:true,
+			});
 		}
 	</script>
 </body>

@@ -142,7 +142,6 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRoleauthor(){
-//		这段话在IE下有Bug,保存后，在IE读取出来的还是原来的信息
 		if(authorids!=null && !authorids.trim().isEmpty()){
 			
 			String sql="update Role_author set isallow=0 where role_id="+role.getId();
@@ -151,35 +150,12 @@ public class RoleauthorAction extends ActionSupport {
 			String sql2="update Role_author set isallow=1 where role_id="+role.getId()
 					+" and author_id in ("+authorids.substring(0,authorids.length()-1)+")";
 			
-			System.out.println(sql2);
 			role_authorService.executeSQL(sql2);
 		}else{
 			String sql="update Role_author set isallow=0 where role_id="+role.getId();
 			role_authorService.executeSQL(sql);
 		}
 	
-//		这个是优化的，但是IE还是和原来一样，读取原来的权限信息，并没有去数据库中读取出来修改后的权限信息
-//		if(authorids!=null && !authorids.trim().isEmpty()){
-//			String[] author_arr=authorids.split(",");
-//			Map<String,Integer> mapauthor=new HashMap<String,Integer>();
-//			for(String author_str:author_arr){
-//				mapauthor.put(author_str, 1);
-//			}
-//			
-//			String hql_roleauthor="From Role_author where role_id="+role.getId();
-//			List<Role_author> listrole_author=role_authorService.query(hql_roleauthor, null);
-//			
-//			for(Role_author role_author:listrole_author){
-//				if(mapauthor.containsKey(Integer.toString(role_author.getAuthor_id()))){
-//					role_author.setIsallow(1);
-//				}else{
-//					role_author.setIsallow(0);
-//				}
-//				
-//				role_authorService.edit(role_author);
-//			}
-//		}
-		
 		return SUCCESS;
 	}
 	

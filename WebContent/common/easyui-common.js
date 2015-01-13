@@ -169,6 +169,54 @@ function functionUpdate(){
 	});
 }
 
+
+/**
+ * 获取浏览器版本
+ */
+function getBrowserInfo()
+{
+  var agent=navigator.userAgent.toLowerCase();
+  var regStr_ie=/msie [\d.]+;/gi;
+  var regStr_ff=/firefox\/[\d.]+/gi;
+  var regStr_chrome=/chrome\/[\d.]+/gi;
+  var regStr_saf=/safari\/[\d.]+/gi;
+  //IE
+  if(agent.indexOf("msie")>0){
+    return agent.match(regStr_ie);
+  }
+
+  //firefox
+  if(agent.indexOf("firefox")>0){
+    return agent.match(regStr_ff);
+  }
+
+  //Chrome
+  if(agent.indexOf("chrome")>0){
+    return agent.match(regStr_chrome);
+  }
+
+  //Safari
+  if(agent.indexOf("safari")>0 && agent.indexOf("chrome")<0){
+    return agent.match(regStr_saf);
+  }
+}
+
+/**
+ * 检测浏览器版本，IE9及以上的为5，IE8及一下的会返回false
+ * 
+ */
+function checkBrowser(){
+	//检测浏览器的版本，5以上的为新浏览器即IE9及以上
+	var b_version=navigator.appVersion;
+	var version=parseFloat(b_version);
+	
+	if(version<5){
+		return false;
+	}
+	
+	return true;
+}
+
 /**
  * easyui 扩展tree 为 ztree(id, pid)的扁平数据结构集 
  * 里增加了三个属性，可以指定idFiled，textFiled和parentField

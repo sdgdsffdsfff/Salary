@@ -1,12 +1,8 @@
 package com.salary.test;
 
-import java.math.BigDecimal;
 import java.util.Date;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 import com.salary.util.SalaryUtils;
 
 public class testCallable {

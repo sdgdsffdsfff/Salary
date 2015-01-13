@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -18,6 +20,7 @@ import com.salary.service.AuthorService;
 import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
+import com.salary.util.SalaryUtils;
 
 /**
  * 操作员处理action
@@ -236,6 +239,18 @@ public class OperatorAction extends ActionSupport {
 	
 	
 	public String login(){
+		String agent=ServletActionContext.getRequest().getHeader("user-agent");
+		//System.out.println("agent:"+agent);
+		//不兼容的浏览器版本号
+		String[] unsupports=SalaryUtils.unSupportBrowser;
+		
+		for(String unsupport:unsupports){
+			if(agent.contains(unsupport)){
+				ServletActionContext.getContext().getSession().put("errormsg", "浏览器版本太低，请升级浏览器!");
+				return INPUT;
+			}
+		}
+		
 		if(operator!=null && operator.getName()!=null && operator.getPass()!=null){
 			String hql="From Operator where name=:name and pass=:pass";
 			Map<String,Object> params=new HashMap<String,Object>();
@@ -271,6 +286,7 @@ public class OperatorAction extends ActionSupport {
 			}
 		}
 		
+		ServletActionContext.getContext().getSession().put("errormsg", "用户名或密码错误，请重新输入!");
 		return INPUT;
 	}
 	

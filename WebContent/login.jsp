@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,6 +37,11 @@
 							data-options="iconCls:'icon-ok',width:80,height:30," >登录</a>
 					</td>
 				</tr>
+				<tr>
+					<td colspan="2">
+					<s:property value="#session.errormsg" />
+					</td>
+				</tr>
 			</table>
 		</form>
 	</div>  
@@ -52,7 +58,7 @@
 						title:'提示',
 						msg:'请输入用户名和密码',
 						timeout:3000,
-					})
+					});
 					return false;
 				}
 				

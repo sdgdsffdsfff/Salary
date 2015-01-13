@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class SalaryUtils {
 	
+	public static String[] unSupportBrowser={"Mozilla/4","MSIE 8.0","MSIE 7.0","MSIE 6.0","MSIE 5","AppleWebKit/533","AppleWebKit/534"};
 	/**
 	 * 解析动态函数SQL语句，将SQL语句中的:account_id,:emp_id替换为具体的值
 	 * 注意:此方法只适用与在奖金项目公式表取出的语句进行解析

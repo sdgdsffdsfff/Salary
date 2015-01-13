@@ -146,6 +146,7 @@
 	<bean id="salary_detailService" class="com.salary.service.Salary_detailService">
 		<property name="salary_detailDaoimpl" ref="salary_detailDaoimpl" />
 		<property name="employeeDaoimpl" ref="employeeDaoimpl" />
+		<property name="accountDaoimpl" ref="accountDaoimpl" />
 		<property name="crudDaoimpl" ref="crudDaoimpl" />
 	</bean>
 	
@@ -188,6 +189,7 @@
 	<!-- Action层 -->
 	<bean id="accountAction" class="com.salary.action.AccountAction">
 		<property name="accountService" ref="accountService" />
+		<property name="salary_detailService" ref="salary_detailService" />
 	</bean>
 	
 	<bean id="departmentAction" class="com.salary.action.DepartmentAction">
@@ -207,6 +209,7 @@
 		<property name="employeeService" ref="employeeService" />
 		<property name="salary_item_unitService" ref="salary_item_unitService" />
 		<property name="salary_item_expressionService" ref="salary_item_expressionService" />
+		<property name="departmentService" ref="departmentService" />
 	</bean>
 	
 	<bean id="salaryitemAction" class="com.salary.action.SalaryitemAction">
