@@ -36,7 +36,7 @@ public class commonInterceptor extends AbstractInterceptor {
 			Map<String,Object> maprole_author=(Map<String, Object>) session.get("maprole_author");
 			
 			if(maprole_author==null || !maprole_author.containsKey(actionName)){
-				System.out.println(operator.getName()+"-->无此权限:"+actionName);
+				System.out.println("操作员:'"+operator.getName()+"'-->无此权限:'"+actionName+"'");
 				return Action.NONE;
 			}
 		};

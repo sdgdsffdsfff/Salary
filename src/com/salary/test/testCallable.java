@@ -1,8 +1,12 @@
 package com.salary.test;
 
 import java.util.Date;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
+import com.salary.util.MD5Util;
 import com.salary.util.SalaryUtils;
 
 public class testCallable {
@@ -36,5 +40,10 @@ public class testCallable {
 	public void testRandmoney(){
 		Date dt=new Date();
 		System.out.println(testCallable.randMoney("1",dt,dt));
+	}
+	
+	@Test
+	public void testMd5(){
+		System.out.println(MD5Util.MD5("admin"));
 	}
 }

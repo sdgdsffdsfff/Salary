@@ -20,6 +20,7 @@ import com.salary.service.AuthorService;
 import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
+import com.salary.util.MD5Util;
 import com.salary.util.SalaryUtils;
 
 /**
@@ -188,6 +189,8 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String addOperator(){
+		//MD5加密
+		operator.setPass(MD5Util.MD5(operator.getPass()));
 		operatorService.add(operator);
 		return SUCCESS;
 	}
@@ -209,6 +212,8 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editOperator(){
+		//MD5加密
+		operator.setPass(MD5Util.MD5(operator.getPass()));
 		operatorService.edit(operator);
 		
 		return SUCCESS;
@@ -255,6 +260,8 @@ public class OperatorAction extends ActionSupport {
 		}
 		
 		if(operator!=null && operator.getName()!=null && operator.getPass()!=null){
+			//MD5加密
+			operator.setPass(MD5Util.MD5(operator.getPass()));
 			String hql="From Operator where name=:name and pass=:pass";
 			Map<String,Object> params=new HashMap<String,Object>();
 			params.put("name", operator.getName());
