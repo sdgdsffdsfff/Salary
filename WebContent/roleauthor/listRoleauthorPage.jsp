@@ -51,7 +51,7 @@
 <script type="text/javascript">
 
 	$(function(){
-		//tokenDate为的是防止读取缓存，而不去数据库里面找更新的数据
+		//randomString为的是防止读取缓存，随机生成的10位字符串，而不去数据库里面找更新的数据
 		var uri="getRoleauthorlist?id="+$('#roleid').val()+"&randomString="+randomString(10);
 	    $.getJSON(uri, function(json){
 	        $('#ul_roleauthor').tree({

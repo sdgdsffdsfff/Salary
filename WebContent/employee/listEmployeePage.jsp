@@ -85,7 +85,7 @@
 					title:'修改员工信息',
 					width:'350',
 					height:'300',
-					href:'editEmployeePage?id='+row.id,
+					href:'editEmployeePage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -97,7 +97,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delEmployee?id="+row.id;
+						location.href="delEmployee?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}

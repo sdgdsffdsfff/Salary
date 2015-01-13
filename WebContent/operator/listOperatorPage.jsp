@@ -82,7 +82,7 @@
 					title:'修改操作员',
 					width:'350',
 					height:'250',
-					href:'editOperatorPage?id='+row.id,
+					href:'editOperatorPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -94,7 +94,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delOperator?id="+row.id;
+						location.href="delOperator?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}

@@ -84,7 +84,7 @@
 					title:'修改奖金项目',
 					width:'350',
 					height:'250',
-					href:'editSalaryitemPage?id='+row.id,
+					href:'editSalaryitemPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -96,7 +96,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delSalaryitem?id="+row.id;
+						location.href="delSalaryitem?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}

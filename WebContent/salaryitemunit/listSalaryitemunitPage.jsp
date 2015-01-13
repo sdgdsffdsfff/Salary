@@ -82,7 +82,7 @@
 					title:'修改奖金项目',
 					width:'350',
 					height:'250',
-					href:'editSalaryitemunitPage?id='+row.id,
+					href:'editSalaryitemunitPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -94,7 +94,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delSalaryitemunit?id="+row.id;
+						location.href="delSalaryitemunit?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}

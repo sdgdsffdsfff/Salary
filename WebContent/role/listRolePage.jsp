@@ -83,7 +83,7 @@
 					title:'修改角色信息',
 					width:'350',
 					height:'150',
-					href:'editRolePage?id='+row.id,
+					href:'editRolePage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -95,7 +95,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delRole?id="+row.id;
+						location.href="delRole?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}
@@ -110,7 +110,7 @@
 					title:'角色授权',
 					width:'400',
 					height:'500',
-					href:"listRoleauthorPage?id="+row.id,
+					href:"listRoleauthorPage?id="+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}

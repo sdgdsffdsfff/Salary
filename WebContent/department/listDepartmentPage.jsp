@@ -81,7 +81,7 @@
 					title:'修改部门信息',
 					width:'350',
 					height:'150',
-					href:'editDepartmentPage?id='+row.id,
+					href:'editDepartmentPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -93,7 +93,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delDepartment?id="+row.id;
+						location.href="delDepartment?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}

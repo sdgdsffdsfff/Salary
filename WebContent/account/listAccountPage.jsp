@@ -87,7 +87,7 @@
 					title:'修改奖金期间',
 					width:'350',
 					height:'250',
-					href:'editAccountPage?id='+row.id,
+					href:'editAccountPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}
@@ -99,7 +99,7 @@
 			if(row){
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
-						location.href="delAccount?id="+row.id;
+						location.href="delAccount?id="+row.id+"&randomString="+randomString(10);
 					}
 				});
 			}
@@ -109,7 +109,7 @@
 		function listSalarydetail(){
 			var row=$('#tb_account').datagrid('getSelected');
 			if(row){
-				location.href="listSalarydetailPage?account_id="+row.id;
+				location.href="listSalarydetailPage?account_id="+row.id+"&randomString="+randomString(10);
 			}
 		}
 		
