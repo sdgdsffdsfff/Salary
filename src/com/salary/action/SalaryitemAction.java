@@ -223,8 +223,7 @@ public class SalaryitemAction extends ActionSupport{
 			
 			String hql="From Salary_item where id="+id;
 			salary_item=salary_itemService.get(hql, null);
-			salary_item.setIsdel(1);
-			salary_itemService.edit(salary_item);
+			salary_itemService.del(salary_item);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();

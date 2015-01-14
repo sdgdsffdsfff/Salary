@@ -15,6 +15,7 @@ import com.salary.entity.Salary_item_unit;
 import com.salary.service.Salary_itemService;
 import com.salary.service.Salary_item_expressionService;
 import com.salary.service.Salary_item_unitService;
+import com.salary.util.NumberUtils;
 
 /**
  * 奖金项目公式
@@ -227,6 +228,18 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 */
 	public String addSalaryitemexpression(){
 		try {
+			//检测奖金公式表中是否有同名的奖金公式名称
+			String sql="select count(1) as money from salary_item_expression where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			Integer sal_count=0;
+			sal_count=NumberUtils.BigIntegerToInteger(
+						salary_item_expressionService.queryNaviSql(sql, params).get(0).get("money"));
+			
+			if(sal_count>0){
+				errormessage="添加奖金项目公式失败，已有相同名称的奖金项目公式...";
+				return ERROR;	
+			}
+			
 			salary_item_expressionService.add(salary_item_expression);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -243,6 +256,24 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 */
 	public String editSalaryitemexpression(){
 		try {
+			//先检测是否和原先的公式名称相同，不相同则需要检测是否有重名的奖金项目名称
+			String hql="From Salary_item_expression where id="+salary_item_expression.getId();
+			Salary_item_expression tmpExp=salary_item_expressionService.get(hql, null);
+			
+			if(!tmpExp.getName().equals(salary_item_expression.getName())){
+				//检测奖金公式表中是否有同名的奖金公式名称
+				String sql="select count(1) as money from salary_item_expression where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				Integer sal_count=0;
+				sal_count=NumberUtils.BigIntegerToInteger(
+							salary_item_expressionService.queryNaviSql(sql, params).get(0).get("money"));
+				
+				if(sal_count>0){
+					errormessage="修改奖金项目公式失败，已有相同名称的奖金项目公式...";
+					return ERROR;	
+				}
+			}
+			
 			salary_item_expressionService.edit(salary_item_expression);
 		} catch (Exception e) {
 			logger.error(e.getMessage());

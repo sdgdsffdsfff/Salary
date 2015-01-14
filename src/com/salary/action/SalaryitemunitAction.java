@@ -202,6 +202,18 @@ public class SalaryitemunitAction extends ActionSupport {
 	 */
 	public String addSalaryitemunit(){
 		try {
+			//先检测奖金项目公式模板是否有同名的
+			String sql="select count(1) as money from salary_item_unit where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", salary_item_unit.getName());
+			Integer sal_count=0;
+			sal_count=NumberUtils.BigIntegerToInteger(
+								salary_item_unitService.queryNaviSql(sql, params).get(0).get("money"));
+			if(sal_count>0){
+				errormessage="添加奖金项目公式模板失败，已有相同名称的奖金项目公式模板...";
+				return ERROR;
+			}
+			
 			salary_item_unitService.add(salary_item_unit);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -218,6 +230,23 @@ public class SalaryitemunitAction extends ActionSupport {
 	 */
 	public String editSalaryitemunit(){
 		try {
+			//先检测是否和原来的名称相同，不相同则要检测是否有同名
+			String hql="From Salary_item_unit where id="+salary_item_unit.getId();
+			Salary_item_unit tmpSal=salary_item_unitService.get(hql, null);
+			if(!tmpSal.getName().equals(salary_item_unit.getName())){
+				//先检测奖金项目公式模板是否有同名的
+				String sql="select count(1) as money from salary_item_unit where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", salary_item_unit.getName());
+				Integer sal_count=0;
+				sal_count=NumberUtils.BigIntegerToInteger(
+									salary_item_unitService.queryNaviSql(sql, params).get(0).get("money"));
+				if(sal_count>0){
+					errormessage="添加奖金项目公式模板失败，已有相同名称的奖金项目公式模板...";
+					return ERROR;
+				}
+			}
+			
 			salary_item_unitService.edit(salary_item_unit);
 		} catch (Exception e) {
 			logger.error(e.getMessage());

@@ -76,17 +76,13 @@
 </div>
 <script type="text/javascript">
 	function submit(){
-		$('#editSalaryitemForm').form('submit',{
-			onSubmit:function (){
-				var isValid=$('#editSalaryitemForm').form('validate');
-				if(!isValid){
-					$.messager.alert('提示','请输入完整的信息!','warning');
-					return false;
-				}
-				
-				$('#editSalaryitemForm').submit();
-			},
-		});
+		var isValid=$('#editSalaryitemForm').form('validate');
+		if(!isValid){
+			$.messager.alert('提示','请输入完整的信息!','warning');
+			return false;
+		}
+		
+		$('#editSalaryitemForm').submit();
 	}
 </script>
 </body>
