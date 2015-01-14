@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Department;
 import com.salary.entity.Salary_item;
 import com.salary.service.DepartmentService;
+import com.salary.util.NumberUtils;
 
 /**
  * 部门信息action
@@ -18,6 +21,8 @@ import com.salary.service.DepartmentService;
  */
 @SuppressWarnings("serial")
 public class DepartmentAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(DepartmentAction.class);
+	
 	private DepartmentService departmentService;
 	private Integer id;								//部门id
 	private Integer account_id;						//奖金期间id
@@ -27,7 +32,24 @@ public class DepartmentAction extends ActionSupport {
 	private Integer page;							//Easyui分页号
 	private Integer rows;							//Easyui分页大小
 	private Department department;					//部门信息
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	/**
 	 * 初始化分页
 	 */
@@ -112,8 +134,14 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 */
 	public String editDepartmentPage(){
-		String hql="From Department where id="+id;
-		department=departmentService.get(hql, null);
+		try {
+			String hql="From Department where id="+id;
+			department=departmentService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -123,7 +151,13 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 */
 	public String addDepartment(){
-		departmentService.add(department);
+		try {
+			departmentService.add(department);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -133,7 +167,13 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 */
 	public String editDepartment(){
-		departmentService.edit(department);
+		try {
+			departmentService.edit(department);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -143,10 +183,26 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 */
 	public String delDepartment(){
-		String hql="From Department where id="+id;
-		department=departmentService.get(hql, null);
-		department.setIsdel(1);
-		departmentService.edit(department);
+		try {
+			//先检测该部门是否有人员在引用
+			String sql="select count(1) from employee where department_id="+id;
+			Integer dept_count=0;
+			dept_count=NumberUtils.BigIntegerToInteger(departmentService.queryNaviSql(sql, null).get(0).get("money"));
+			
+			if(dept_count>0){
+				errormessage="删除部门失败，该部门已经在使用中!";
+				return ERROR;
+			}
+			
+			String hql="From Department where id="+id;
+			department=departmentService.get(hql, null);
+			departmentService.del(department);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}

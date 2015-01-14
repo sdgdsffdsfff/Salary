@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -11,6 +13,7 @@ import com.salary.entity.Account;
 import com.salary.entity.Salary_item;
 import com.salary.service.AccountService;
 import com.salary.service.Salary_detailService;
+import com.salary.util.NumberUtils;
 
 /**
  * 奖金期间action
@@ -19,6 +22,8 @@ import com.salary.service.Salary_detailService;
  */
 @SuppressWarnings("serial")
 public class AccountAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(AccountAction.class);
+	
 	private AccountService accountService;
 	private Salary_detailService salary_detailService;
 	private Integer account_id;						//奖金期间id
@@ -31,7 +36,24 @@ public class AccountAction extends ActionSupport {
 	private Integer rows;							//Easyui分页大小
 	private String daystart;						//日期开始
 	private String dayend;							//日期结束
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	/**
 	 * 初始化分页
 	 */
@@ -144,10 +166,16 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 */
 	public String editAccountPage(){
-		String hql="From Account where id="+id;
-		account=accountService.get(hql, null);
-		daystart=account.getDaystart().toString();
-		dayend=account.getDayend().toString();
+		try {
+			String hql="From Account where id="+id;
+			account=accountService.get(hql, null);
+			daystart=account.getDaystart().toString();
+			dayend=account.getDayend().toString();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -157,8 +185,15 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 */
 	public String addAccount(){
-		accountService.add(account);
-		salary_detailService.initSalaryDetail(account);
+		try {
+			accountService.add(account);
+			salary_detailService.initSalaryDetail(account);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -167,7 +202,14 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 */
 	public String editAccount(){
-		accountService.edit(account);
+		try {
+			accountService.edit(account);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -176,9 +218,27 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 */
 	public String delAccount(){
-		String hql="From Account where id="+id;
-		account=accountService.get(hql, null);
-		accountService.del(account);
+		try {
+			//检测在奖金明细表中该奖金期间的金额合计是否为0(为0则视为没有任何数据)
+			String sql="select sum(money) money from salary_detail where account_id="+id;
+			float acc_money=0;
+			
+			acc_money=NumberUtils.BigDecimalToFloat(accountService.queryNaviSql(sql, null).get(0).get("money"));
+			if(acc_money>0){
+				errormessage="删除奖金期间失败，该期间存在数据信息！";
+				return ERROR;
+			}
+			
+			String hql="From Account where id="+id;
+			account=accountService.get(hql, null);
+			accountService.del(account);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -196,7 +256,7 @@ public class AccountAction extends ActionSupport {
 	 */
 	public String getAccountlist(){
 		this.init();
-		String hql="From Account";
+		String hql="From Account order by daystart desc";
 		List<Account> listaccount=accountService.queryByPage(hql, null,page,rows);
 		
 		Map<String,Object> jsonMap=new HashMap<String,Object>();

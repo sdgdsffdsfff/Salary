@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -17,6 +19,8 @@ import com.salary.service.Salary_itemService;
  */
 @SuppressWarnings("serial")
 public class SalaryitemAction extends ActionSupport{
+	private Logger logger=Logger.getLogger(SalaryitemAction.class);
+	
 	private Salary_itemService salary_itemService;	//工资项目业务处理sercice
 	private Integer id;								//工资项目id
 	private Integer salary_item_id;					//工资项目的id
@@ -26,7 +30,24 @@ public class SalaryitemAction extends ActionSupport{
 	private JSONObject jsonobj;						//json对象，传递给Easyui表格
 	private Integer page;							//Easyui分页号
 	private Integer rows;							//Easyui分页大小
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	/**
 	 * 初始化分页
 	 */
@@ -114,7 +135,7 @@ public class SalaryitemAction extends ActionSupport{
 	}
 	
 	/**
-	 * 添加工资项目
+	 * 添加奖金项目
 	 * @return
 	 */
 	public String addSalaryitem(){
@@ -125,7 +146,7 @@ public class SalaryitemAction extends ActionSupport{
 	}
 	
 	/**
-	 * 修改工资项目信息
+	 * 修改奖金项目信息
 	 * @return
 	 */
 	public String editSalaryitem(){
@@ -135,7 +156,7 @@ public class SalaryitemAction extends ActionSupport{
 	}
 	
 	/**
-	 * 删除工资项目
+	 * 删除奖金项目
 	 * @return
 	 */
 	public String delSalaryitem(){

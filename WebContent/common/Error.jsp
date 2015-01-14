@@ -14,7 +14,7 @@
 </head>
 <body>
 <div id="p" class="easyui-panel" title="错误信息页" 
-		style="width:500px;height:150px;padding:10px;background:#fafafa;" >  
+		style="padding:10px;background:#fafafa;" >  
     <p>
     <h2>
     	<font color="red">

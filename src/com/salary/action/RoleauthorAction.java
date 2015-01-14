@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -23,6 +25,8 @@ import com.salary.util.AuthorJson;
  */
 @SuppressWarnings("serial")
 public class RoleauthorAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(RoleauthorAction.class);
+	
 	private Role_authorService role_authorService;
 	private AuthorService authorService;			
 	private Role role;								//角色信息
@@ -31,8 +35,24 @@ public class RoleauthorAction extends ActionSupport {
 	private String authorids;						//未选中的权限集合
 	private RoleService roleService;				//角色服务
 	private Integer id;								//主键
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
 	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	public Role_authorService getRole_authorService() {
 		return role_authorService;
 	}
@@ -111,8 +131,14 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRoleauthorPage(){
-		String hql="From Role_author where id="+id;
-		role_author=role_authorService.get(hql, null);
+		try {
+			String hql="From Role_author where id="+id;
+			role_author=role_authorService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -122,7 +148,13 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String addRoleauthor(){
-		role_authorService.add(role_author);
+		try {
+			role_authorService.add(role_author);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -132,14 +164,20 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRoleauthor(){
-		String sql="update Role_author set isallow=0 where role_id="+role.getId();
-		role_authorService.executeSQL(sql);
-		
-		if(authorids!=null && !authorids.trim().isEmpty()){
-			String sql2="update Role_author set isallow=1 where role_id="+role.getId()
-					+" and author_id in ("+authorids.substring(0,authorids.length()-1)+")";
+		try {
+			String sql="update Role_author set isallow=0 where role_id="+role.getId();
+			role_authorService.executeSQL(sql);
 			
-			role_authorService.executeSQL(sql2);
+			if(authorids!=null && !authorids.trim().isEmpty()){
+				String sql2="update Role_author set isallow=1 where role_id="+role.getId()
+						+" and author_id in ("+authorids.substring(0,authorids.length()-1)+")";
+				
+				role_authorService.executeSQL(sql2);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
 		}
 	
 		return SUCCESS;
@@ -158,8 +196,14 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String listRoleauthorPage(){
-		String hql="From Role where id="+id;
-		role=roleService.get(hql, null);
+		try {
+			String hql="From Role where id="+id;
+			role=roleService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -11,6 +13,7 @@ import com.salary.entity.Account;
 import com.salary.entity.Role;
 import com.salary.entity.Salary_item;
 import com.salary.service.RoleService;
+import com.salary.util.NumberUtils;
 
 /**
  * 角色处理action
@@ -19,6 +22,8 @@ import com.salary.service.RoleService;
  */
 @SuppressWarnings("serial")
 public class RoleAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(RoleAction.class);
+	
 	private RoleService roleService;
 	private Role role;								//角色
 	private Integer account_id;						//奖金期间id
@@ -29,7 +34,24 @@ public class RoleAction extends ActionSupport {
 	private JSONObject jsonobj;						//json对象，传递给Easyui表格
 	private Integer page;							//Easyui分页号
 	private Integer rows;							//Easyui分页大小
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	/**
 	 * 初始化分页
 	 */
@@ -115,8 +137,14 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRolePage(){
-		String hql="From Role where id="+id;
-		role=roleService.get(hql, null);
+		try {
+			String hql="From Role where id="+id;
+			role=roleService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -126,7 +154,13 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 */
 	public String addRole(){
-		roleService.add(role);
+		try {
+			roleService.add(role);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -136,10 +170,25 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 */
 	public String delRole(){
-		String hql="From Role where id="+id;
-		role=roleService.get(hql, null);
-		role.setIsdel(1);
-		roleService.edit(role);
+		try {
+			//先检测在操作员表中是否有引用该角色
+			String sql="select count(1) as money from Operator where role_id="+id;
+			Integer rol_count=0;
+			rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, null).get(0).get("money"));
+			
+			if(rol_count>0){
+				errormessage="删除角色信息失败，该角色已经在使用中!";
+				return ERROR;
+			}
+			
+			String hql="From Role where id="+id;
+			role=roleService.get(hql, null);
+			roleService.del(role);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -149,7 +198,14 @@ public class RoleAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRole(){
-		roleService.edit(role);
+		try {
+			roleService.edit(role);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 	

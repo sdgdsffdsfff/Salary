@@ -26,7 +26,16 @@ public class testAction extends ActionSupport {
 	private List<Map<String,Object>> listmap;
 	private JSONObject jsonobj;
 	private String str;
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+
 	public Integer getAccount_id() {
 		return account_id;
 	}

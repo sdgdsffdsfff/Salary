@@ -63,7 +63,7 @@ public class SalaryUtils {
 	
 	
 	/**
-	 * 将Map取出的数据转换成BigDecimal
+	 * 将obj数据转换成BigDecimal
 	 * @param obj
 	 * @return BigDecimal数据
 	 */

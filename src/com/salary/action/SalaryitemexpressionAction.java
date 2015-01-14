@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,6 +23,8 @@ import com.salary.service.Salary_item_unitService;
  */
 @SuppressWarnings("serial")
 public class SalaryitemexpressionAction extends ActionSupport{
+	private Logger logger=Logger.getLogger(SalaryitemexpressionAction.class);
+	
 	private Salary_item_expressionService salary_item_expressionService;
 	private Salary_itemService salary_itemService;
 	private Salary_item_unitService salary_item_unitService;
@@ -44,6 +48,14 @@ public class SalaryitemexpressionAction extends ActionSupport{
 		rows=(rows==null || rows==0)?new Integer(10):rows;
 	}
 	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -160,16 +172,22 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 * @return
 	 */
 	public String addSalaryitemexpressionPage(){
-		String hql="From Salary_item where isdel=:isdel and level=:level";
-		Map<String,Object> params=new HashMap<String,Object>();
-		params.put("isdel", 0);
-		params.put("level", 1);
-		listsalary_item=salary_itemService.query(hql, params);
-		
-		String hql2="From Salary_item where isdel=:isdel";
-		Map<String,Object> params2=new HashMap<String,Object>();
-		params2.put("isdel", 0);
-		listsalary_item2=salary_itemService.query(hql2, params2);
+		try {
+			String hql="From Salary_item where isdel=:isdel and level=:level";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("isdel", 0);
+			params.put("level", 1);
+			listsalary_item=salary_itemService.query(hql, params);
+			
+			String hql2="From Salary_item where isdel=:isdel";
+			Map<String,Object> params2=new HashMap<String,Object>();
+			params2.put("isdel", 0);
+			listsalary_item2=salary_itemService.query(hql2, params2);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -179,19 +197,25 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 * @return
 	 */
 	public String editSalaryitemexpressionPage(){
-		String hql="From Salary_item where isdel=:isdel and level=:level";
-		Map<String,Object> params=new HashMap<String,Object>();
-		params.put("isdel", 0);
-		params.put("level", 1);
-		listsalary_item=salary_itemService.query(hql, params);
-		
-		String hql2="From Salary_item where isdel=:isdel";
-		Map<String,Object> params2=new HashMap<String,Object>();
-		params2.put("isdel", 0);
-		listsalary_item2=salary_itemService.query(hql2, params2);
-		
-		hql="From Salary_item_expression where id="+id;
-		salary_item_expression=salary_item_expressionService.get(hql, null);
+		try {
+			String hql="From Salary_item where isdel=:isdel and level=:level";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("isdel", 0);
+			params.put("level", 1);
+			listsalary_item=salary_itemService.query(hql, params);
+			
+			String hql2="From Salary_item where isdel=:isdel";
+			Map<String,Object> params2=new HashMap<String,Object>();
+			params2.put("isdel", 0);
+			listsalary_item2=salary_itemService.query(hql2, params2);
+			
+			hql="From Salary_item_expression where id="+id;
+			salary_item_expression=salary_item_expressionService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -202,7 +226,13 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 * @return
 	 */
 	public String addSalaryitemexpression(){
-		salary_item_expressionService.add(salary_item_expression);
+		try {
+			salary_item_expressionService.add(salary_item_expression);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -212,7 +242,13 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 * @return
 	 */
 	public String editSalaryitemexpression(){
-		salary_item_expressionService.edit(salary_item_expression);
+		try {
+			salary_item_expressionService.edit(salary_item_expression);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -222,28 +258,33 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 * @return
 	 */
 	public String delSalaryitemexpression(){
-		//先查询出奖金模板的计算序列，查看是否含有此id号
-		String hql_unit="From Salary_item_unit";
-		List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(hql_unit, null);
-		StringBuffer unitBuffer=new StringBuffer(200);
-		for(Salary_item_unit salary_item_unit:listsalary_item_unit){
-			unitBuffer.append(salary_item_unit.getSequence());
-		}
-		
-		
-		//检测是否存在此id
-		String[] sequence=unitBuffer.toString().split(",");
-		for(String str_seq:sequence){
-			if(Integer.parseInt(str_seq)==id){
-				errormessage="删除奖金公式失败，该奖金公式已在使用中!";
-				return ERROR;
+		try {
+			//先查询出奖金模板的计算序列，查看是否含有此id号
+			String hql_unit="From Salary_item_unit";
+			List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(hql_unit, null);
+			StringBuffer unitBuffer=new StringBuffer(200);
+			for(Salary_item_unit salary_item_unit:listsalary_item_unit){
+				unitBuffer.append(salary_item_unit.getSequence());
 			}
+			
+			//检测是否存在此id
+			String[] sequence=unitBuffer.toString().split(",");
+			for(String str_seq:sequence){
+				if(Integer.parseInt(str_seq)==id){
+					errormessage="删除奖金公式失败，该奖金公式已在使用中!";
+					return ERROR;
+				}
+			}
+			
+			//删除奖金项目公式
+			String hql="From Salary_item_expression where id="+id;
+			salary_item_expression=salary_item_expressionService.get(hql, null);
+			salary_item_expressionService.del(salary_item_expression);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
 		}
-		
-		
-		String hql="From Salary_item_expression where id="+id;
-		salary_item_expression=salary_item_expressionService.get(hql, null);
-		salary_item_expressionService.del(salary_item_expression);
 		
 		return SUCCESS;
 	}

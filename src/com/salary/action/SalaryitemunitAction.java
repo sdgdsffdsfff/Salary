@@ -3,17 +3,16 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.opensymphony.xwork2.ActionSupport;
-import com.salary.entity.Employee;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
 import com.salary.service.EmployeeService;
 import com.salary.service.Salary_item_expressionService;
 import com.salary.service.Salary_item_unitService;
+import com.salary.util.NumberUtils;
 
 /**
  * 奖金公式单元action
@@ -22,6 +21,8 @@ import com.salary.service.Salary_item_unitService;
  */
 @SuppressWarnings("serial")
 public class SalaryitemunitAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(SalaryitemunitAction.class);
+	
 	private Salary_item_unitService salary_item_unitService;
 	private Salary_item_expressionService salary_item_expressionService;
 	private EmployeeService employeeService;
@@ -44,6 +45,14 @@ public class SalaryitemunitAction extends ActionSupport {
 		rows=(rows==null || rows==0)?new Integer(10):rows;
 	}
 	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	public EmployeeService getEmployeeService() {
 		return employeeService;
 	}
@@ -156,8 +165,14 @@ public class SalaryitemunitAction extends ActionSupport {
 	 * @return
 	 */
 	public String addSalaryitemunitPage(){
-		String hql="From Salary_item_expression";
-		listsalary_item_expression=salary_item_expressionService.query(hql, null);
+		try {
+			String hql="From Salary_item_expression";
+			listsalary_item_expression=salary_item_expressionService.query(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -167,10 +182,16 @@ public class SalaryitemunitAction extends ActionSupport {
 	 * @return
 	 */
 	public String editSalaryitemunitPage(){
-		String hql="From Salary_item_expression";
-		listsalary_item_expression=salary_item_expressionService.query(hql, null);
-		hql="From Salary_item_unit where id="+id;
-		salary_item_unit=salary_item_unitService.get(hql, null);
+		try {
+			String hql="From Salary_item_expression";
+			listsalary_item_expression=salary_item_expressionService.query(hql, null);
+			hql="From Salary_item_unit where id="+id;
+			salary_item_unit=salary_item_unitService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -180,7 +201,13 @@ public class SalaryitemunitAction extends ActionSupport {
 	 * @return
 	 */
 	public String addSalaryitemunit(){
-		salary_item_unitService.add(salary_item_unit);
+		try {
+			salary_item_unitService.add(salary_item_unit);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -190,7 +217,13 @@ public class SalaryitemunitAction extends ActionSupport {
 	 * @return
 	 */
 	public String editSalaryitemunit(){
-		salary_item_unitService.edit(salary_item_unit);
+		try {
+			salary_item_unitService.edit(salary_item_unit);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -200,19 +233,26 @@ public class SalaryitemunitAction extends ActionSupport {
 	 * @return
 	 */
 	public String delSalaryitemunit(){
-		//先加载员工的salary_item_unit,判断是否能删除
-		String hql_emp="From Employee where isdel=0";
-		List<Employee> listemployee=employeeService.query(hql_emp, null);
-		for(Employee employee:listemployee){
-			if(employee.getSalary_item_unit_id()==id){
-				errormessage="删除失败，此奖金公式模板已在使用中。";
+		try {
+			//检测奖金公式单元模板是否有员工引用
+			String sql="select count(1) as money from employee where salary_item_unit_id="+id;
+			Integer sal_count=0;
+			sal_count=NumberUtils.BigIntegerToInteger(
+								salary_item_unitService.queryNaviSql(sql, null).get(0).get("money"));
+			
+			if(sal_count>0){
+				errormessage="删除奖金公式单元模板失败，该奖金公式单元模板已经在使用中!";
 				return ERROR;
 			}
+			
+			String hql="From Salary_item_unit where id="+id;
+			salary_item_unit=salary_item_unitService.get(hql, null);
+			salary_item_unitService.del(salary_item_unit);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
 		}
-		
-		String hql="From Salary_item_unit where id="+id;
-		salary_item_unit=salary_item_unitService.get(hql, null);
-		salary_item_unitService.del(salary_item_unit);
 		
 		return SUCCESS;
 	}

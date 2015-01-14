@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -30,6 +31,8 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class OperatorAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(OperatorAction.class);
+	
 	private OperatorService operatorService;
 	private RoleService roleService;
 	private Role_authorService role_authorService;
@@ -45,8 +48,23 @@ public class OperatorAction extends ActionSupport {
 	private Integer rows;							//Easyui分页大小
 	private List<Role> listrole;					//角色信息列表
 	private Role role;								//角色信息
+	private String errormessage;					//错误消息
 	
-	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	/**
 	 * 初始化分页
 	 */
@@ -164,8 +182,14 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String addOperatorPage(){
-		String hql="From Role where isdel=0";
-		listrole=roleService.query(hql, null);
+		try {
+			String hql="From Role where isdel=0";
+			listrole=roleService.query(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -175,11 +199,17 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editOperatorPage(){
-		String hql_oper="From Operator where id="+id;
-		operator=operatorService.get(hql_oper, null);
-		
-		String hql_role="From Role where isdel=0";
-		listrole=roleService.query(hql_role, null);
+		try {
+			String hql_oper="From Operator where id="+id;
+			operator=operatorService.get(hql_oper, null);
+			
+			String hql_role="From Role where isdel=0";
+			listrole=roleService.query(hql_role, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -189,9 +219,16 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String addOperator(){
-		//MD5加密
-		operator.setPass(MD5Util.MD5(operator.getPass()));
-		operatorService.add(operator);
+		try {
+			//MD5加密
+			operator.setPass(MD5Util.MD5(operator.getPass()));
+			operatorService.add(operator);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -200,9 +237,15 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String delOperator(){
-		String hql="From Operator where id="+id;
-		operator=operatorService.get(hql, null);
-		operatorService.del(operator);
+		try {
+			String hql="From Operator where id="+id;
+			operator=operatorService.get(hql, null);
+			operatorService.del(operator);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -212,9 +255,15 @@ public class OperatorAction extends ActionSupport {
 	 * @return
 	 */
 	public String editOperator(){
-		//MD5加密
-		operator.setPass(MD5Util.MD5(operator.getPass()));
-		operatorService.edit(operator);
+		try {
+			//MD5加密
+			operator.setPass(MD5Util.MD5(operator.getPass()));
+			operatorService.edit(operator);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}

@@ -3,9 +3,8 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Department;
 import com.salary.entity.Employee;
@@ -14,6 +13,7 @@ import com.salary.entity.Salary_item_unit;
 import com.salary.service.DepartmentService;
 import com.salary.service.EmployeeService;
 import com.salary.service.Salary_item_unitService;
+import com.salary.util.NumberUtils;
 
 /**
  * 职员信息action
@@ -22,6 +22,8 @@ import com.salary.service.Salary_item_unitService;
  */
 @SuppressWarnings("serial")
 public class EmployeeAction extends ActionSupport {
+	private Logger logger=Logger.getLogger(EmployeeAction.class);
+	
 	private EmployeeService employeeService;
 	private DepartmentService departmentService;	
 	private Salary_item_unitService salary_item_unitService;
@@ -35,7 +37,24 @@ public class EmployeeAction extends ActionSupport {
 	private List<Department> listdepartment;		//部门列表
 	private List<Salary_item_unit> listsalary_item_unit;//奖金模板列表
 	private Employee employee;						//职员
+	private String errormessage;					//错误消息
 	
+	public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
+
 	/**
 	 * 初始化分页
 	 */
@@ -142,10 +161,16 @@ public class EmployeeAction extends ActionSupport {
 	 * @return
 	 */
 	public String addEmployeePage(){
-		String hql="From Department where isdel=0";
-		listdepartment=departmentService.query(hql, null);
-		hql="From Salary_item_unit";
-		listsalary_item_unit=salary_item_unitService.query(hql, null);
+		try {
+			String hql="From Department where isdel=0";
+			listdepartment=departmentService.query(hql, null);
+			hql="From Salary_item_unit";
+			listsalary_item_unit=salary_item_unitService.query(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -155,14 +180,20 @@ public class EmployeeAction extends ActionSupport {
 	 * @return
 	 */
 	public String editEmployeePage(){
-		String hql_emp="From Employee where id="+id;
-		employee=employeeService.get(hql_emp, null);
-		
-		String hql_dept="From Department where isdel=0";
-		listdepartment=departmentService.query(hql_dept, null);
-		
-		String hql_sala="From Salary_item_unit";
-		listsalary_item_unit=salary_item_unitService.query(hql_sala, null);
+		try {
+			String hql_emp="From Employee where id="+id;
+			employee=employeeService.get(hql_emp, null);
+			
+			String hql_dept="From Department where isdel=0";
+			listdepartment=departmentService.query(hql_dept, null);
+			
+			String hql_sala="From Salary_item_unit";
+			listsalary_item_unit=salary_item_unitService.query(hql_sala, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -172,7 +203,13 @@ public class EmployeeAction extends ActionSupport {
 	 * @return
 	 */
 	public String addEmployee(){
-		employeeService.add(employee);
+		try {
+			employeeService.add(employee);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -182,7 +219,14 @@ public class EmployeeAction extends ActionSupport {
 	 * @return
 	 */
 	public String editEmployee(){
-		employeeService.edit(employee);
+		try {
+			employeeService.edit(employee);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -191,10 +235,28 @@ public class EmployeeAction extends ActionSupport {
 	 * @return
 	 */
 	public String delEmployee(){
-		String hql="From Employee where id="+id;
-		employee=employeeService.get(hql, null);
-		employee.setIsdel(1);
-		employeeService.edit(employee);
+		try {
+			//先检测该人员是否在奖金明细表中
+			String sql="select count(1) as money from salary_detail where emp_id="+id;
+			Integer emp_count=0;
+			emp_count=NumberUtils.BigIntegerToInteger(
+									employeeService.queryNaviSql(sql, null).get(0).get("money"));
+			
+			if(emp_count>0){
+				errormessage="删除人员失败，该人员已经在奖金明细表中使用!";
+				return ERROR;
+			}
+			
+			//删除人员信息
+			String hql="From Employee where id="+id;
+			employee=employeeService.get(hql, null);
+			employeeService.del(employee);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
