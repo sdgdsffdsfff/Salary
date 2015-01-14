@@ -293,19 +293,23 @@ public class SalaryitemexpressionAction extends ActionSupport{
 			//先查询出奖金模板的计算序列，查看是否含有此id号
 			String hql_unit="From Salary_item_unit";
 			List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(hql_unit, null);
-			StringBuffer unitBuffer=new StringBuffer(200);
-			for(Salary_item_unit salary_item_unit:listsalary_item_unit){
-				unitBuffer.append(salary_item_unit.getSequence());
-			}
 			
-			//检测是否存在此id
-			String[] sequence=unitBuffer.toString().split(",");
-			for(String str_seq:sequence){
-				if(Integer.parseInt(str_seq)==id){
-					errormessage="删除奖金公式失败，该奖金公式已在使用中...";
-					return ERROR;
+			if(listsalary_item_unit!=null && listsalary_item_unit.size()>0){
+				StringBuffer unitBuffer=new StringBuffer(200);
+				for(Salary_item_unit salary_item_unit:listsalary_item_unit){
+					unitBuffer.append(salary_item_unit.getSequence());
+				}
+				
+				//检测是否存在此id
+				String[] sequence=unitBuffer.toString().split(",");
+				for(String str_seq:sequence){
+					if(Integer.parseInt(str_seq)==id){
+						errormessage="删除奖金公式失败，该奖金公式已在使用中...";
+						return ERROR;
+					}
 				}
 			}
+			
 			
 			//删除奖金项目公式
 			String hql="From Salary_item_expression where id="+id;
