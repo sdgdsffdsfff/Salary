@@ -14,11 +14,11 @@
 </head>
 <body>
 <div id="p" class="easyui-panel" title="错误信息页" 
-		style="width:500px;height:150px;padding:10px;background:#fafafa;" >  
+		style="height:500px;padding:10px;background:#fafafa;" >  
     <p>
     <h2>
-    	<font color="red">
-	    权限不足，操作失败！
+    	<font color="#023c69">
+	    	您没有此操作权限,操作失败...
 	    </font>
 	    <a  class="easyui-linkbutton" data-options="iconCls:'icon-back'" onclick="history.back();" >返回</a>
     </h2>

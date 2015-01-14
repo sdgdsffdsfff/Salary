@@ -231,6 +231,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 			//检测奖金公式表中是否有同名的奖金公式名称
 			String sql="select count(1) as money from salary_item_expression where name=:name";
 			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", salary_item_expression.getName());
 			Integer sal_count=0;
 			sal_count=NumberUtils.BigIntegerToInteger(
 						salary_item_expressionService.queryNaviSql(sql, params).get(0).get("money"));
@@ -264,6 +265,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 				//检测奖金公式表中是否有同名的奖金公式名称
 				String sql="select count(1) as money from salary_item_expression where name=:name";
 				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", salary_item_expression.getName());
 				Integer sal_count=0;
 				sal_count=NumberUtils.BigIntegerToInteger(
 							salary_item_expressionService.queryNaviSql(sql, params).get(0).get("money"));

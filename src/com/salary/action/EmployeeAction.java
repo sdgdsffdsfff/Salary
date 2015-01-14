@@ -205,9 +205,9 @@ public class EmployeeAction extends ActionSupport {
 	public String addEmployee(){
 		try {
 			//先检测员工表中是否有相同的code，如果有则抛出错误信息
-			String sql="select count(1) as money from employee where name=:name";
+			String sql="select count(1) as money from employee where code=:code";
 			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", employee.getName());
+			params.put("code", employee.getCode());
 			Integer emp_count=NumberUtils.BigIntegerToInteger(
 					employeeService.queryNaviSql(sql, params).get(0).get("money"));
 			if(emp_count>0){
@@ -232,13 +232,13 @@ public class EmployeeAction extends ActionSupport {
 	public String editEmployee(){
 		try {
 			//先检测原员工表中的code是否和现在一样，不一样则需要检测
-			String hql="From Employee where id="+id;
+			String hql="From Employee where id="+employee.getId();
 			Employee tmpEmployee=employeeService.get(hql, null);
-			if(!tmpEmployee.getName().equals(employee.getName())){
+			if(!tmpEmployee.getCode().equals(employee.getCode())){
 				//先检测员工表中是否有相同的code，如果有则抛出错误信息
-				String sql="select count(1) as money from employee where name=:name";
+				String sql="select count(1) as money from employee where code=:code";
 				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", employee.getName());
+				params.put("code", employee.getCode());
 				Integer emp_count=NumberUtils.BigIntegerToInteger(
 						employeeService.queryNaviSql(sql, params).get(0).get("money"));
 				if(emp_count>0){
