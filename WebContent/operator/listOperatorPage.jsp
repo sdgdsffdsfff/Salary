@@ -68,7 +68,7 @@
 			$('#di_edit').dialog({
 				title:'增加操作员',
 				width:'350',
-				height:'250',
+				height:'300',
 				href:'addOperatorPage',
 				modal:true,
 			});
@@ -81,7 +81,7 @@
 				$('#di_edit').dialog({
 					title:'修改操作员',
 					width:'350',
-					height:'250',
+					height:'300',
 					href:'editOperatorPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});

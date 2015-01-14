@@ -22,6 +22,7 @@ import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
 import com.salary.util.MD5Util;
+import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
 
 /**
@@ -220,6 +221,18 @@ public class OperatorAction extends ActionSupport {
 	 */
 	public String addOperator(){
 		try {
+			//先判断该操作员的名称在表中是否存在，如果存在，则页面抛出错误信息
+			String sql="select count(1) as money from operator where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", operator.getName());
+			Integer op_count=0;
+			
+			op_count=NumberUtils.BigIntegerToInteger(operatorService.queryNaviSql(sql, params).get(0).get("money"));
+			
+			if(op_count>0){
+				errormessage="添加操作员失败，已有相同名称的操作员信息...";
+				return ERROR;
+			}
 			//MD5加密
 			operator.setPass(MD5Util.MD5(operator.getPass()));
 			operatorService.add(operator);
@@ -238,6 +251,11 @@ public class OperatorAction extends ActionSupport {
 	 */
 	public String delOperator(){
 		try {
+			if(id==1){
+				errormessage="超级管理员不允许删除...";
+				return ERROR;
+			}
+			
 			String hql="From Operator where id="+id;
 			operator=operatorService.get(hql, null);
 			operatorService.del(operator);
@@ -256,8 +274,33 @@ public class OperatorAction extends ActionSupport {
 	 */
 	public String editOperator(){
 		try {
+			//首先判断角色的名称是否和原来一样，如果和原来不一样，则需要检测表中是否有重名的数据
+			String hql="From Operator where id="+operator.getId();
+			Operator tmpOperator=operatorService.get(hql, null);
+			if(!tmpOperator.getName().equals(operator.getName())){
+				//判断该操作员的名称在表中是否存在，如果存在，则页面抛出错误信息
+				String sql="select count(1) as money from operator where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", operator.getName());
+				Integer op_count=0;
+				
+				op_count=NumberUtils.BigIntegerToInteger(operatorService.queryNaviSql(sql, params).get(0).get("money"));
+				
+				if(op_count>0){
+					errormessage="修改操作员失败，已有相同名称的操作员信息...";
+					return ERROR;
+				}
+			}
+			
+			//如果是admin管理员，则不允许修改其角色。恢复默认为1管理员
+			if(operator.getId()==1){
+				operator.setRole_id(1);
+				operator.setName("admin");
+			}
+			
 			//MD5加密
 			operator.setPass(MD5Util.MD5(operator.getPass()));
+			
 			operatorService.edit(operator);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -306,7 +349,7 @@ public class OperatorAction extends ActionSupport {
 		for(String unsupport:unsupports){
 			if(agent.contains(unsupport)){
 				resultMap.put("status", "0");
-				resultMap.put("errormsg", "浏览器版本太低,请升级!");
+				resultMap.put("errormsg", "浏览器版本太低,请升级...");
 				
 				jsonobj=JSONObject.fromObject(resultMap);
 				return SUCCESS;
@@ -359,10 +402,35 @@ public class OperatorAction extends ActionSupport {
 		
 		//用户名或密码错误
 		resultMap.put("status", "0");
-		resultMap.put("errormsg", "用户名或密码错误!");
+		resultMap.put("errormsg", "用户名或密码错误...");
 		
 		jsonobj=JSONObject.fromObject(resultMap);
 		return SUCCESS;
 	}
 	
+	
+	/**
+	 * 用来初始化操作员admin的密码为admin
+	 * 注意:需要在请求信息加入id=96096才会执行初始化
+	 * 用于忘记密码的情况，可以直接将超级管理员的密码恢复
+	 * @return
+	 */
+	public String initOperator(){
+		try {
+			if(id!=null && id==96096){
+				operator=new Operator();
+				operator.setId(1);
+				operator.setName("admin");
+				operator.setPass(MD5Util.MD5("admin"));
+				operator.setIsdel(0);
+				operator.setRole_id(1);
+				
+				operatorService.edit(operator);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return SUCCESS;
+	}
 }

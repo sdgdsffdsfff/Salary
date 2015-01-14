@@ -241,7 +241,7 @@ public class SalaryitemunitAction extends ActionSupport {
 								salary_item_unitService.queryNaviSql(sql, null).get(0).get("money"));
 			
 			if(sal_count>0){
-				errormessage="删除奖金公式单元模板失败，该奖金公式单元模板已经在使用中!";
+				errormessage="删除奖金公式单元模板失败，该奖金公式单元模板已经在使用中...";
 				return ERROR;
 			}
 			

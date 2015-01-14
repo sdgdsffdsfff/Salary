@@ -190,7 +190,7 @@ public class DepartmentAction extends ActionSupport {
 			dept_count=NumberUtils.BigIntegerToInteger(departmentService.queryNaviSql(sql, null).get(0).get("money"));
 			
 			if(dept_count>0){
-				errormessage="删除部门失败，该部门已经在使用中!";
+				errormessage="删除部门失败，该部门已经在使用中...";
 				return ERROR;
 			}
 			

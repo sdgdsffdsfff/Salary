@@ -271,7 +271,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 			String[] sequence=unitBuffer.toString().split(",");
 			for(String str_seq:sequence){
 				if(Integer.parseInt(str_seq)==id){
-					errormessage="删除奖金公式失败，该奖金公式已在使用中!";
+					errormessage="删除奖金公式失败，该奖金公式已在使用中...";
 					return ERROR;
 				}
 			}

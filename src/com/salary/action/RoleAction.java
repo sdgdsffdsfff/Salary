@@ -155,7 +155,23 @@ public class RoleAction extends ActionSupport {
 	 */
 	public String addRole(){
 		try {
+			//先检测是否存在相同名称的角色
+			String sql="select count(1) as money from role where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", role.getName());
+			Integer rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, params).get(0).get("money"));
+			
+			if(rol_count>0){
+				errormessage="添加角色信息失败，已有相同的角色名称...";
+				return ERROR;
+			}
+			
 			roleService.add(role);
+			
+			//要在角色权限表中批量添加该角色的角色权限信息
+			sql="insert into role_author(role_id,author_id,isallow) select "+role.getId()+",id,0 from author";
+			roleService.executeSQL(sql);
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();
@@ -177,9 +193,13 @@ public class RoleAction extends ActionSupport {
 			rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, null).get(0).get("money"));
 			
 			if(rol_count>0){
-				errormessage="删除角色信息失败，该角色已经在使用中!";
+				errormessage="删除角色信息失败，该角色已经在使用中...";
 				return ERROR;
 			}
+			
+			//删除角色前先删除角色权限表下与此角色关联的信息
+			sql="delete from role_author where role_id="+id;
+			roleService.executeSQL(sql);
 			
 			String hql="From Role where id="+id;
 			role=roleService.get(hql, null);
@@ -199,6 +219,23 @@ public class RoleAction extends ActionSupport {
 	 */
 	public String editRole(){
 		try {
+			//先检测角色名称和原来的是否一样，如果不一样，则要检测角色名称在表中是否重复
+			String hql="From Role where id="+role.getId();
+			Role tmpRole=roleService.get(hql, null);
+			
+			if(!tmpRole.getName().equals(role.getName())){
+				//先检测是否存在相同名称的角色
+				String sql="select count(1) as money from role where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", role.getName());
+				Integer rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, params).get(0).get("money"));
+				
+				if(rol_count>0){
+					errormessage="修改角色信息失败，已有相同的角色名称...";
+					return ERROR;
+				}
+			}
+			
 			roleService.edit(role);
 		} catch (Exception e) {
 			logger.error(e.getMessage());

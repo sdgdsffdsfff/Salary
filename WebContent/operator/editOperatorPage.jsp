@@ -15,12 +15,12 @@
 <body>
 <div style="padding:20px;">
 	<form id="editOperatorForm" action="editOperator" method="POST" >
-		<input type="hidden" name="operator.id" value='<s:property value="operator.id" />' />
+		<input id="operatorid" type="hidden" name="operator.id" value='<s:property value="operator.id" />' />
 		<table cellpadding="5" >
 			<tr>
 				<td>操作员名称:</td>
 				<td>
-					<input type="text" class="easyui-textbox" name="operator.name" 
+					<input id="operatorname" type="text" class="easyui-textbox" name="operator.name" 
 					value='<s:property value="operator.name" />'
 					data-options="
 					required:true,
@@ -31,7 +31,7 @@
 			<tr>
 				<td>角色:</td>
 				<td>
-					<select name="operator.role_id" class="easyui-combobox" 
+					<select id="operatorrole_id" name="operator.role_id" class="easyui-combobox" 
 					data-options='width:150,value:<s:property value="operator.role_id" />'>
 						<s:iterator value="listrole">
 							<option value='<s:property value="id" />'><s:property value="name" /></option>
@@ -43,14 +43,14 @@
 				<td>密码:</td>
 				<td>
 					<input id="pass1" type="password" class="easyui-textbox" name="operator.pass"
-					data-options="required:true," />
+					data-options="required:true,width:150," />
 				</td>
 			</tr>
 			<tr>
 				<td>确认密码:</td>
 				<td>
 					<input id="pass2" type="password" class="easyui-textbox"
-					data-options="required:true," />
+					data-options="required:true,width:150," />
 				</td>
 			</tr>
 			
@@ -65,6 +65,12 @@
 </div>
 <script type="text/javascript">
 	$(function(){
+		if($('#operatorid').val()=='1'){
+			$('#operatorname').textbox({
+				editable:false,
+			});
+		}
+		
 		//验证密码是否一致
 		$('#pass2').textbox({
 			validType:["equals['#pass1']",],

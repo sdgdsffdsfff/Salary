@@ -40,14 +40,14 @@
 				<td>密码:</td>
 				<td>
 					<input id="pass1" type="password" class="easyui-textbox" name="operator.pass"
-					data-options="required:true," />
+					data-options="required:true,width:150," />
 				</td>
 			</tr>
 			<tr>
 				<td>确认密码:</td>
 				<td>
 					<input id="pass2" type="password" class="easyui-textbox"
-					data-options="required:true," />
+					data-options="required:true,width:150," />
 				</td>
 			</tr>
 			

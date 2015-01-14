@@ -243,7 +243,7 @@ public class EmployeeAction extends ActionSupport {
 									employeeService.queryNaviSql(sql, null).get(0).get("money"));
 			
 			if(emp_count>0){
-				errormessage="删除人员失败，该人员已经在奖金明细表中使用!";
+				errormessage="删除人员失败，该人员已经在奖金明细表中使用...";
 				return ERROR;
 			}
 			
