@@ -213,45 +213,60 @@ public class RoleauthorAction extends ActionSupport {
 	 * @return
 	 */
 	public String getRoleauthorlist(){
-		String hql="From Role_author where role_id="+id;
-		List<Role_author> listrole_author=role_authorService.query(hql, null);
-		List<AuthorJson> list_jsonauthor=new ArrayList<AuthorJson>();
-		
-		hql="From Author";
-		List<Author> list_author=authorService.query(hql, null);
-		Map<String,Author> authorMap=new HashMap<String,Author>();
-		
-		for(Author author:list_author){
-			authorMap.put(Integer.toString(author.getId()), author);
-		}
-		
-		for(Role_author role_author:listrole_author){
-			Author author=new Author();
-			AuthorJson authorjson=new AuthorJson();
-			author=authorMap.get(Integer.toString(role_author.getAuthor_id()));
-			authorjson.setId(author.getId());
-			authorjson.setText(author.getName());
-			authorjson.setChecked(false);
+		try {
+			//检测权限表中是否有新增加的权限，有的话就自动添加到角色权限表中
+			StringBuffer sqlBuffer=new StringBuffer(200);
+			sqlBuffer.append("insert into role_author(role_id,author_id,isallow)");
+			sqlBuffer.append("select role.id AS role_id,author.id AS author_id,0 AS isallow ");
+			sqlBuffer.append("from (role join author) ");
+			sqlBuffer.append("where (not(author.id in (select distinct role_author.author_id from role_author)))");
 			
-			//除了根目录展开外，tree子目录全部关闭
-			if(author.getId()>1){
-				authorjson.setPid(author.getPid());
-				authorjson.setState("closed");
+			role_authorService.executeSQL(sqlBuffer.toString());
+					
+			String hql="From Role_author where role_id="+id;
+			List<Role_author> listrole_author=role_authorService.query(hql, null);
+			List<AuthorJson> list_jsonauthor=new ArrayList<AuthorJson>();
+			
+			hql="From Author";
+			List<Author> list_author=authorService.query(hql, null);
+			Map<String,Author> authorMap=new HashMap<String,Author>();
+			
+			for(Author author:list_author){
+				authorMap.put(Integer.toString(author.getId()), author);
 			}
 			
-			//如果取到isallow的值为1，则tree勾选框选中
-			if(role_author.getIsallow()==1){
-				authorjson.setChecked(true);
+			for(Role_author role_author:listrole_author){
+				Author author=new Author();
+				AuthorJson authorjson=new AuthorJson();
+				author=authorMap.get(Integer.toString(role_author.getAuthor_id()));
+				authorjson.setId(author.getId());
+				authorjson.setText(author.getName());
+				authorjson.setChecked(false);
+				
+				//除了根目录展开外，tree子目录全部关闭
+				if(author.getId()>1){
+					authorjson.setPid(author.getPid());
+					authorjson.setState("closed");
+				}
+				
+				//如果取到isallow的值为1，则tree勾选框选中
+				if(role_author.getIsallow()==1){
+					authorjson.setChecked(true);
+				}
+				
+				list_jsonauthor.add(authorjson);
 			}
 			
-			list_jsonauthor.add(authorjson);
+			
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("data", list_jsonauthor);
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
 		}
-		
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("data", list_jsonauthor);
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
 		
 		return SUCCESS;
 	}
