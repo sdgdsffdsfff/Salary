@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.salary.entity.Operator" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -87,7 +88,14 @@
 		<div id="centerTab" class="easyui-tabs" fit="true" border="false" >
 			<div id="welcomTab" title="欢迎页" style="padding:20px;overflow:hidden;"> 
 					<div style="margin-top:20px;">
-						<h3>你好<s:property value="operator.name" />，欢迎使用爱信诺奖金管理系统</h3>
+						<%
+							//如果在session中没有操作员，则跳转到登录页面
+							Operator op=(Operator) request.getSession().getAttribute("operatorinfo");
+							if(op==null){
+								request.getRequestDispatcher("login.jsp").forward(request, response);
+							} 
+						%>
+						<h3>你好<s:property value="#session.operatorinfo.name" />，欢迎使用爱信诺奖金管理系统</h3>
 					</div>
 			</div>
 		</div>

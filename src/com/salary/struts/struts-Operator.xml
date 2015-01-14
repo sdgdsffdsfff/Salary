@@ -8,13 +8,18 @@
     <constant name="struts.devMode" value="true" />
 	
 	<package name="no-author" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
 		<global-results>
             <result name="input">/login.jsp</result>
             <result name="none">/common/noAuthor.jsp</result>
         </global-results>
 		<!-- 操作员登录 -->
 		<action name="login" class="com.salary.action.OperatorAction" method="login">
-			<result name="success">/mainframe.jsp</result>
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
 		</action>
 	</package>
 	

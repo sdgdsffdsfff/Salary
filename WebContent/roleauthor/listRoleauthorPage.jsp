@@ -52,16 +52,18 @@
 
 	$(function(){
 		//randomString为的是防止读取缓存，随机生成的10位字符串，而不去数据库里面找更新的数据
-		var uri="getRoleauthorlist?id="+$('#roleid').val()+"&randomString="+randomString(10);
-	    $.getJSON(uri, function(json){
-	        $('#ul_roleauthor').tree({
-	            data:json.data,
-	            checkbox: true,
-	    	    animate:true,
-	    	    idFiled:"id",
-	    		parentField:"pid",
-	    		textFiled:"text",
-	        });
+		var uri="getRoleauthorlist";
+		var data={'id':$('#roleid').val(),'randomString':randomString(10)};
+		console.log(data);
+	    $.getJSON(uri,data,function(json){
+					        $('#ul_roleauthor').tree({
+					            data:json.data,
+					            checkbox: true,
+					    	    animate:true,
+					    	    idFiled:"id",
+					    		parentField:"pid",
+					    		textFiled:"text",
+					        });
 	    });
 	});
 	

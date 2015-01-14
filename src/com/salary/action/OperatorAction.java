@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.struts2.ServletActionContext;
-
 import net.sf.json.JSONObject;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -251,11 +251,16 @@ public class OperatorAction extends ActionSupport {
 		System.out.println("浏览器信息:"+agent);
 		//不兼容的浏览器版本号
 		String[] unsupports=SalaryUtils.unSupportBrowser;
+		jsonobj=new JSONObject();
+		Map<String,String> resultMap=new HashMap<String,String>();
 		
 		for(String unsupport:unsupports){
 			if(agent.contains(unsupport)){
-				ServletActionContext.getContext().getSession().put("errormsg", "浏览器版本太低，请升级!");
-				return INPUT;
+				resultMap.put("status", "0");
+				resultMap.put("errormsg", "浏览器版本太低,请升级!");
+				
+				jsonobj=JSONObject.fromObject(resultMap);
+				return SUCCESS;
 			}
 		}
 		
@@ -295,13 +300,20 @@ public class OperatorAction extends ActionSupport {
 				//session域权限信息
 				ActionContext.getContext().getSession().put("maprole_author", maprole_author);
 				
+				resultMap.put("status", "1");
+				resultMap.put("errormsg", "");
+				
+				jsonobj=JSONObject.fromObject(resultMap);
 				return SUCCESS;
 			}
 		}
 		
-		//session域登录错误信息
-		ServletActionContext.getContext().getSession().put("errormsg", "用户名或密码错误!");
-		return INPUT;
+		//用户名或密码错误
+		resultMap.put("status", "0");
+		resultMap.put("errormsg", "用户名或密码错误!");
+		
+		jsonobj=JSONObject.fromObject(resultMap);
+		return SUCCESS;
 	}
 	
 }

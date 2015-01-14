@@ -18,8 +18,6 @@
 <link href="./jeecg/plug-in/login/css/buttons.css" rel="stylesheet" type="text/css" />
 <link href="./jeecg/plug-in/login/css/icon.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="./jeecg/plug-in/login/css/tipsy.css" media="all" />
-<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
 <style type="text/css">
 html {
 	background-image: none;
@@ -64,10 +62,6 @@ label.iPhoneCheckLabelOn span {
 	height: 51px;
 }
 </style>
-<script type="text/javascript" src="./easyui/jquery.min.js"></script>
-<script type="text/javascript" src="./easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="./common/easyui-common.js"></script>
-<script type="text/javascript" src="./easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
     <div id="alertMessage"></div>
@@ -88,7 +82,7 @@ label.iPhoneCheckLabelOn span {
                     
                     <div class="tip">
                     	<font color="#C0C0C0" size="5">
-                    		<s:property value="#session.errormsg" />
+                    		
                     	</font>
                         
                         <div style="float: right; margin-left:-220px; margin-right: 80px;">
@@ -131,7 +125,19 @@ label.iPhoneCheckLabelOn span {
     <script type="text/javascript">
 	    //登录检测
 	    function check(){
-	    	$('#loginForm').submit();
+	    	//$('#loginForm').submit();
+	    	
+	    	var uri='login';
+	    	var data={'operator.name':$('#username').val(),'operator.pass':$('#password').val()};
+	    	
+	    	$.getJSON(uri,data,function(json){
+	    		if(json.status==0){
+	    			alert('登录失败:'+json.errormsg);
+	    			return;
+	    		}
+	    		
+	    		location.href="mainframe.jsp";
+	    	});
 	    }
     	
 	    //清除文本框上的数据
