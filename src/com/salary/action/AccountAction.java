@@ -254,14 +254,16 @@ public class AccountAction extends ActionSupport {
 				return ERROR;
 			}
 			
+			//删除奖金明细表数据
+			String sql_del_salary_detail="delete from salary_detail where account_id="+id;
+			accountService.executeSQL(sql_del_salary_detail);
+			
 			//删除奖金期间
 			String hql="From Account where id="+id;
 			account=accountService.get(hql, null);
 			accountService.del(account);
 			
-			//删除奖金明细表数据
-			String sql_del_salary_detail="delete from salary_detail where account_id="+id;
-			accountService.executeSQL(sql_del_salary_detail);
+			
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());

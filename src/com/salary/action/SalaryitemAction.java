@@ -209,7 +209,7 @@ public class SalaryitemAction extends ActionSupport{
 			sal_count=NumberUtils.BigIntegerToInteger(
 					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
 			if(sal_count>0){
-				errormessage="删除奖金项目失败,该奖金项目已经在使用中...";
+				errormessage="删除奖金项目失败,该奖金项目已经在奖金项目公式中使用...";
 				return ERROR;
 			}
 			
@@ -217,7 +217,15 @@ public class SalaryitemAction extends ActionSupport{
 			sal_count=NumberUtils.BigIntegerToInteger(
 					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
 			if(sal_count>0){
-				errormessage="删除奖金项目失败,该奖金项目已经在使用中...";
+				errormessage="删除奖金项目失败,该奖金项目已经在奖金项目公式中使用...";
+				return ERROR;
+			}
+			
+			sql="select count(1) as money from salary_detail where salary_item_id="+id;
+			sal_count=NumberUtils.BigIntegerToInteger(
+					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
+			if(sal_count>0){
+				errormessage="删除奖金项目失败,该奖金项目已经在奖金明细表中使用...";
 				return ERROR;
 			}
 			
