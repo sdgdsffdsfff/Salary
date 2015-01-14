@@ -17,7 +17,7 @@
 		style="padding:10px;background:#fafafa;" >  
     <p>
     <h2>
-    	<font color="red">
+    	<font color="#023c69">
 	    <s:property value="errormessage" />
 	    </font>
 	    <a  class="easyui-linkbutton" data-options="iconCls:'icon-back'" onclick="history.back();" >返回</a>

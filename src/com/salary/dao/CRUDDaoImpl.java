@@ -304,41 +304,4 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	}
 	
 	
-	/**
-	 * 根据奖金期间来获取对应的奖金查询报表语句
-	 * @param account_id	奖金id
-	 * @return				奖金查询语句
-	 */
-	@SuppressWarnings("deprecation")
-	public String callfnGetsalarysql(int account_id){
-		Session session = sessionFactory.openSession();
-		Connection conn = null;
-		CallableStatement stmt=null;
-		
-		try {
-			conn = session.connection();
-			String sql="{?=call fnGetsalarysql(?)}";
-			stmt=conn.prepareCall(sql);
-			stmt.registerOutParameter(1,Types.VARCHAR);
-			stmt.setInt(2, account_id);
-			stmt.execute();
-			return stmt.getString(1);
-			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}finally{
-			try {
-				stmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			session.clear();
-			session.close();
-		}
-		
-		return null;
-	}
-	
 }

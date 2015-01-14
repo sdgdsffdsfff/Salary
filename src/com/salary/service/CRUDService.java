@@ -45,15 +45,6 @@ public class CRUDService <T>{
 	
 	
 	/**
-	 * 根据奖金期间来获取对应的奖金查询报表语句
-	 * @param account_id	奖金id
-	 * @return				奖金查询语句
-	 */
-	public String callfnGetsalarysql(int account_id){
-		return crudDaoimpl.callfnGetsalarysql(account_id);
-	}
-	
-	/**
 	 * 增加
 	 * @param t
 	 */

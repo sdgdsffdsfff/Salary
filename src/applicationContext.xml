@@ -147,6 +147,7 @@
 		<property name="salary_detailDaoimpl" ref="salary_detailDaoimpl" />
 		<property name="employeeDaoimpl" ref="employeeDaoimpl" />
 		<property name="accountDaoimpl" ref="accountDaoimpl" />
+		<property name="salary_itemDaoimpl" ref="salary_itemDaoimpl" />
 		<property name="crudDaoimpl" ref="crudDaoimpl" />
 	</bean>
 	

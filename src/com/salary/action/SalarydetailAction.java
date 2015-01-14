@@ -320,8 +320,7 @@ public class SalarydetailAction extends ActionSupport {
 		try {
 			//先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
-			String sql=salary_detailService.callfnGetsalarysql(account_id);
-			
+			String sql=salary_detailService.GetfnGetsalarysql(account_id);
 			List<Map<String,Object>> listsalarydetail=salary_detailService.queryNaviSql(sql, null);
 			
 			Map<String,Object> jsonMap=new HashMap<String,Object>();
@@ -386,7 +385,7 @@ public class SalarydetailAction extends ActionSupport {
 			initlistSalarydetailPage();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="奖金项目公式设置错误,请检查奖金公式...";
 			return ERROR;
 		}
 		

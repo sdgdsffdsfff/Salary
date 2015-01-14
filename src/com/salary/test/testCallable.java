@@ -46,4 +46,31 @@ public class testCallable {
 	public void testMd5(){
 		System.out.println(MD5Util.MD5("admin"));
 	}
+	
+	public static String parseDynmaicsqlToSalaryItemID(String dynmaicsql,String search_str){
+		StringBuffer strBuffer=new StringBuffer(1000);
+		String[] sparr=dynmaicsql.split(search_str);
+		int index=0;
+		for(String sp:sparr){
+			System.out.println("sp:"+sp);
+			index=sp.indexOf(")");
+			if(index==-1){
+				index=0;
+			}
+			
+			String substr=new String(sp.substring(0, index));
+			if(substr!=null && substr.length()>0){
+				strBuffer.append(substr+",");
+			}
+		}
+		
+		return strBuffer.toString();
+	}
+	
+	@Test
+	public void testCut(){
+		String str="fnGetSalaryMoney(:account_id,:emp_id,2)*0.2*fnGetDepartmentMoney(:account_id,:emp_id,2)/fnGetItemMoney(:account_id,:emp_id,2)";
+		this.parseDynmaicsqlToSalaryItemID(str,":account_id,:emp_id,");
+	}
+	
 }

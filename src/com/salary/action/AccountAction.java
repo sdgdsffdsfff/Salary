@@ -186,6 +186,16 @@ public class AccountAction extends ActionSupport {
 	 */
 	public String addAccount(){
 		try {
+			//先检测奖金期间表中是否有相同的奖金期间名称
+			String sql="select count(1) as money from account where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", account.getName());
+			Integer acc_count=NumberUtils.BigIntegerToInteger(accountService.queryNaviSql(sql, params).get(0).get("money"));
+			if(acc_count>0){
+				errormessage="添加奖金期间失败，已有相同名称的奖金期间...";
+				return ERROR;
+			}
+			
 			accountService.add(account);
 			salary_detailService.initSalaryDetail(account);
 		} catch (Exception e) {
@@ -203,6 +213,21 @@ public class AccountAction extends ActionSupport {
 	 */
 	public String editAccount(){
 		try {
+			//先读取原奖金期间的名称，如果与现在的名称不一致，则需要检测是否有重名的奖金期间
+			String hql="From Account where id="+account.getId();
+			Account tmpAccount=accountService.get(hql, null);
+			if(!tmpAccount.getName().equals(account.getName())){
+				//先检测奖金期间表中是否有相同的奖金期间名称
+				String sql="select count(1) as money from account where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", account.getName());
+				Integer acc_count=NumberUtils.BigIntegerToInteger(accountService.queryNaviSql(sql, params).get(0).get("money"));
+				if(acc_count>0){
+					errormessage="修改奖金期间失败，已有相同名称的奖金期间...";
+					return ERROR;
+				}
+			}
+			
 			accountService.edit(account);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -220,12 +245,12 @@ public class AccountAction extends ActionSupport {
 	public String delAccount(){
 		try {
 			//检测在奖金明细表中该奖金期间的金额合计是否为0(为0则视为没有任何数据)
-			String sql="select sum(money) money from salary_detail where account_id="+id;
+			String sql="select ifnull(sum(money),0) as money from salary_detail where account_id="+id;
 			float acc_money=0;
 			
 			acc_money=NumberUtils.BigDecimalToFloat(accountService.queryNaviSql(sql, null).get(0).get("money"));
 			if(acc_money>0){
-				errormessage="删除奖金期间失败，该期间存在数据信息！";
+				errormessage="删除奖金期间失败，该期间存在数据信息...";
 				return ERROR;
 			}
 			

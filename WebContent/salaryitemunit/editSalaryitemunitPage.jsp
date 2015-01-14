@@ -15,6 +15,7 @@
 <body>
 <div style="padding:20px;">
 	<form id="editSalaryitemunitForm" action="editSalaryitemunit" method="POST" >
+		<input type="hidden" name="salary_item_unit.id" value='<s:property value="salary_item_unit.id" />'>
 		<table cellpadding="5" >
 			<tr>
 				<td>模板名称:</td>

@@ -7,9 +7,11 @@ import java.util.List;
 import com.salary.dao.AccountDaoImpl;
 import com.salary.dao.EmployeeDaoImpl;
 import com.salary.dao.Salary_detailDaoImpl;
+import com.salary.dao.Salary_itemDaoImpl;
 import com.salary.entity.Account;
 import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
+import com.salary.entity.Salary_item;
 import com.salary.test.testCallable;
 
 /**
@@ -21,6 +23,16 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	private Salary_detailDaoImpl salary_detailDaoimpl;
 	private EmployeeDaoImpl employeeDaoimpl;
 	private AccountDaoImpl accountDaoimpl;
+	private Salary_itemDaoImpl salary_itemDaoimpl;
+
+	
+	public Salary_itemDaoImpl getSalary_itemDaoimpl() {
+		return salary_itemDaoimpl;
+	}
+
+	public void setSalary_itemDaoimpl(Salary_itemDaoImpl salary_itemDaoimpl) {
+		this.salary_itemDaoimpl = salary_itemDaoimpl;
+	}
 
 	public Salary_detailDaoImpl getSalary_detailDaoimpl() {
 		return salary_detailDaoimpl;
@@ -125,4 +137,50 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		}
 		
 	}
+	
+	
+	/**
+	 * 获取动态的奖金项目明细表sql语句
+	 * @param account_id	奖金期间id
+	 * @return				奖金项目明细表sql语句
+	 */
+	public String GetfnGetsalarysql(int account_id){
+		//存储外层sql
+		StringBuffer sqlBuffer=new StringBuffer(1000);
+		sqlBuffer.append("select emp.id as empid,emp.name as empname,emp.code,dept.name as deptname,");
+		
+		//存储内层sql
+		StringBuffer sqlBuffer2=new StringBuffer(1000);
+		sqlBuffer2.append("select emp_id,");
+		
+		
+		
+		//首先要读取出奖金项目的列表
+		String hql_salary_item="From Salary_item";
+		List<Salary_item> listsalary_item=salary_itemDaoimpl.query(hql_salary_item, null);
+		
+		//循环读取奖金项目名称
+		for(Salary_item salary_item:listsalary_item){
+			sqlBuffer2.append(" case salary_item_id  when "+salary_item.getId()+" then money else 0 end as field"+salary_item.getId()+",");
+			sqlBuffer.append(" sum(field"+salary_item.getId()+") as "+salary_item.getName()+",");
+		}
+		
+		sqlBuffer.deleteCharAt(sqlBuffer.lastIndexOf(","));
+		sqlBuffer2.deleteCharAt(sqlBuffer2.lastIndexOf(","));
+		
+		sqlBuffer.append(" from (");
+		sqlBuffer2.append(" from salary_detail where account_id="+account_id+" ) sal left join employee emp on emp.id=sal.emp_id ");
+		sqlBuffer2.append(" left join department dept on emp.department_id=dept.id group by emp.name,emp.code, ");
+		sqlBuffer2.append(" dept.name order by deptname,empname ");
+		
+		sqlBuffer.append(sqlBuffer2);
+		
+		return sqlBuffer.toString();
+	}
+	
+	
+	
+	
+	
+	
 }

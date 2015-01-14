@@ -204,6 +204,17 @@ public class EmployeeAction extends ActionSupport {
 	 */
 	public String addEmployee(){
 		try {
+			//先检测员工表中是否有相同的code，如果有则抛出错误信息
+			String sql="select count(1) as money from employee where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", employee.getName());
+			Integer emp_count=NumberUtils.BigIntegerToInteger(
+					employeeService.queryNaviSql(sql, params).get(0).get("money"));
+			if(emp_count>0){
+				errormessage="添加员工失败，已有相同的员工编号...";
+				return ERROR;
+			}
+			
 			employeeService.add(employee);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -220,6 +231,22 @@ public class EmployeeAction extends ActionSupport {
 	 */
 	public String editEmployee(){
 		try {
+			//先检测原员工表中的code是否和现在一样，不一样则需要检测
+			String hql="From Employee where id="+id;
+			Employee tmpEmployee=employeeService.get(hql, null);
+			if(!tmpEmployee.getName().equals(employee.getName())){
+				//先检测员工表中是否有相同的code，如果有则抛出错误信息
+				String sql="select count(1) as money from employee where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", employee.getName());
+				Integer emp_count=NumberUtils.BigIntegerToInteger(
+						employeeService.queryNaviSql(sql, params).get(0).get("money"));
+				if(emp_count>0){
+					errormessage="修改员工失败，已有相同的员工编号...";
+					return ERROR;
+				}
+			}
+			
 			employeeService.edit(employee);
 		} catch (Exception e) {
 			logger.error(e.getMessage());

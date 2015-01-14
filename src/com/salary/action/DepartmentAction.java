@@ -152,6 +152,17 @@ public class DepartmentAction extends ActionSupport {
 	 */
 	public String addDepartment(){
 		try {
+			//先检测在表中是否有重名的部门信息
+			String sql="select count(1) as money from department where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", department.getName());
+			Integer dept_count=NumberUtils.BigIntegerToInteger(
+					departmentService.queryNaviSql(sql, params).get(0).get("money"));
+			if(dept_count>0){
+				errormessage="添加部门失败，已有相同名称的部门信息...";
+				return ERROR;
+			}
+			
 			departmentService.add(department);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -168,6 +179,22 @@ public class DepartmentAction extends ActionSupport {
 	 */
 	public String editDepartment(){
 		try {
+			//先检测原部门名称和现在的部门名称是否相同，如果相同，则需要检测是否有同名的部门
+			String hql="From Department where id="+department.getId();
+			Department tmpDepartment=departmentService.get(hql, null);
+			if(!tmpDepartment.getName().equals(department.getName())){
+				//先检测在表中是否有重名的部门信息
+				String sql="select count(1) as money from department where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", department.getName());
+				Integer dept_count=NumberUtils.BigIntegerToInteger(
+						departmentService.queryNaviSql(sql, params).get(0).get("money"));
+				if(dept_count>0){
+					errormessage="修改部门失败，已有相同名称的部门信息...";
+					return ERROR;
+				}
+			}
+			
 			departmentService.edit(department);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -185,7 +212,7 @@ public class DepartmentAction extends ActionSupport {
 	public String delDepartment(){
 		try {
 			//先检测该部门是否有人员在引用
-			String sql="select count(1) from employee where department_id="+id;
+			String sql="select count(1) as money from employee where department_id="+id;
 			Integer dept_count=0;
 			dept_count=NumberUtils.BigIntegerToInteger(departmentService.queryNaviSql(sql, null).get(0).get("money"));
 			

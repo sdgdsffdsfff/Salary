@@ -172,33 +172,7 @@ public class testAction extends ActionSupport {
 	/**
 	 * 测试奖金查询语句
 	 */
-	@SuppressWarnings("unchecked")
 	public String callfnGetsalarysql(){
-		try {
-			String dynmaicsql=crudDaoimpl.callfnGetsalarysql(id);
-			System.out.println(dynmaicsql);
-			
-			List<Map<String,Object>> list=crudDaoimpl.queryNaviSql(dynmaicsql, null);
-			
-			System.out.println(list.size());
-			
-			StringBuffer sbf=new StringBuffer(500000);
-			
-			for(Map<String,Object> map:list){
-				if(map!=null && !map.isEmpty()){
-					for(String key:map.keySet()){
-						sbf.append(key+":"+map.get(key)+"  ");
-					}
-				}
-				sbf.append("\r\n");
-			}
-			
-			System.out.println(sbf.toString());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		return SUCCESS;
 	}
 	

@@ -80,4 +80,31 @@ public class SalaryUtils {
 	public static Integer parseInteger(Object obj){
 		return Integer.parseInt((String) obj);
 	}
+	
+	
+	/**
+	 * 将奖金项目公式的动态sql语句中提取出salary_item_id
+	 * @param dynmaicsql	奖金项目公式的动态sql
+	 * @param split_str		需要将sql语句分段的字符串':account_id,:emp_id,'
+	 * @return				以逗号分隔的奖金项目id
+	 */
+	public static String parseDynmaicsqlToSalaryItemID(String dynmaicsql,String split_str){
+		StringBuffer strBuffer=new StringBuffer(1000);
+		String[] sparr=dynmaicsql.split(split_str);
+		int index=0;
+		for(String sp:sparr){
+			System.out.println("sp:"+sp);
+			index=sp.indexOf(")");
+			if(index==-1){
+				index=0;
+			}
+			
+			String substr=new String(sp.substring(0, index));
+			if(substr!=null && substr.length()>0){
+				strBuffer.append(substr+",");
+			}
+		}
+		
+		return strBuffer.toString();
+	}
 }

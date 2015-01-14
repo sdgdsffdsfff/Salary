@@ -71,7 +71,7 @@
 						style="width:200px;" >
 						<option value='fnGetSalaryMoney(:account_id,:emp_id,:data)'>统计个人</option>
 						<option value='fnGetDepartmentMoney(:account_id,:emp_id,:data)'>统计部门</option>
-						<option value='fnGetItemMoney(:account_id,:data)'>统计全部</option>
+						<option value='fnGetItemMoney(:account_id,:emp_id,:data)'>统计全部</option>
 				</select>
 				<select id="sel_id" class="easyui-combobox"
 						style="width:200px;" >
@@ -79,14 +79,12 @@
 						<option value='<s:property value="id" />'><s:property value="name" /></option>
 					</s:iterator>
 				</select>
+				<a onclick="addFunction()" class="easyui-linkbutton" 
+					data-options="iconCls:'icon-ok'" >添加公式</a>
 				</td>
 			</tr>
 			<tr>
-			<td align="center">
-				<a onclick="addFunction()" class="easyui-linkbutton" 
-					data-options="iconCls:'icon-ok'" >添加公式</a>
-			</td>
-			<td align="center">
+			<td colspan="2" align="center">
 				<a onclick="submit()" class="easyui-linkbutton" 
 					data-options="iconCls:'icon-ok'" >保存</a>
 			</td>

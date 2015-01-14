@@ -11,6 +11,7 @@ import net.sf.json.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Salary_item;
 import com.salary.service.Salary_itemService;
+import com.salary.util.NumberUtils;
 
 /**
  * 奖金项目action
@@ -139,8 +140,25 @@ public class SalaryitemAction extends ActionSupport{
 	 * @return
 	 */
 	public String addSalaryitem(){
-		salary_item.setIsdel(0);
-		salary_itemService.add(salary_item);
+		try {
+			//先检测奖金项目名称是否有重复
+			String sql="select count(1) as money from salary_item where name=:name";
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("name", salary_item.getName());
+			Integer sal_count=NumberUtils.BigIntegerToInteger(
+					salary_itemService.queryNaviSql(sql, params).get(0).get("money"));
+			if(sal_count>0){
+				errormessage="添加奖金项目失败，已有相同的奖金项目名称...";
+				return ERROR;
+			}
+			
+			salary_item.setIsdel(0);
+			salary_itemService.add(salary_item);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -150,7 +168,29 @@ public class SalaryitemAction extends ActionSupport{
 	 * @return
 	 */
 	public String editSalaryitem(){
-		salary_itemService.edit(salary_item);
+		try {
+			//先读取原奖金项目的名称，查看是否和现在一致，如果不一致，则需要检测在奖金项目表中是否有重名
+			String hql="From Salary_item where id="+salary_item.getId();
+			Salary_item tmpSalary_item=salary_itemService.get(hql, null);
+			if(!tmpSalary_item.getName().equals(salary_item.getName())){
+				//先检测奖金项目名称是否有重复
+				String sql="select count(1) as money from salary_item where name=:name";
+				Map<String,Object> params=new HashMap<String,Object>();
+				params.put("name", salary_item.getName());
+				Integer sal_count=NumberUtils.BigIntegerToInteger(
+						salary_itemService.queryNaviSql(sql, params).get(0).get("money"));
+				if(sal_count>0){
+					errormessage="修改奖金项目失败，已有相同的奖金项目名称...";
+					return ERROR;
+				}
+			}
+			
+			salary_itemService.edit(salary_item);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -160,10 +200,36 @@ public class SalaryitemAction extends ActionSupport{
 	 * @return
 	 */
 	public String delSalaryitem(){
-		String hql="From Salary_item where id="+id;
-		salary_item=salary_itemService.get(hql, null);
-		salary_item.setIsdel(1);
-		salary_itemService.edit(salary_item);
+		try {
+			//删除奖金项目之前，需要检测奖金项目公式是否有引用此奖金项目id
+			//统计出包含奖金项目id的数量
+			String sql="select count(1) as money from salary_item_expression ";
+			sql+=" where 0<INSTR(dynmaicsql,':account_id,:emp_id,"+id+"')";
+			Integer sal_count=0;
+			sal_count=NumberUtils.BigIntegerToInteger(
+					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
+			if(sal_count>0){
+				errormessage="删除奖金项目失败,该奖金项目已经在使用中...";
+				return ERROR;
+			}
+			
+			sql="select count(1) as money from salary_item_expression where salary_item_id="+id;
+			sal_count=NumberUtils.BigIntegerToInteger(
+					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
+			if(sal_count>0){
+				errormessage="删除奖金项目失败,该奖金项目已经在使用中...";
+				return ERROR;
+			}
+			
+			String hql="From Salary_item where id="+id;
+			salary_item=salary_itemService.get(hql, null);
+			salary_item.setIsdel(1);
+			salary_itemService.edit(salary_item);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
