@@ -3,6 +3,7 @@ package com.salary.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.salary.dao.AccountDaoImpl;
 import com.salary.dao.EmployeeDaoImpl;
@@ -13,6 +14,7 @@ import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.test.testCallable;
+import com.salary.util.NumberUtils;
 
 /**
  * 奖金明细service
@@ -88,53 +90,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		Date daystart=account.getDaystart();
 		Date dayend=account.getDayend();
 		
-		
-		if(listemployee!=null && !listemployee.isEmpty()){
-			int listemployeesize=listemployee.size();
-			int i=0;
-			
-			//设置分值
-			for(i=0;i<listemployeesize;i++){
-				Employee employee=listemployee.get(i);
-				salary_detailDaoimpl.callprSetsalarydetail(
-						account.getId(), 
-						employee.getId(),
-						2,
-						BigDecimal.valueOf(Math.ceil(testCallable.randMoney(employee.getCode(),daystart,dayend)*10)));
-			}
-			
-			
-			//设置工作量
-			for(i=0;i<listemployeesize;i++){
-				Employee employee=listemployee.get(i);
-				salary_detailDaoimpl.callprSetsalarydetail(
-						account.getId(), 
-						employee.getId(),
-						4, 
-						BigDecimal.valueOf(Math.ceil(testCallable.randMoney(employee.getCode(),daystart,dayend)*100)));
-			}
-			
-			//设置服务费收费
-			for(i=0;i<listemployeesize;i++){
-				Employee employee=listemployee.get(i);
-				salary_detailDaoimpl.callprSetsalarydetail(
-						account.getId(), 
-						employee.getId(),
-						6, 
-						BigDecimal.valueOf(Math.ceil(testCallable.randMoney(employee.getCode(),daystart,dayend)*1000)));
-			}
-			
-			//设置二次销售
-			for(i=0;i<listemployeesize;i++){
-				Employee employee=listemployee.get(i);
-				salary_detailDaoimpl.callprSetsalarydetail(
-						account.getId(), 
-						employee.getId(),
-						8, 
-						BigDecimal.valueOf(Math.ceil(testCallable.randMoney(employee.getCode(),daystart,dayend)*1000)));
-			}
-			
-		}
+	
 		
 	}
 	
@@ -145,6 +101,17 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	 * @return				奖金项目明细表sql语句
 	 */
 	public String GetfnGetsalarysql(int account_id){
+		
+		//查找quick_sql表中，是否有相应的sql语句
+		String sql="select dynmaicsql,status from quick_sql where name='GetfnGetsalarysql'";
+		List<Map<String,Object>> listquick_sql=salary_itemDaoimpl.queryNaviSql(sql, null);
+		if(listquick_sql!=null && listquick_sql.size()>0){
+			if(listquick_sql.get(0).get("status").toString().equals("0")){
+				System.out.println("GetfnGetsalarysql -->使用了快速sql...");
+				return listquick_sql.get(0).get("dynmaicsql").toString();
+			}
+		}
+		
 		//存储外层sql
 		StringBuffer sqlBuffer=new StringBuffer(1000);
 		sqlBuffer.append("select emp.id as empid,emp.name as empname,emp.code,dept.name as deptname,");
@@ -174,6 +141,11 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		sqlBuffer2.append(" dept.name order by deptname,empname ");
 		
 		sqlBuffer.append(sqlBuffer2);
+		
+		String dynmaicsql=sqlBuffer.toString();
+		//更新快速SQL表的status为0
+		String update_quick_sql="update quick_sql set status=0,dynmaicsql='"+dynmaicsql+"' where name='GetfnGetsalarysql'";
+		salary_detailDaoimpl.executeSQL(update_quick_sql);
 		
 		return sqlBuffer.toString();
 	}

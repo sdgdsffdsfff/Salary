@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
+import org.apache.tomcat.jni.Time;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Department;
@@ -22,6 +24,8 @@ import com.salary.service.Salary_itemService;
 import com.salary.service.Salary_item_expressionService;
 import com.salary.service.Salary_item_unitService;
 import com.salary.util.SalaryUtils;
+
+import freemarker.template.utility.DateUtil;
 
 /**
  * 工资明细action
@@ -262,6 +266,18 @@ public class SalarydetailAction extends ActionSupport {
 	 */
 	public void initlistSalarydetailPage(){
 		try {
+			//到quick_sql表中查找相应的sql语句，status为0 则可以使用
+			String sql="select dynmaicsql,status from quick_sql where name='initlistSalarydetailPage'";
+			List<Map<String,Object>> listquick_sql=salary_detailService.queryNaviSql(sql, null);
+			if(listquick_sql!=null && listquick_sql.size()>0){
+				//如果状态为0，则可以直接读取出来
+				if(listquick_sql.get(0).get("status").toString().equals("0")){
+					System.out.println("initlistSalarydetailPage 调用了快速sql...");
+					dynmaiccolumn=listquick_sql.get(0).get("dynmaicsql").toString().replaceAll("\"", "\'");
+					return;
+				}
+			}
+			
 			String hql="From Salary_item where isdel=:isdel and isshow=:isshow";
 			Map<String,Object> params=new HashMap<String,Object>();
 			params.put("isdel", 0);
@@ -291,6 +307,11 @@ public class SalarydetailAction extends ActionSupport {
 			dynmaicBuffer.append("]]");
 			dynmaiccolumn=dynmaicBuffer.toString();
 			
+			String dynmaicsql=dynmaiccolumn.replaceAll("'", "\"");
+			System.out.println("Salarydetail dynmaicsql:"+dynmaicsql);
+			String update_quick_sql="update quick_sql set status=0,dynmaicsql='"+dynmaicsql+"' where name='initlistSalarydetailPage'";
+			salary_itemService.executeSQL(update_quick_sql);
+			
 			logger.info("initlistSalarydetailPage-->dynmaiccolumn length:"+dynmaiccolumn.length());
 			System.out.println("initlistSalarydetailPage-->dynmaiccolumn length:"+dynmaiccolumn.length());
 		} catch (Exception e) {
@@ -315,6 +336,7 @@ public class SalarydetailAction extends ActionSupport {
 	 */
 	public String getSalarydetaillist(){
 		try {
+			long start=System.currentTimeMillis();
 			//先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
 			String sql=salary_detailService.GetfnGetsalarysql(account_id);
@@ -324,6 +346,8 @@ public class SalarydetailAction extends ActionSupport {
 			jsonMap.put("rows", listsalarydetail);
 			jsonMap.put("total", listsalarydetail.size());
 			jsonobj=JSONObject.fromObject(jsonMap);
+			long end=System.currentTimeMillis();
+			System.out.println("start:"+start+"     end:"+end+"     how long:"+(end-start));
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();
