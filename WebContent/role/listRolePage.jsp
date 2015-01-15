@@ -93,6 +93,13 @@
 		function del(){
 			var row=$('#tb_role').datagrid('getSelected');
 			if(row){
+				if(row.id==1){
+					$.messager.show({
+						title:'提示',
+						msg:'默认管理员权限不允许删除...',
+					});
+					return;
+				}
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
 						location.href="delRole?id="+row.id+"&randomString="+randomString(10);

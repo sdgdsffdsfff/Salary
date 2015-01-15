@@ -92,6 +92,13 @@
 		function del(){
 			var row=$('#tb_operator').datagrid('getSelected');
 			if(row){
+				if(row.id==1){
+					$.messager.show({
+						title:'提示',
+						msg:'超级管理员不允许删除...',
+					});
+					return;
+				}
 				$.messager.confirm('提示','确认删除吗?',function (isdel){
 					if(isdel){
 						location.href="delOperator?id="+row.id+"&randomString="+randomString(10);

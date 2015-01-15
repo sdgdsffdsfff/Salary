@@ -33,4 +33,21 @@ public class NumberUtils {
 	public static float BigDecimalToFloat(Object obj){
 		return ((BigDecimal) obj).floatValue();
 	}
+	
+	/**
+	 * 将Object对象转换为BigDecimal
+	 * @param obj
+	 * @return
+	 */
+	public static BigDecimal ObjectToBigDecimal(Object obj){
+		
+		if(obj instanceof BigDecimal){
+			return (BigDecimal) obj;
+		}
+		if(obj instanceof BigInteger){
+			return BigDecimal.valueOf(((BigInteger) obj).doubleValue());
+		}
+		
+		return null;
+	}
 }

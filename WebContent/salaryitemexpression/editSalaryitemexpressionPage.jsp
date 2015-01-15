@@ -22,9 +22,10 @@
 				<td>奖金项目:</td>
 				<td>
 				<select class="easyui-combobox" 
-						value='<s:property value="salary_item_expression.salary_item_id" />'
 						name="salary_item_expression.salary_item_id" 
-						style="width:200px;" data-options="required:true,">
+						style="width:200px;" 
+						data-options='required:true,
+						value:<s:property value="salary_item_expression.salary_item_id" />'>
 					<s:iterator value="listsalary_item">
 						<option value='<s:property value="id" />'><s:property value="name" /></option>
 					</s:iterator>

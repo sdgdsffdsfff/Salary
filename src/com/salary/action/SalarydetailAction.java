@@ -23,6 +23,7 @@ import com.salary.service.Salary_detailService;
 import com.salary.service.Salary_itemService;
 import com.salary.service.Salary_item_expressionService;
 import com.salary.service.Salary_item_unitService;
+import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
 
 import freemarker.template.utility.DateUtil;
@@ -396,7 +397,11 @@ public class SalarydetailAction extends ActionSupport {
 					Salary_item_expression salary_item_expression=expressionMap.get(expressionid);
 					String hql_money=salary_item_expression.getDynmaicsql();
 					hql_money=SalaryUtils.parseSQL(hql_money, account_id, employee.getId());
-					BigDecimal money=(BigDecimal) salary_item_expressionService.queryNaviSql(hql_money, null).get(0).get("money");
+					
+					//用来存储sql语句获取到的money值
+					
+					BigDecimal money=NumberUtils.ObjectToBigDecimal(
+							salary_item_expressionService.queryNaviSql(hql_money, null).get(0).get("money"));
 					salary_detailService.callprSetsalarydetail(account_id, employee.getId(), salary_item_expression.getSalary_item_id(), money);
 				}
 			}

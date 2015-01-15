@@ -69,12 +69,13 @@
 			$('#id_json_str').attr('value',effectRow);
 			$('#tb_salarydetail').datagrid('acceptChanges');
 			
-			//如果有值改变了，则今进行提交保存
+			//如果有值改变了，则今进行提交保存,如果为空，则effectRow的值为"[]"
 			if(effectRow.length>2){
 				$.ajax({
 						type:'POST',
 						url:'editSalarydetailFromDatagrid',
 						data:'account_id='+$('#account_id').val()+'&json_str='+effectRow,
+						async:false,
 						success:function(msg){
 							$.messager.show({
 								title:'提示',
@@ -83,11 +84,15 @@
 						}
 				});
 			}
+			
 		}
 		
 		
 		//自动核算
 		function calcSalarydetail(){
+			//保存修改的数据
+			save();
+			//自动核算方法
 			location.href="calcSalarydetail?account_id="+$('#account_id').val();
 		}
 		

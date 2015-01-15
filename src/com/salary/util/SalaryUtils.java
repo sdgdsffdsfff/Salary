@@ -25,7 +25,7 @@ public class SalaryUtils {
 	 */
 	public static String parseSQL(String sql,int account_id,int emp_id){
 		return "select ifnull("+sql.replace(":account_id", Integer.toString(account_id))
-					.replace(":emp_id", Integer.toString(emp_id))+",0) as money";
+					.replace(":emp_id", Integer.toString(emp_id))+",0.0) as money";
 	}
 	
 	
