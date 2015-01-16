@@ -143,4 +143,15 @@ public class CRUDService <T>{
 	public void executeSQL(String sql){
 		crudDaoimpl.executeSQL(sql);
 	}
+	
+	/**
+	 * 根据员工CODE来设置该员工的奖金明细
+	 * @param account_id		奖金期间id
+	 * @param emp_code			员工code
+	 * @param salary_item_id	奖金项目id
+	 * @param money				奖金金额
+	 */
+	public void callprSetsalarydetailByEmpCode(int account_id,String emp_code,int salary_item_id,BigDecimal money){
+		crudDaoimpl.callprSetsalarydetailByEmpCode(account_id, emp_code, salary_item_id, money);
+	}
 }

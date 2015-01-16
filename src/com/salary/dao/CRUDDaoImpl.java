@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -303,5 +301,45 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 		}
 	}
 	
+	
+	/**
+	 * 根据员工CODE来设置该员工的奖金明细
+	 * @param account_id		奖金期间id
+	 * @param emp_code			员工code
+	 * @param salary_item_id	奖金项目id
+	 * @param money				奖金金额
+	 */
+	@SuppressWarnings("deprecation")
+	public void callprSetsalarydetailByEmpCode(int account_id,String emp_code,int salary_item_id,BigDecimal money){
+		Session session = sessionFactory.openSession();
+		Connection conn=null;
+		CallableStatement stmt=null;
+		try {
+			
+			Transaction tr = session.beginTransaction();
+			conn=session.connection();
+			String procedure="{call prSetSalaryDetailByEmpCode(?,?,?,?)}";
+			stmt=conn.prepareCall(procedure);
+			stmt.setInt(1, account_id);
+			stmt.setString(2, emp_code);
+			stmt.setInt(3, salary_item_id);
+			stmt.setBigDecimal(4, money);
+			stmt.execute();
+			tr.commit();
+			
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}finally{
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			session.clear();
+			session.close();
+		}
+	}
 	
 }

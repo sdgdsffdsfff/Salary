@@ -13,7 +13,7 @@ import com.salary.entity.Account;
 import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
-import com.salary.test.testCallable;
+import com.salary.sync.crm.CRMDaoImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -90,7 +90,16 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		Date daystart=account.getDaystart();
 		Date dayend=account.getDayend();
 		
-	
+		//用来读取CRM的数据信息
+		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
+		//初始化工作量
+		List<Map<String,Object>> listSalarydetail=crmDaoimpl.getGzl(account);
+		Salary_detail salary_detail=new Salary_detail();
+		salary_detail.setAccount_id(account.getId());
+		salary_detail.setSalary_item_id(4);
+
+		this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+		System.out.println("初始化工作量:"+listSalarydetail.size());
 		
 	}
 	
@@ -136,7 +145,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		sqlBuffer2.deleteCharAt(sqlBuffer2.lastIndexOf(","));
 		
 		sqlBuffer.append(" from (");
-		sqlBuffer2.append(" from salary_detail where account_id="+account_id+" ) sal left join employee emp on emp.id=sal.emp_id ");
+		sqlBuffer2.append(" from salary_detail where account_id=:account_id ) sal left join employee emp on emp.id=sal.emp_id ");
 		sqlBuffer2.append(" left join department dept on emp.department_id=dept.id group by emp.name,emp.code, ");
 		sqlBuffer2.append(" dept.name order by deptname,empname ");
 		
@@ -153,6 +162,26 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	
 	
 	
-	
+	/**
+	 * 根据CRM/A6数据库查询出来的信息来写入到账期数据中  
+	 * @param salary_detail		需要传入account_id,salary_item_id
+	 * @param mapSalarydetail	List<Map<EMP_CODE:员工编号,MONEY:工作量>>
+	 */
+	public void setSalarydetailFromMap(Salary_detail salary_detail,List<Map<String,Object>> listSalarydetail){
+		
+		System.out.println("setSalarydetailFromMap-->account_id:"+salary_detail.getAccount_id()+
+							"    salary_item_id:"+salary_detail.getSalary_item_id());
+		for(Map<String,Object> mapSalary:listSalarydetail){
+			System.out.println("setSalarydetailFromMap-->for loop:"+
+						mapSalary.get("EMP_CODE").toString()+"    MONEY:"+mapSalary.get("MONEY"));
+			salary_detailDaoimpl.callprSetsalarydetailByEmpCode(
+					salary_detail.getAccount_id(), 
+					mapSalary.get("EMP_CODE").toString(), 
+					salary_detail.getSalary_item_id(), 
+					NumberUtils.ObjectToBigDecimal(mapSalary.get("MONEY")));
+		}
+		
+		
+	}
 	
 }

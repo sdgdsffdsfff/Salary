@@ -267,6 +267,8 @@ public class SalarydetailAction extends ActionSupport {
 	 */
 	public void initlistSalarydetailPage(){
 		try {
+			String hql="From Account where id="+account_id;
+			account=accountService.get(hql, null);
 			//到quick_sql表中查找相应的sql语句，status为0 则可以使用
 			String sql="select dynmaicsql,status from quick_sql where name='initlistSalarydetailPage'";
 			List<Map<String,Object>> listquick_sql=salary_detailService.queryNaviSql(sql, null);
@@ -279,7 +281,7 @@ public class SalarydetailAction extends ActionSupport {
 				}
 			}
 			
-			String hql="From Salary_item where isdel=:isdel and isshow=:isshow";
+			hql="From Salary_item where isdel=:isdel and isshow=:isshow";
 			Map<String,Object> params=new HashMap<String,Object>();
 			params.put("isdel", 0);
 			params.put("isshow", 1);
@@ -303,8 +305,6 @@ public class SalarydetailAction extends ActionSupport {
 				}
 			}
 			
-			hql="From Account where id="+account_id;
-			account=accountService.get(hql, null);
 			dynmaicBuffer.append("]]");
 			dynmaiccolumn=dynmaicBuffer.toString();
 			
@@ -340,8 +340,12 @@ public class SalarydetailAction extends ActionSupport {
 			long start=System.currentTimeMillis();
 			//先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
+			
+			//读取quick_sql表中的预存sql语句，如果有，则直接返回动态sql语句
 			String sql=salary_detailService.GetfnGetsalarysql(account_id);
-			List<Map<String,Object>> listsalarydetail=salary_detailService.queryNaviSql(sql, null);
+			Map<String,Object> params=new HashMap<String,Object>();
+			params.put("account_id", account_id);
+			List<Map<String,Object>> listsalarydetail=salary_detailService.queryNaviSql(sql, params);
 			
 			Map<String,Object> jsonMap=new HashMap<String,Object>();
 			jsonMap.put("rows", listsalarydetail);
