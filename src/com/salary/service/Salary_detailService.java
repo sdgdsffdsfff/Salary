@@ -1,7 +1,7 @@
 package com.salary.service;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import com.salary.dao.EmployeeDaoImpl;
 import com.salary.dao.Salary_detailDaoImpl;
 import com.salary.dao.Salary_itemDaoImpl;
 import com.salary.entity.Account;
-import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.sync.crm.CRMDaoImpl;
@@ -80,26 +79,36 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		//注意:由于需要调用公司内部数据，因此以下代码是手工写死的
 		
 		
-		//首先初始化本期间奖金信息
+		//首先初始化本期间奖金信息,奖金期间信息
 		salary_detailDaoimpl.callprInitsalarydetail(account.getId());
-		
-		//先读取出人员信息
-		String hql_emp="From Employee where isdel=0";
-		List<Employee> listemployee=employeeDaoimpl.query(hql_emp, null);
-		//读取出账套的时间
-		Date daystart=account.getDaystart();
-		Date dayend=account.getDayend();
+		Salary_detail salary_detail=new Salary_detail();
+		salary_detail.setAccount_id(account.getId());
 		
 		//用来读取CRM的数据信息
 		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
-		//初始化工作量
+		
+		
+		//初始化CRM工作量
 		List<Map<String,Object>> listSalarydetail=crmDaoimpl.getGzl(account);
-		Salary_detail salary_detail=new Salary_detail();
-		salary_detail.setAccount_id(account.getId());
-		salary_detail.setSalary_item_id(4);
-
-		this.setSalarydetailFromMap(salary_detail,listSalarydetail);
-		System.out.println("初始化工作量:"+listSalarydetail.size());
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			salary_detail.setSalary_item_id(4);
+			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+			System.out.println("初始化工作量:"+listSalarydetail.size());
+		}
+		
+		
+		//初始化CRM服务费收取户数
+		listSalarydetail=new ArrayList<Map<String,Object>>();
+		listSalarydetail=crmDaoimpl.getFwfhs(account);
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			salary_detail.setSalary_item_id(6);
+			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+			System.out.println("初始化服务费收取户数:"+listSalarydetail.size());
+		}
+		
+		
+		
+		
 		
 	}
 	

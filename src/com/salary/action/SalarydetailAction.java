@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
-import org.apache.tomcat.jni.Time;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Department;
@@ -26,7 +24,6 @@ import com.salary.service.Salary_item_unitService;
 import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
 
-import freemarker.template.utility.DateUtil;
 
 /**
  * 工资明细action
