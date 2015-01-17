@@ -41,6 +41,17 @@
 				</td>
 			</tr>
 			<tr>
+				<td>A6员工编号:</td>
+				<td>
+					<input type="text" class="easyui-textbox" name="employee.a6code"
+					value='<s:property value="employee.a6code" />'
+					data-options="
+					required:true,
+					width:150,
+					validType:'length[1,100]'" />
+				</td>
+			</tr>
+			<tr>
 				<td>部门</td>
 				<td>
 					<select class="easyui-combobox" name="employee.department_id"

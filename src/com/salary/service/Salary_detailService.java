@@ -12,6 +12,7 @@ import com.salary.dao.Salary_itemDaoImpl;
 import com.salary.entity.Account;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
+import com.salary.sync.a6.A6DaoImpl;
 import com.salary.sync.crm.CRMDaoImpl;
 import com.salary.util.NumberUtils;
 
@@ -86,14 +87,15 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		
 		//用来读取CRM的数据信息
 		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
-		
+		//用来读取A6数据的信息
+		A6DaoImpl a6Daoimpl=new A6DaoImpl();
 		
 		//初始化CRM工作量
 		List<Map<String,Object>> listSalarydetail=crmDaoimpl.getGzl(account);
 		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化工作量:"+listSalarydetail.size());
 			salary_detail.setSalary_item_id(4);
 			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
-			System.out.println("初始化工作量:"+listSalarydetail.size());
 		}
 		
 		
@@ -101,13 +103,47 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		listSalarydetail=new ArrayList<Map<String,Object>>();
 		listSalarydetail=crmDaoimpl.getFwfhs(account);
 		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化服务费收取户数:"+listSalarydetail.size());
 			salary_detail.setSalary_item_id(6);
 			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
-			System.out.println("初始化服务费收取户数:"+listSalarydetail.size());
 		}
 		
 		
+		//初始化IT外包
+		listSalarydetail=new ArrayList<Map<String,Object>>();
+		listSalarydetail=a6Daoimpl.getMoneyByMatClassID(account,"325494471094859278");
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化IT外包:"+listSalarydetail.size());
+			salary_detail.setSalary_item_id(7);
+			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+		}
 		
+		//初始化产业化招生
+		listSalarydetail=new ArrayList<Map<String,Object>>();
+		listSalarydetail=a6Daoimpl.getMoneyByMatClassID(account,"174537133500134577");
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化产业化招生:"+listSalarydetail.size());
+			salary_detail.setSalary_item_id(8);
+			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+		}
+		
+		//初始化企业管理软件
+		listSalarydetail=new ArrayList<Map<String,Object>>();
+		listSalarydetail=a6Daoimpl.getMoneyByMatClassID(account,"174537133500134588");
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化企业管理软件:"+listSalarydetail.size());
+			salary_detail.setSalary_item_id(9);
+			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+		}
+		
+		//初始化文本组件
+		listSalarydetail=new ArrayList<Map<String,Object>>();
+		listSalarydetail=a6Daoimpl.getMoneyByMatClassID(account,"174537133500153932");
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化文本组件:"+listSalarydetail.size());
+			salary_detail.setSalary_item_id(10);
+			this.setSalarydetailFromMap(salary_detail,listSalarydetail);
+		}
 		
 		
 	}

@@ -15,6 +15,7 @@
 		<property name="level" />
 		<property name="salary_item_unit_id" />
 		<property name="isdel" />
+		<property name="a6code" />
 		
 	</class>
 </hibernate-mapping>

@@ -51,13 +51,21 @@
 </div>
 <script type="text/javascript">
 	function submit(){
+		
 		var isValid=$('#addAccountForm').form('validate');
 		if(!isValid){
 			$.messager.alert('提示','请输入完整的信息!','warning');
 			return false;
 		}
 		
+		$.messager.progress({
+			title:'提示',
+			msg:'正在初始化CRM/A6数据信息,请稍后...',
+			text:'数据处理中',
+		});
+		
 		$('#addAccountForm').submit();
+		
 	}
 	
 </script>

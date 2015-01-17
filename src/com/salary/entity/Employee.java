@@ -13,6 +13,7 @@ public class Employee {
 	private int level;				//员工级别，0为默认普通员工，1为主管，2为经理
 	private int salary_item_unit_id;//工资项目组件id,用来关联用户的计算公式
 	private int isdel;
+	private String a6code;			//A6系统对应的人员编码
 	
 	
 	public int getId() {
@@ -56,6 +57,13 @@ public class Employee {
 	}
 	public void setIsdel(int isdel) {
 		this.isdel = isdel;
-	}				//是否删除，0为未删除，1为已删除
+	}
+	public String getA6code() {
+		return a6code;
+	}
+	public void setA6code(String a6code) {
+		this.a6code = a6code;
+	}
+	
 	
 }
