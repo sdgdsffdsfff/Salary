@@ -62,6 +62,7 @@
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
+		<a onclick="syncEmployeeFromA6()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">同步A6员工编号</a>
 	</div>
 	
 	<script type="text/javascript">
@@ -71,7 +72,7 @@
 			$('#di_edit').dialog({
 				title:'增加员工信息',
 				width:'350',
-				height:'300',
+				height:'350',
 				href:'addEmployeePage',
 				modal:true,
 			});
@@ -84,7 +85,7 @@
 				$('#di_edit').dialog({
 					title:'修改员工信息',
 					width:'350',
-					height:'300',
+					height:'350',
 					href:'editEmployeePage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
@@ -103,6 +104,11 @@
 			}
 		}
 		
+		
+		//同步A6员工编码
+		function syncEmployeeFromA6(){
+			location.href="syncEmployeeFromA6";
+		}
 	</script>
 </body>
 </html>

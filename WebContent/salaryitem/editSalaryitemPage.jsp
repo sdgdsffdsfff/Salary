@@ -22,7 +22,7 @@
 			<tr>
 				<td>奖金项目名称:</td>
 				<td>
-					<input type="text" class="easyui-textbox" name="salary_item.name" 
+					<input id="salary_item_name" type="text" class="easyui-textbox" name="salary_item.name" 
 					value='<s:property value="salary_item.name" />'
 					data-options="
 					required:true,
@@ -79,6 +79,12 @@
 		var isValid=$('#editSalaryitemForm').form('validate');
 		if(!isValid){
 			$.messager.alert('提示','请输入完整的信息!','warning');
+			return false;
+		}
+		
+		var salary_item_name=$('#salary_item_name').val();
+		if(salary_item_name.indexOf(':')!=-1){
+			$.messager.alert('提示','奖金项目中不允许包含冒号...','warning');
 			return false;
 		}
 		

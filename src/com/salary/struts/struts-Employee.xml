@@ -58,6 +58,10 @@
 		<action name="editEmployee" class="com.salary.action.EmployeeAction" method="editEmployee">
 			<result name="success">/employee/listEmployeePage.jsp</result>
 		</action>
+		<!-- 同步A6员工CODE -->
+		<action name="syncEmployeeFromA6" class="com.salary.action.EmployeeAction" method="syncEmployeeFromA6">
+			<result name="success">/employee/listEmployeePage.jsp</result>
+		</action>
 		
 		
 		

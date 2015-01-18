@@ -314,5 +314,13 @@ public class EmployeeAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	/**
+	 * 同步A6的员工编号
+	 * @return
+	 */
+	public String syncEmployeeFromA6(){
+		employeeService.syncEmployeeFromA6();
+		return SUCCESS;
+	}
 	
 }

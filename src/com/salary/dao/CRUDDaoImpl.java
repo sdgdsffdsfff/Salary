@@ -342,4 +342,46 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 		}
 	}
 	
+	
+	
+	/**
+	 * 根据员工A6CODE来设置该员工的奖金明细
+	 * @param account_id		奖金期间id
+	 * @param emp_code			员工code
+	 * @param salary_item_id	奖金项目id
+	 * @param money				奖金金额
+	 */
+	@SuppressWarnings("deprecation")
+	public void callprSetsalarydetailByEmpCodeA6(int account_id,String emp_codea6,int salary_item_id,BigDecimal money){
+		Session session = sessionFactory.openSession();
+		Connection conn=null;
+		CallableStatement stmt=null;
+		try {
+			
+			Transaction tr = session.beginTransaction();
+			conn=session.connection();
+			String procedure="{call prSetSalaryDetailByEmpCodeA6(?,?,?,?)}";
+			stmt=conn.prepareCall(procedure);
+			stmt.setInt(1, account_id);
+			stmt.setString(2, emp_codea6);
+			stmt.setInt(3, salary_item_id);
+			stmt.setBigDecimal(4, money);
+			stmt.execute();
+			tr.commit();
+			
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}finally{
+			try {
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			session.clear();
+			session.close();
+		}
+	}
+	
 }

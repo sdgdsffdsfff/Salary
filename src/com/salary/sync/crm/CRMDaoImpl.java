@@ -3,9 +3,7 @@ package com.salary.sync.crm;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
-
 import com.salary.dao.CRUDDaoImpl;
 import com.salary.entity.Account;
 import com.salary.util.DateUtils;
@@ -35,6 +33,20 @@ public class CRMDaoImpl extends CRUDDaoImpl<Account>{
 			System.out.println(gzl.get("EMP_CODE")+"  :  "+gzl.get("MONEY"));
 		}
 	}
+	
+	@Test
+	public void test2(){
+		//测试返回CRM的员工信息
+		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
+		
+		List<Map<String,Object>> crmemployeelist=crmDaoimpl.getEmployeelist();
+		for(Map<String,Object> mapEmployee:crmemployeelist){
+			System.out.println(mapEmployee.get("EMP_CODE")+"  :  "+mapEmployee.get("EMP_NAME"));
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * 工作量统计
@@ -90,4 +102,13 @@ public class CRMDaoImpl extends CRUDDaoImpl<Account>{
 		return this.queryNaviSql(sql_fwfhs.toString(), null);
 	}
 	
+	
+	/**
+	 * 返回CRM的所有员工信息
+	 * @return
+	 */
+	public List<Map<String,Object>> getEmployeelist(){
+		String sql="select NAME as EMP_NAME,ENGINEERS_NO as EMP_CODE from SYS_EMPLOYEE";
+		return this.queryNaviSql(sql, null);
+	}
 }
