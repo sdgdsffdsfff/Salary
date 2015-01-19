@@ -63,6 +63,7 @@
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
+		<a onclick="cleanAllAccount()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">清除所有奖金数据</a>
 		<a onclick="listSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">查看奖金明细</a>
 	</div>
 	
@@ -113,6 +114,14 @@
 			}
 		}
 		
+		//清除所有奖金期间
+		function cleanAllAccount(){
+			$.messager.confirm("提示","是否要清空所有的奖金期间?",function(val){
+				if(val==true){
+					location.href="cleanAllAccount";
+				}
+			});
+		}
 		
 	</script>
 </body>

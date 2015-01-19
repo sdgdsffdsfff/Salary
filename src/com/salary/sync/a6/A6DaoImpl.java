@@ -30,10 +30,18 @@ public class A6DaoImpl extends CRUDDaoImpl<Account>{
 		
 		cal.set(2014, 11,31);
 		account.setDayend(cal.getTime());
-		List<Map<String,Object>> listgzl=a6Daoimpl.getZX_FPCXRJMoneyByMatClassID(account,"174537133500153929");
+		//初始化IT外包:325494471094859278
+		//初始化产业化招生:174537133500134577
+		//初始化企业管理软件:174537133500134588
+		//初始化文本组件:174537133500153932
+		
+		//初始化专项奖励：发票查询软件:174537133500153929
+		//初始化专项奖励：企业管理软件:174537133500134588
+		//初始化专项奖励：产业化招生:174537133500134577
+		List<Map<String,Object>> listgzl=a6Daoimpl.getMoneyByMatClassID(account,"325494471094859278");
 		
 		for(Map<String,Object> gzl:listgzl){
-			System.out.println(gzl.get("EMP_CODE")+"  :  "+gzl.get("MONEY"));
+			System.out.println("EMP_CODE:"+gzl.get("EMP_CODE")+"\t cName:"+gzl.get("cName")+"\t MONEY:"+gzl.get("MONEY"));
 		}
 	}
 	

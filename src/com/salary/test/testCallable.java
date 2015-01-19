@@ -67,6 +67,7 @@ public class testCallable {
 		return strBuffer.toString();
 	}
 	
+	@SuppressWarnings("static-access")
 	@Test
 	public void testCut(){
 		String str="fnGetSalaryMoney(:account_id,:emp_id,2)*0.2*fnGetDepartmentMoney(:account_id,:emp_id,2)/fnGetItemMoney(:account_id,:emp_id,2)";

@@ -2,7 +2,6 @@ package com.salary.sync.a6;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.junit.Test;
 
 public class A6Util {
 

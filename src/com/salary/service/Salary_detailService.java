@@ -239,7 +239,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	 */
 	public void setSalarydetailFromCRMMap(Salary_detail salary_detail,List<Map<String,Object>> listSalarydetail){
 		
-		System.out.println("setSalarydetailFromMap-->account_id:"+salary_detail.getAccount_id()+
+		System.out.println("setSalarydetailFromCRMMap-->account_id:"+salary_detail.getAccount_id()+
 							"    salary_item_id:"+salary_detail.getSalary_item_id());
 		for(Map<String,Object> mapSalary:listSalarydetail){
 			System.out.println("setSalarydetailFromMap-->for loop:"+
@@ -263,10 +263,11 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		System.out.println("setSalarydetailFromA6Map-->account_id:"+salary_detail.getAccount_id()+
 							"    salary_item_id:"+salary_detail.getSalary_item_id());
 		for(Map<String,Object> mapSalary:listSalarydetail){
-			System.out.println("setSalarydetailFromMap-->for loop:"+
-						mapSalary.get("EMP_CODE").toString()+"   "+
-						mapSalary.get("cName").toString()+
-						"    MONEY:"+mapSalary.get("MONEY"));
+			System.out.println(
+					"EMP_CODE:"+mapSalary.get("EMP_CODE")+
+					"\t cName:"+mapSalary.get("cName")+
+					"\t MONEY:"+mapSalary.get("MONEY"));
+
 			salary_detailDaoimpl.callprSetsalarydetailByEmpCodeA6(
 					salary_detail.getAccount_id(), 
 					mapSalary.get("EMP_CODE").toString(), 

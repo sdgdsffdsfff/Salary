@@ -516,4 +516,21 @@ public class SalarydetailAction extends ActionSupport {
 		
 		return SUCCESS;
 	}
+	
+	
+	/**
+	 * 重新读取CRM/A6数据
+	 * @return
+	 */
+	public String initSalaryDetail(){
+		if(account_id!=null){
+			String hql="From Account where id="+account_id;
+			account=accountService.get(hql, null);
+			salary_detailService.initSalaryDetail(account);
+		}
+		
+		//显示奖金明细页面数据
+		initlistSalarydetailPage();
+		return SUCCESS;
+	}
 }

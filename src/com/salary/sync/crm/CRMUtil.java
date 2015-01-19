@@ -2,7 +2,6 @@ package com.salary.sync.crm;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.junit.Test;
 
 public class CRMUtil {
 

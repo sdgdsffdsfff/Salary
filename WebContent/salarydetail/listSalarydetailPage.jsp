@@ -58,6 +58,7 @@
 		<a onclick="save()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
 		<a onclick="calcSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">自动核算</a>
 		<a onclick="batchSetSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">批量设置</a>
+		<a onclick="initSalaryDetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">重新读取CRM/A6数据</a>
 		
 	</div>
 	
@@ -131,6 +132,7 @@
 			}
 		}
 		
+		//单击表格事件
 		function onClickCell(index, field){
 			if (endEditing()){
 				$('#tb_salarydetail').datagrid('selectRow', index)
@@ -142,11 +144,26 @@
 		//批量设置奖金明细
 		function batchSetSalarydetail(){
 			$('#di_edit').dialog({
-				title:'增加角色信息',
+				title:'批量设置奖金明细',
 				width:'350',
 				height:'250',
 				href:'batchSetSalarydetailPage?account_id='+$('#account_id').val(),
 				modal:true,
+			});
+		}
+		
+		//重新读取CRM/A6数据
+		function initSalaryDetail(){
+			$.messager.confirm("提示","是否要重新读取CRM/A6数据?",function(val){
+				if(val==true){
+					$.messager.progress({
+						title:'提示',
+						msg:'正在初始化CRM/A6数据信息,请稍后...',
+						text:'数据处理中',
+					});
+					
+					location.href="initSalaryDetail?account_id="+$('#account_id').val();
+				}
 			});
 		}
 	</script>

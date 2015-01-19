@@ -56,7 +56,10 @@
 		 <action name="delAccount" class="com.salary.action.AccountAction" method="delAccount">
 		 	<result name="success">/account/listAccountPage.jsp</result>
 		 </action>
-		 
+		 <!-- 清空所有奖金期间 -->
+		 <action name="cleanAllAccount" class="com.salary.action.AccountAction" method="cleanAllAccount">
+		 	<result name="success">/account/listAccountPage.jsp</result>
+		 </action>
 		 
 		 <!-- 奖金期间json数据 -->
 		 <!-- 获取奖金期间列表json数据 -->

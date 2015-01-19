@@ -55,6 +55,10 @@
 		<action name="batchSetSalarydetail" class="com.salary.action.SalarydetailAction" method="batchSetSalarydetail">
 			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
 		</action>
+		<!-- 重新读取CRM/A6数据 -->
+		<action name="initSalaryDetail" class="com.salary.action.SalarydetailAction" method="initSalaryDetail">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
 		
 		
 		<!-- json数据部分 -->
