@@ -20,5 +20,6 @@
     <include file="com/salary/struts/struts-Salaryitem.xml" />
     <include file="com/salary/struts/struts-Salaryitemexpression.xml" />
     <include file="com/salary/struts/struts-Salaryitemunit.xml" />
+    <include file="com/salary/struts/struts-Report.xml" />
     
 </struts>

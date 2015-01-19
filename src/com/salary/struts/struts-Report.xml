@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.devMode" value="true" />
+
+    <package name="Report" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+	    <interceptors>
+	    	<!-- 检测用户的session是否有效 -->
+	    	<interceptor name="commonInterceptor" class="com.salary.interceptor.commonInterceptor" />
+	    	<interceptor-stack name="mydefaultinterceptor">
+	    		<interceptor-ref name="defaultStack" />
+	    		<interceptor-ref name="commonInterceptor" />
+	    	</interceptor-stack>
+	    </interceptors>
+	    <default-interceptor-ref name="mydefaultinterceptor" />
+	    
+	   	<global-results>
+            <result name="input">/login.jsp</result>
+            <result name="none">/common/noAuthor.jsp</result>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
+		
+				
+		<!-- 页面显示部分 -->
+		<!-- 显示自定义报表列表页 -->
+		<action name="listReportPage" class="com.salary.action.ReportAction" method="listReportPage">
+			<result name="success">/report/listReportPage.jsp</result>
+		</action>
+		<!-- 显示添加自定义报表列表页 -->
+		<action name="addReportPage" class="com.salary.action.ReportAction" method="addReportPage">
+			<result name="success">/report/addReportPage.jsp</result>
+		</action>
+		<!-- 显示修改自定义报表列表页 -->
+		<action name="editReportPage" class="com.salary.action.ReportAction" method="editReportPage">
+			<result name="success">/report/editReportPage.jsp</result>
+		</action>
+		<!-- 显示自定义'报表查询页' -->
+		<action name="queryReportPage" class="com.salary.action.ReportAction" method="queryReportPage">
+			<result name="success">/report/queryReportPage.jsp</result>
+		</action>
+		
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 添加自定义报表 -->
+		<action name="addReport" class="com.salary.action.ReportAction" method="addReport">
+			<result name="success">/report/listReportPage.jsp</result>
+		</action>
+		<!-- 添加自定义报表 -->
+		<action name="editReport" class="com.salary.action.ReportAction" method="editReport">
+			<result name="success">/report/listReportPage.jsp</result>
+		</action>
+		<!-- 添加自定义报表 -->
+		<action name="delReport" class="com.salary.action.ReportAction" method="delReport">
+			<result name="success">/report/listReportPage.jsp</result>
+		</action>
+		
+		
+		
+		
+		<!--json数据部分 -->
+		<!-- 获取自定义报表列表json数据 -->
+		<action name="getReportlist" class="com.salary.action.ReportAction" method="getReportlist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		<!--获取自定义'报表查询'json数据-->
+		<action name="queryReportlist" class="com.salary.action.ReportAction" method="queryReportlist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+    </package>
+</struts>

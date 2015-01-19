@@ -27,7 +27,7 @@ public class CRMDaoImpl extends CRUDDaoImpl<Account>{
 		
 		cal.set(2014, 11,31);
 		account.setDayend(cal.getTime());
-		List<Map<String,Object>> listgzl=crmDaoimpl.getFwfhs(account);
+		List<Map<String,Object>> listgzl=crmDaoimpl.getGzl(account);
 		
 		for(Map<String,Object> gzl:listgzl){
 			System.out.println(gzl.get("EMP_CODE")+"  :  "+gzl.get("MONEY"));

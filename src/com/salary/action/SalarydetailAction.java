@@ -334,7 +334,6 @@ public class SalarydetailAction extends ActionSupport {
 	 */
 	public String getSalarydetaillist(){
 		try {
-			long start=System.currentTimeMillis();
 			//先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
 			
@@ -348,8 +347,6 @@ public class SalarydetailAction extends ActionSupport {
 			jsonMap.put("rows", listsalarydetail);
 			jsonMap.put("total", listsalarydetail.size());
 			jsonobj=JSONObject.fromObject(jsonMap);
-			long end=System.currentTimeMillis();
-			System.out.println("start:"+start+"     end:"+end+"     how long:"+(end-start));
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();
