@@ -20,6 +20,7 @@
                 title:'奖金明细查询-&gt奖金期间:'+$('#account_section').val(), 
                 iconCls:'icon-tip', 
                 singleSelect:true,
+                height:600,
                 //onDblClickRow:edit,
                 nowrap: true, 
                 autoRowHeight: false, 

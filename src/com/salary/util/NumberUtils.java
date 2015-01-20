@@ -56,6 +56,9 @@ public class NumberUtils {
 		if(obj instanceof BigInteger){
 			return BigDecimal.valueOf(((BigInteger) obj).doubleValue());
 		}
+		if(obj instanceof Integer){
+			return BigDecimal.valueOf(((Integer) obj).doubleValue());
+		}
 		
 		return BigDecimal.valueOf(0.0);
 	}
