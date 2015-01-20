@@ -70,7 +70,7 @@
 					<li><a class="easyui-linkbutton" href="javascript:functionUpdate();" data-options="plain:true,width:100" >手动调整</a></li>
 				</ul>
 			</div>
-			<div title="业务处理" data-options="iconCls:'icon-search'">
+			<div title="业务处理" data-options="iconCls:'icon-ok'">
 				<ul>
 					<li>
 						<a class="easyui-linkbutton" 
@@ -79,10 +79,22 @@
 					</li>
 					<li><a class="easyui-linkbutton" href="javascript:functionUpdate();" data-options="plain:true,width:100" >奖金项目录入</a></li>
 					<li><a class="easyui-linkbutton" href="javascript:functionUpdate();" data-options="plain:true,width:100" >自动核算</a></li>
+					
+					<!-- 自定义报表做成了另一个模块
 					<li>
 						<a class="easyui-linkbutton" 
 						href="javascript:addTab('tab_listReportPage','自定义报表','listReportPage');" 
 						data-options="plain:true,width:100" >自定义报表</a>
+					</li>
+					 -->
+				</ul>
+			</div>
+			<div title="自定义报表" data-options="iconCls:'icon-search'">
+				<ul>
+					<li>
+						<a class="easyui-linkbutton" 
+						href="javascript:addTab('tab_listReportPage','自定义报表','listReportPage');" 
+						data-options="plain:true,width:100" >查询</a>
 					</li>
 				</ul>
 			</div>

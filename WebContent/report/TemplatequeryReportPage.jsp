@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>自定义报表查询</title>
+<title>自定义报表查询模板</title>
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
 	<script type="text/javascript" src="./easyui/jquery.min.js"></script>
@@ -17,7 +17,7 @@
     <script type="text/javascript">
         $(function(){ 
             $('#tb_report').datagrid({ 
-                title:'自定义报表查询', 
+                title:'自定义报表查询模板', 
                 iconCls:'icon-tip', 
                 singleSelect:true,
                 nowrap: true, 
