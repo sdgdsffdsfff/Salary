@@ -31,6 +31,7 @@
                 columns:<s:property value="dynmaiccolumn" />, 
                 rownumbers:true,  //行号
                 toolbar:'#tbar',
+                showFooter:true,
                 queryParams:{
                 	account_id:$('#account_id').val(),
                 },
@@ -92,6 +93,11 @@
 		
 		//自动核算
 		function calcSalarydetail(){
+			$.messager.progress({
+				title:'提示',
+				msg:'正在核算奖金数据信息,请稍后...',
+				text:'数据处理中',
+			});
 			//保存修改的数据
 			save();
 			//自动核算方法

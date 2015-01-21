@@ -21,6 +21,7 @@ import com.salary.service.Salary_detailService;
 import com.salary.service.Salary_itemService;
 import com.salary.service.Salary_item_expressionService;
 import com.salary.service.Salary_item_unitService;
+import com.salary.util.JsonUtils;
 import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
 
@@ -344,9 +345,38 @@ public class SalarydetailAction extends ActionSupport {
 			List<Map<String,Object>> listsalarydetail=salary_detailService.queryNaviSql(sql, params);
 			
 			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			
+			
+			//页脚的合计，计算
+			float gzljl=0,fwfjl=0,ecxsjl=0,zxjlhj=0,ecxshj=0,jjhj=0;
+			
+			for(Map<String,Object> mapsalarydetail:listsalarydetail){
+				gzljl+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("工作量奖励"));
+				fwfjl+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("服务费奖励"));
+				ecxsjl+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("二次销售奖励"));
+				zxjlhj+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("专项奖励合计"));
+				ecxshj+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("二次销售合计"));
+				jjhj+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("奖金合计"));
+			}
+			
+			String json_footer="["+JsonUtils.jsonConvert(
+					new String[]{"工作量奖励","服务费奖励","二次销售奖励","专项奖励合计","二次销售合计","奖金合计"}, 
+					new Object[]{
+							gzljl,
+							fwfjl,
+							ecxsjl,
+							zxjlhj,
+							ecxshj,
+							jjhj}
+			);
+			
+			json_footer=json_footer.substring(0, json_footer.length()-1)+"]";
+			System.out.println(json_footer);
+			
 			jsonMap.put("rows", listsalarydetail);
 			jsonMap.put("total", listsalarydetail.size());
 			jsonobj=JSONObject.fromObject(jsonMap);
+			jsonobj.put("footer", json_footer);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();
