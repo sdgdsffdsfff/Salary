@@ -15,7 +15,13 @@ public class A6DaoImpl extends CRUDDaoImpl<Account>{
 	
 	@Test
 	public void test1(){
-		
+		A6DaoImpl a6Daoimpl=new A6DaoImpl();
+		List<Map<String,Object>> listemp=a6Daoimpl.getEmployeelist();
+		for(Map<String,Object> mapEmployee:listemp){
+			System.out.println(
+					"EMP_NAME:"+mapEmployee.get("EMP_NAME")+
+					"\t MONEY:"+mapEmployee.get("EMP_CODE"));
+		}
 	}
 	
 	/**

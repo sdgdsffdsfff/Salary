@@ -22,9 +22,6 @@ public class NumberUtils {
 	 * @return
 	 */
 	public static Integer BigIntegerToInteger(Object obj){
-		if(obj==null){
-			return 0;
-		}
 		return ((BigInteger) obj).intValue();
 	}
 	
@@ -34,9 +31,6 @@ public class NumberUtils {
 	 * @return
 	 */
 	public static float BigDecimalToFloat(Object obj){
-		if(obj==null){
-			return 0;
-		}
 		return ((BigDecimal) obj).floatValue();
 	}
 	
@@ -60,6 +54,6 @@ public class NumberUtils {
 			return BigDecimal.valueOf(((Integer) obj).doubleValue());
 		}
 		
-		return BigDecimal.valueOf(0.0);
+		return null;
 	}
 }

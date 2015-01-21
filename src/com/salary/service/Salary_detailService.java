@@ -87,26 +87,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		Salary_detail salary_detail=new Salary_detail();
 		salary_detail.setAccount_id(account.getId());
 		
-		//用来读取CRM的数据信息
-		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
-		
-		//初始化CRM工作量
-		List<Map<String,Object>> listSalarydetail=crmDaoimpl.getGzl(account);
-		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
-			System.out.println("初始化工作量:"+listSalarydetail.size());
-			salary_detail.setSalary_item_id(4);
-			this.setSalarydetailFromCRMMap(salary_detail,listSalarydetail);
-		}
-		
-		
-		//初始化CRM服务费收取户数
-		listSalarydetail=new ArrayList<Map<String,Object>>();
-		listSalarydetail=crmDaoimpl.getFwfhs(account);
-		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
-			System.out.println("初始化服务费收取户数:"+listSalarydetail.size());
-			salary_detail.setSalary_item_id(6);
-			this.setSalarydetailFromCRMMap(salary_detail,listSalarydetail);
-		}
+		List<Map<String,Object>> listSalarydetail=new ArrayList<Map<String,Object>>();
 		
 		
 		//用来读取A6数据的信息并进行动态设置
@@ -132,7 +113,26 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		}
 		
 
+		//用来读取CRM的数据信息
+		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
 		
+		//初始化CRM工作量
+		listSalarydetail=crmDaoimpl.getGzl(account);
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化工作量:"+listSalarydetail.size());
+			salary_detail.setSalary_item_id(4);
+			this.setSalarydetailFromCRMMap(salary_detail,listSalarydetail);
+		}
+		
+		
+		//初始化CRM服务费收取户数
+		listSalarydetail=new ArrayList<Map<String,Object>>();
+		listSalarydetail=crmDaoimpl.getFwfhs(account);
+		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+			System.out.println("初始化服务费收取户数:"+listSalarydetail.size());
+			salary_detail.setSalary_item_id(6);
+			this.setSalarydetailFromCRMMap(salary_detail,listSalarydetail);
+		}
 	}
 	
 	
@@ -204,7 +204,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		System.out.println("setSalarydetailFromCRMMap-->account_id:"+salary_detail.getAccount_id()+
 							"    salary_item_id:"+salary_detail.getSalary_item_id());
 		for(Map<String,Object> mapSalary:listSalarydetail){
-			System.out.println("setSalarydetailFromMap-->for loop:"+
+			System.out.println("setSalarydetailFromCRMMap-->for loop:"+
 						mapSalary.get("EMP_CODE").toString()+"    MONEY:"+mapSalary.get("MONEY"));
 			salary_detailDaoimpl.callprSetsalarydetailByEmpCode(
 					salary_detail.getAccount_id(), 
