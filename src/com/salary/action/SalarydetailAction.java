@@ -288,7 +288,7 @@ public class SalarydetailAction extends ActionSupport {
 			
 			StringBuffer dynmaicBuffer=new StringBuffer(5000);
 			
-//			//这段代码写死在了页面了
+//			//这段代码写在页面了，使用了冻结窗格
 //			dynmaicBuffer.append("[[{field:'empid',title:'人员编号'},{field:'empname',title:'姓名'},");
 //			dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
 			

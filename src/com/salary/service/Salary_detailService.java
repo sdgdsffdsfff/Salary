@@ -236,4 +236,6 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 					NumberUtils.ObjectToBigDecimal(mapSalary.get("MONEY")));
 		}
 	}
+	
+
 }
