@@ -52,7 +52,16 @@
         });
 
     </script>
-	<table id="tb_salarydetail"></table>
+	<table id="tb_salarydetail">
+		<thead data-options="frozen:true">
+			<tr>
+				<th data-options="field:'empid',width:30">编号</th>
+				<th data-options="field:'empname',width:50">姓名</th>
+				<th data-options="field:'code',width:50">工号</th>
+				<th data-options="field:'deptname',width:80">部门名称</th>
+			</tr>
+		</thead>
+	</table>
 	<div id="di_edit"></div>
 	<div id="tbar" style="padding:5px;">
 		<input id="account_section" type="hidden" value='<s:property value="account.name" />' />
@@ -101,7 +110,7 @@
 			//保存修改的数据
 			save();
 			//自动核算方法
-			location.href="calcSalarydetail?account_id="+$('#account_id').val();
+			location.href="calcSalarydetail?account_id="+$('#account_id').val()+"&randomString="+randomString(10);
 		}
 		
 		
@@ -154,7 +163,7 @@
 				title:'批量设置奖金明细',
 				width:'350',
 				height:'250',
-				href:'batchSetSalarydetailPage?account_id='+$('#account_id').val(),
+				href:'batchSetSalarydetailPage?account_id='+$('#account_id').val()+"&randomString="+randomString(10),
 				modal:true,
 			});
 		}
@@ -169,7 +178,7 @@
 						text:'数据处理中',
 					});
 					
-					location.href="initSalaryDetail?account_id="+$('#account_id').val();
+					location.href="initSalaryDetail?account_id="+$('#account_id').val()+"&randomString="+randomString(10);
 				}
 			});
 		}

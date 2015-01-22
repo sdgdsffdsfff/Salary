@@ -70,7 +70,7 @@
 			$('#di_edit').dialog({
 				title:'增加奖金项目',
 				width:'350',
-				height:'280',
+				height:'300',
 				href:'addSalaryitemPage',
 				modal:true,
 			});
@@ -83,7 +83,7 @@
 				$('#di_edit').dialog({
 					title:'修改奖金项目',
 					width:'350',
-					height:'280',
+					height:'300',
 					href:'editSalaryitemPage?id='+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});

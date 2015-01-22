@@ -14,5 +14,7 @@
 		<property name="isdel" />
 		<property name="isshow" />
 		<property name="isedit" />
+		<property name="issum" />
+		
 	</class>
 </hibernate-mapping>

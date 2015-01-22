@@ -305,7 +305,7 @@ public class AccountAction extends ActionSupport {
 	 * @return
 	 */
 	public String cleanAllAccount(){
-		String sql_del_salary_detail="delete from salary_detail";
+		String sql_del_salary_detail="truncate table salary_detail";
 		String sql_del_account="delete from account";
 		
 		accountService.executeSQL(sql_del_salary_detail);

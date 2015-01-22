@@ -12,6 +12,7 @@ public class Salary_item {
 	private int isdel;		//是否删除，0未删除，1已删除
 	private int isshow;		//是否显示
 	private int isedit;		//是否可以编辑，0不可编辑，1可以编辑
+	private int issum;		//是否合计，1需要合计，0不合计
 	
 	public int getIsshow() {
 		return isshow;
@@ -48,6 +49,12 @@ public class Salary_item {
 	}
 	public void setIsedit(int isedit) {
 		this.isedit = isedit;
+	}
+	public int getIssum() {
+		return issum;
+	}
+	public void setIssum(int issum) {
+		this.issum = issum;
 	}
 	
 	

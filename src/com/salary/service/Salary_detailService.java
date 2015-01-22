@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.salary.dao.AccountDaoImpl;
 import com.salary.dao.EmployeeDaoImpl;
 import com.salary.dao.Salary_detailDaoImpl;
@@ -88,6 +87,10 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		salary_detail.setAccount_id(account.getId());
 		
 		List<Map<String,Object>> listSalarydetail=new ArrayList<Map<String,Object>>();
+		//初始化日期参数
+		Map<String,Object> params=new HashMap<String,Object>();
+		params.put("daystart", DateUtils.formatDate(account.getDaystart()));
+		params.put("dayend", DateUtils.formatDate(account.getDayend()));
 		
 		
 		//用来读取A6数据的信息并进行动态设置
@@ -95,10 +98,6 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		String a6sql="select DYNMAICSQL,COMMENT,SALARY_ITEM_ID from a6_sql where SALARY_ITEM_ID!=0";
 		List<Map<String,Object>> lista6sql=salary_detailDaoimpl.queryNaviSql(a6sql, null);
 		listSalarydetail=new ArrayList<Map<String,Object>>();
-		
-		Map<String,Object> params=new HashMap<String,Object>();
-		params.put("daystart", DateUtils.formatDate(account.getDaystart()));
-		params.put("dayend", DateUtils.formatDate(account.getDayend()));
 		
 		if(lista6sql!=null && !lista6sql.isEmpty()){
 			for(Map<String,Object> a6sqlMap:lista6sql){
@@ -116,23 +115,23 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		//用来读取CRM的数据信息
 		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
 		
-		//初始化CRM工作量
-		listSalarydetail=crmDaoimpl.getGzl(account);
-		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
-			System.out.println("初始化工作量:"+listSalarydetail.size());
-			salary_detail.setSalary_item_id(4);
-			this.setSalarydetailFromCRMMap(salary_detail,listSalarydetail);
-		}
-		
-		
-		//初始化CRM服务费收取户数
+		String crmsql="select DYNMAICSQL,COMMENT,SALARY_ITEM_ID from crm_sql";
+		List<Map<String,Object>> listcrmsql=salary_detailDaoimpl.queryNaviSql(crmsql, null);
 		listSalarydetail=new ArrayList<Map<String,Object>>();
-		listSalarydetail=crmDaoimpl.getFwfhs(account);
-		if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
-			System.out.println("初始化服务费收取户数:"+listSalarydetail.size());
-			salary_detail.setSalary_item_id(6);
-			this.setSalarydetailFromCRMMap(salary_detail,listSalarydetail);
+		
+		if(listcrmsql!=null && !listcrmsql.isEmpty()){
+			for(Map<String,Object> crmsqlMap:listcrmsql){
+				listSalarydetail=crmDaoimpl.queryNaviSql(crmsqlMap.get("DYNMAICSQL").toString(), params);
+				if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
+					System.out.println(crmsqlMap.get("COMMENT")+":"+listSalarydetail.size());
+					salary_detail.setSalary_item_id(Integer.parseInt(crmsqlMap.get("SALARY_ITEM_ID").toString()));
+					this.setSalarydetailFromCRMMap(salary_detail, listSalarydetail);
+				}
+			}
 		}
+		
+		
+		
 	}
 	
 	

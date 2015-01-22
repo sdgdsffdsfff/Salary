@@ -287,8 +287,12 @@ public class SalarydetailAction extends ActionSupport {
 			List<Salary_item> listsalaryitem=salary_itemService.query(hql, params);
 			
 			StringBuffer dynmaicBuffer=new StringBuffer(5000);
-			dynmaicBuffer.append("[[{field:'empid',title:'人员编号'},{field:'empname',title:'姓名'},");
-			dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
+			
+//			//这段代码写死在了页面了
+//			dynmaicBuffer.append("[[{field:'empid',title:'人员编号'},{field:'empname',title:'姓名'},");
+//			dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
+			
+			dynmaicBuffer.append("[[");
 			
 			if(listsalaryitem!=null){
 				for(Salary_item salaryitem:listsalaryitem){
@@ -337,7 +341,6 @@ public class SalarydetailAction extends ActionSupport {
 		try {
 			//先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
-			
 			//读取quick_sql表中的预存sql语句，如果有，则直接返回动态sql语句
 			String sql=salary_detailService.GetfnGetsalarysql(account_id);
 			Map<String,Object> params=new HashMap<String,Object>();
@@ -346,37 +349,40 @@ public class SalarydetailAction extends ActionSupport {
 			
 			Map<String,Object> jsonMap=new HashMap<String,Object>();
 			
-			
-			//页脚的合计，计算
-			float gzljl=0,fwfjl=0,ecxsjl=0,zxjlhj=0,ecxshj=0,jjhj=0;
-			
-			for(Map<String,Object> mapsalarydetail:listsalarydetail){
-				gzljl+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("工作量奖励"));
-				fwfjl+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("服务费奖励"));
-				ecxsjl+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("二次销售奖励"));
-				zxjlhj+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("专项奖励合计"));
-				ecxshj+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("二次销售合计"));
-				jjhj+=NumberUtils.BigDecimalToFloat(mapsalarydetail.get("奖金合计"));
-			}
-			
-			String json_footer="["+JsonUtils.jsonConvert(
-					new String[]{"工作量奖励","服务费奖励","二次销售奖励","专项奖励合计","二次销售合计","奖金合计"}, 
-					new Object[]{
-							gzljl,
-							fwfjl,
-							ecxsjl,
-							zxjlhj,
-							ecxshj,
-							jjhj}
-			);
-			
-			json_footer=json_footer.substring(0, json_footer.length()-1)+"]";
-			System.out.println(json_footer);
-			
 			jsonMap.put("rows", listsalarydetail);
 			jsonMap.put("total", listsalarydetail.size());
 			jsonobj=JSONObject.fromObject(jsonMap);
-			jsonobj.put("footer", json_footer);
+			
+			//读取需要合计的奖金项目
+			String hql_salary_item_issum="From Salary_item where issum=1";
+			List<Salary_item> listsalary_item=salary_itemService.query(hql_salary_item_issum, null);
+			if(listsalary_item!=null && !listsalary_item.isEmpty()){
+				StringBuffer sqlBufferin=new StringBuffer(2000);//内层sql，读取明细
+				StringBuffer sqlBufferout=new StringBuffer(2000);//外层sql，用来汇总
+				sqlBufferout.append("select ");
+				sqlBufferin.append("select ");
+				for(Salary_item salary_item:listsalary_item){
+					sqlBufferout.append("sum(field"+salary_item.getId()+") as "+salary_item.getName()+",");
+					sqlBufferin.append(" case salary_item_id when "+salary_item.getId()+
+							" then money else 0 end as field"+salary_item.getId()+",");
+				}
+				
+				sqlBufferout.deleteCharAt(sqlBufferout.lastIndexOf(","));
+				sqlBufferin.deleteCharAt(sqlBufferin.lastIndexOf(","));
+				
+				sqlBufferin.append(" from salary_detail where account_id="+account_id);
+				sqlBufferout.append(" from ( ");
+				sqlBufferout.append(sqlBufferin);
+				sqlBufferout.append(" ) as salary_item_sum");
+				
+				
+				System.out.println("getSalarydetaillist-->sqlBufferout:"+sqlBufferout.toString());
+				List<Map<String,Object>> listsum=salary_detailService.queryNaviSql(sqlBufferout.toString(), null);
+
+				jsonobj.put("footer", JsonUtils.getJsonFromList(listsum));
+
+			}
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();

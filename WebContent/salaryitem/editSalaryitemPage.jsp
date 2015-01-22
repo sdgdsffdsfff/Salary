@@ -66,6 +66,17 @@
 				</td>
 			</tr>
 			<tr>
+				<td>是否合计:</td>
+				<td>
+					<select class="easyui-combobox" name="salary_item.issum" 
+					data-options='required:true,width:150,
+					value:<s:property value="salary_item.issum" />' >
+						<option value="0">不合计</option>
+						<option value="1">需要合计</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
 			<td colspan="2" align="center">
 				<a onclick="submit()" class="easyui-linkbutton" 
 					data-options="iconCls:'icon-ok'" >保存</a>
