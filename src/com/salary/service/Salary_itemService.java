@@ -4,7 +4,7 @@ import com.salary.dao.Salary_itemDaoImpl;
 import com.salary.entity.Salary_item;
 
 /**
- * 奖金项目ervice
+ * 奖金项目service
  * @author 陈捷
  *
  */

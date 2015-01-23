@@ -422,6 +422,7 @@ public class SalarydetailAction extends ActionSupport {
 			}
 			
 			
+			//第一次循环计算
 			for(Employee employee:listemployee){
 				//第二步，读取该人员的公式模板
 				String[] salary_item_expressionid=mapsalary_item_unit.
@@ -442,29 +443,7 @@ public class SalarydetailAction extends ActionSupport {
 			
 			
 			//此段代码第二次执行，是为了防止计算部门的合计金额用于后期核算的bug
-			//第一步，取出人员的列表，关联上公式模板
-			hql="From Employee where isdel=0";
-			listemployee=employeeService.query(hql, null);
-			
-			exp_hql="From Salary_item_expression";
-			listsalaryitemexpression=salary_item_expressionService.query(exp_hql, null);
-			expressionMap=new HashMap<String,Salary_item_expression>();
-			
-			for(Salary_item_expression salary_item_expression:listsalaryitemexpression){
-				expressionMap.put(
-						Integer.toString(salary_item_expression.getId()), 
-						salary_item_expression);
-			}
-
-			unit_hql="From Salary_item_unit";
-			listsalary_item_unit=salary_item_unitService.query(unit_hql, null);
-			mapsalary_item_unit=new HashMap<String,String>();
-			
-			for(Salary_item_unit salary_item_unit:listsalary_item_unit){
-				mapsalary_item_unit.put(Integer.toString(salary_item_unit.getId()), salary_item_unit.getSequence());
-			}
-			
-			
+			//第二次循环计算
 			for(Employee employee:listemployee){
 				//第二步，读取该人员的公式模板
 				String[] salary_item_expressionid=mapsalary_item_unit.
@@ -482,8 +461,9 @@ public class SalarydetailAction extends ActionSupport {
 					salary_detailService.callprSetsalarydetail(account_id, employee.getId(), salary_item_expression.getSalary_item_id(), money);
 				}
 			}
+			
 
-			//第四部，显示计算好的页面
+			//第四步，显示计算好的页面
 			initlistSalarydetailPage();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
