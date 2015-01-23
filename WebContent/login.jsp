@@ -74,10 +74,10 @@ label.iPhoneCheckLabelOn span {
             <div class="formLogin">
                 <form id="loginForm" action="login" method="post">
                     <div class="tip">
-                        <input class="userName" name="operator.name" type="text" id="username" title="用户名" nullmsg="请输入用户名!" />
+                        <input id="username" class="userName" name="operator.name" type="text" title="用户名" />
                     </div>
                     <div class="tip">
-                        <input class="password" name="operator.pass" type="password" id="password" title="密码" />
+                        <input id="password" class="password" name="operator.pass" type="password"  title="密码" />
                     </div>
                     
                     <div class="tip">
@@ -117,7 +117,14 @@ label.iPhoneCheckLabelOn span {
     <div id="versionBar">
         <div class="copyright">&copy; 贵州爱信诺航天信息有限公司版权所有 <span class="tip"> (推荐使用IE9+,谷歌浏览器可以获得更快,更安全的页面响应速度)</span></div>
     </div>
-    
+      <!-- Link JScript-->
+    <script type="text/javascript" src="./jeecg/plug-in/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="./jeecg/plug-in/jquery/jquery.cookie.js"></script>
+    <script type="text/javascript" src="./jeecg/plug-in/login/js/jquery-jrumble.js"></script>
+    <script type="text/javascript" src="./jeecg/plug-in/login/js/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="./jeecg/plug-in/login/js/iphone.check.js"></script>
+    <script type="text/javascript" src="./jeecg/plug-in/login/js/login.js"></script>
+    <script type="text/javascript" src="./jeecg/plug-in/lhgDialog/lhgdialog.min.js"></script>  
     <%
     	//清除session的错误信息
     	session.setAttribute("errormsg", "");
@@ -145,14 +152,20 @@ label.iPhoneCheckLabelOn span {
 	    	$('#username').val('');
 	    	$('#password').val('');
 	    }
+	    
+	    //绑定键盘事件
+	    $(function(){
+	    	$('#username').keypress(function(event){
+	    		if(event.keyCode==13){
+	    			$('#password').focus();
+	    		}
+	    	});
+	    	$('#password').keypress(function(event){
+	    		if(event.keyCode==13){
+	    			check();
+	    		}
+	    	});
+	    });
     </script>
-    <!-- Link JScript-->
-    <script type="text/javascript" src="./jeecg/plug-in/jquery/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="./jeecg/plug-in/jquery/jquery.cookie.js"></script>
-    <script type="text/javascript" src="./jeecg/plug-in/login/js/jquery-jrumble.js"></script>
-    <script type="text/javascript" src="./jeecg/plug-in/login/js/jquery.tipsy.js"></script>
-    <script type="text/javascript" src="./jeecg/plug-in/login/js/iphone.check.js"></script>
-    <script type="text/javascript" src="./jeecg/plug-in/login/js/login.js"></script>
-    <script type="text/javascript" src="./jeecg/plug-in/lhgDialog/lhgdialog.min.js"></script>
 </body>
 </html>
