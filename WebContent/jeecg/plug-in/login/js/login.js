@@ -38,18 +38,7 @@ $('.userload').click(function(e) {
 		$('.userbox').hide();
 	});
 });
-//update-begin--Author:zhangguoming  Date:20140226 for：添加验证码
-$('#randCodeImage').click(function(){
-    reloadRandCodeImage();
-});
-/**
- * 刷新验证码
- */
-function reloadRandCodeImage() {
-    var date = new Date();
-    var img = document.getElementById("randCodeImage");
-    img.src='randCodeImage?a=' + date.getTime();
-}
+
 //update-end--Author:zhangguoming  Date:20140226 for：添加验证码
 // 重置
 $('#forgetpass').click(function(e) {
@@ -58,27 +47,7 @@ $('#forgetpass').click(function(e) {
 	});
 });
 
-//表单提交
-function submit()
-{
-	var submit = true;
-	$("input[nullmsg]").each(function() {
-		if ($("#" + this.name).val() == "") {
-			showError($("#" + this.name).attr("nullmsg"), 500);
-			jrumble();
-			setTimeout('hideTop()', 1000);
-			submit = false;
-			return false;
-		}
-	});
-	if (submit) {
-		hideTop();
-		loading('核实中..', 1);
-		setTimeout("unloading()", 1000);
-		setTimeout("Login()", 1000);
-	}
 
-}
 //登录处理函数
 function Login() {
 	setCookie();
