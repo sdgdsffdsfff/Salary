@@ -3,6 +3,11 @@ package com.salary.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 日期工具
+ * @author 陈捷
+ *
+ */
 public class DateUtils {
 	
 	/**

@@ -126,7 +126,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 * 添加角色页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addRolePage(){
 		return SUCCESS;
@@ -134,7 +134,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 * 修改角色页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editRolePage(){
 		try {
@@ -151,7 +151,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 *  添加角色
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addRole(){
 		try {
@@ -183,7 +183,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 * 删除角色
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delRole(){
 		try {
@@ -215,7 +215,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 * 修改角色
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editRole(){
 		try {
@@ -248,7 +248,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 * 显示角色列表页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listRolePage(){
 		return SUCCESS;
@@ -256,7 +256,7 @@ public class RoleAction extends ActionSupport {
 	
 	/**
 	 * 获取角色列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getRolelist(){
 		this.init();

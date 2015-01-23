@@ -162,7 +162,7 @@ public class SalaryitemunitAction extends ActionSupport {
 
 	/**
 	 * 显示添加奖金项目单元页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitemunitPage(){
 		try {
@@ -179,7 +179,7 @@ public class SalaryitemunitAction extends ActionSupport {
 	
 	/**
 	 * 显示修改奖金项目公式单元页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitemunitPage(){
 		try {
@@ -198,7 +198,7 @@ public class SalaryitemunitAction extends ActionSupport {
 	
 	/**
 	 * 添加奖金公式单元
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitemunit(){
 		try {
@@ -226,7 +226,7 @@ public class SalaryitemunitAction extends ActionSupport {
 	
 	/**
 	 * 修改奖金公式单元
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitemunit(){
 		try {
@@ -259,7 +259,7 @@ public class SalaryitemunitAction extends ActionSupport {
 	
 	/**
 	 * 删除奖金公式单元
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delSalaryitemunit(){
 		try {
@@ -288,7 +288,7 @@ public class SalaryitemunitAction extends ActionSupport {
 	
 	/**
 	 * 显示奖金公式单元列表页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listSalaryitemunitPage(){
 		return SUCCESS;
@@ -296,7 +296,7 @@ public class SalaryitemunitAction extends ActionSupport {
 	
 	/**
 	 * 获取奖金公式单元列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getSalaryitemunitlist(){
 		this.init();

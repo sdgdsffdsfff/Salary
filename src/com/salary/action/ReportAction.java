@@ -94,7 +94,7 @@ public class ReportAction extends ActionSupport {
 
 	/**
 	 * 显示添加自定义报表页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addReportPage(){
 		return SUCCESS;
@@ -102,7 +102,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 显示修改自定义报表页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editReportPage(){
 		String hql="From Report where id="+id;
@@ -112,7 +112,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 显示自定义报表列表页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listReportPage(){
 		return SUCCESS;
@@ -120,7 +120,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 添加自定义报表
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addReport(){
 		reportService.add(report);
@@ -129,7 +129,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 修改自定义报表
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editReport(){
 		reportService.edit(report);
@@ -138,7 +138,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 删除自定义报表
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delReport(){
 		String hql="From Report where id="+id;
@@ -150,7 +150,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 获取自定义报表列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getReportlist(){
 		this.init();
@@ -169,7 +169,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 显示自定义报表查询页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String queryReportPage(){
 		String hql="From Report where id="+id;
@@ -193,7 +193,7 @@ public class ReportAction extends ActionSupport {
 	
 	/**
 	 * 获取自定义报表查询json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String queryReportlist(){
 		try {

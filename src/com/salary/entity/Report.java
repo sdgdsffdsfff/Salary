@@ -1,5 +1,10 @@
 package com.salary.entity;
 
+/**
+ * 自定义报表
+ * @author 陈捷
+ *
+ */
 public class Report {
 	private int id;				//自定义报表id
 	private String name;		//自定义报表名称

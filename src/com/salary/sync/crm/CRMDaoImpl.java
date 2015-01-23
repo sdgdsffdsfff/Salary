@@ -41,7 +41,7 @@ public class CRMDaoImpl extends CRUDDaoImpl<Account>{
 	
 	/**
 	 * 返回CRM的所有员工信息
-	 * @return
+	 * @return		List<Map<String,Object>> EMP_NAME,ENGINEERS_NO,EMP_CODE
 	 */
 	public List<Map<String,Object>> getEmployeelist(){
 		String sql="select NAME as EMP_NAME,ENGINEERS_NO as EMP_CODE from SYS_EMPLOYEE";

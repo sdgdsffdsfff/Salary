@@ -155,7 +155,7 @@ public class AccountAction extends ActionSupport {
 
 	/**
 	 * 增加奖金期间页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addAccountPage(){
 		return SUCCESS;
@@ -163,7 +163,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 修改奖金期间页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editAccountPage(){
 		try {
@@ -182,7 +182,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 增加奖金期间
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addAccount(){
 		try {
@@ -209,7 +209,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 修改奖金期间
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editAccount(){
 		try {
@@ -240,7 +240,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 删除奖金期间
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delAccount(){
 		try {
@@ -276,7 +276,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 显示奖金期间列表页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listAccountPage(){
 		return SUCCESS;
@@ -284,7 +284,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 获取奖金期间列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getAccountlist(){
 		this.init();
@@ -302,7 +302,7 @@ public class AccountAction extends ActionSupport {
 	
 	/**
 	 * 清除所有奖金期间
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String cleanAllAccount(){
 		String sql_del_salary_detail="truncate table salary_detail";

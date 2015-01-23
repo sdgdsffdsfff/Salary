@@ -158,7 +158,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 添加员工页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addEmployeePage(){
 		try {
@@ -177,7 +177,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 修改员工页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editEmployeePage(){
 		try {
@@ -200,7 +200,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 添加员工
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addEmployee(){
 		try {
@@ -227,7 +227,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 修改员工
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editEmployee(){
 		try {
@@ -259,7 +259,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 删除员工
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delEmployee(){
 		try {
@@ -290,7 +290,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 显示员工列表页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listEmployeePage(){
 		return SUCCESS;
@@ -298,7 +298,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 获取员工列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getEmployeelist(){
 		this.init();
@@ -316,7 +316,7 @@ public class EmployeeAction extends ActionSupport {
 	
 	/**
 	 * 同步A6的员工编号
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String syncEmployeeFromA6(){
 		employeeService.syncEmployeeFromA6();

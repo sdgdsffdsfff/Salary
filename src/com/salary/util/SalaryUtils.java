@@ -13,7 +13,12 @@ import java.util.Map;
  */
 public class SalaryUtils {
 	
+	/**
+	 * 拦截不支持的浏览器
+	 */
 	public static String[] unSupportBrowser={"Mozilla/4","MSIE 8.0","MSIE 7.0","MSIE 6.0","MSIE 5","AppleWebKit/533","AppleWebKit/534"};
+	
+	
 	/**
 	 * 解析动态函数SQL语句，将SQL语句中的:account_id,:emp_id替换为具体的值
 	 * 注意:此方法只适用与在奖金项目公式表取出的语句进行解析
@@ -21,7 +26,7 @@ public class SalaryUtils {
 	 * @param sql			动态函数SQL语句
 	 * @param account_id	奖金期间id
 	 * @param emp_id		职员id
-	 * @return
+	 * @return				String类型的金额值
 	 */
 	public static String parseSQL(String sql,int account_id,int emp_id){
 		return "select ifnull("+sql.replace(":account_id", Integer.toString(account_id))
@@ -31,8 +36,8 @@ public class SalaryUtils {
 	
 	/**
 	 * 将Easyui表格更新的json数据解析成List<Map<String,Object>>数据
-	 * @param json_str
-	 * @return
+	 * @param 		json_str
+	 * @return		List<Map<String,Object>>
 	 */
 	public static List<Map<String,Object>> parseDatagridJson(String json_str){
 		if(json_str==null || json_str.isEmpty()){
@@ -64,8 +69,8 @@ public class SalaryUtils {
 	
 	/**
 	 * 将obj数据转换成BigDecimal
-	 * @param obj
-	 * @return BigDecimal数据
+	 * @param 	obj
+	 * @return 	BigDecimal数据
 	 */
 	public static BigDecimal parseBigDecimal(Object obj){
 		return BigDecimal.valueOf(Double.parseDouble((String) obj));
@@ -74,8 +79,8 @@ public class SalaryUtils {
 	
 	/**
 	 * 将Map取出的数据转换成int类型
-	 * @param obj
-	 * @return Integer数据
+	 * @param 	obj
+	 * @return 	Integer数据
 	 */
 	public static Integer parseInteger(Object obj){
 		return Integer.parseInt((String) obj);

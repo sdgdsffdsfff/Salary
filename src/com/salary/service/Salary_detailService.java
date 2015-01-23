@@ -75,7 +75,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	/**
 	 * 初始化奖金明细，读取接口来设置得到的金额
 	 * 
-	 * @param account_id 		奖金期间id
+	 * @param account 		奖金期间
 	 */
 	public void initSalaryDetail(Account account){
 		//注意:由于需要调用公司内部数据，因此以下代码是手工写死的
@@ -192,11 +192,10 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	
 	
 	
-	
 	/**
 	 * 根据CRM数据库查询出来的信息来写入到账期数据中  
-	 * @param salary_detail		需要传入account_id,salary_item_id
-	 * @param mapSalarydetail	List<Map<EMP_CODE:员工编号,MONEY:工作量>>
+	 * @param salary_detail			需要传入account_id,salary_item_id
+	 * @param listSalarydetail		List<Map<EMP_CODE:员工编号,MONEY:金额>>
 	 */
 	public void setSalarydetailFromCRMMap(Salary_detail salary_detail,List<Map<String,Object>> listSalarydetail){
 		
@@ -215,9 +214,9 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	
 	
 	/**
-	 * 根据A6数据库查询出来的信息来写入到账期数据中  
-	 * @param salary_detail		需要传入account_id,salary_item_id
-	 * @param mapSalarydetail	List<Map<EMP_CODE:员工编号,MONEY:工作量>>
+	 * 根据A6数据库查询出来的信息来写入到账期数据中
+	 * @param salary_detail			需要传入account_id,salary_item_id
+	 * @param listSalarydetail		List<Map<EMP_CODE:员工编号,MONEY:金额>>
 	 */
 	public void setSalarydetailFromA6Map(Salary_detail salary_detail,List<Map<String,Object>> listSalarydetail){
 		

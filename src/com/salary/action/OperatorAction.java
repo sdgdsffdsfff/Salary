@@ -180,7 +180,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 添加操作员页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addOperatorPage(){
 		try {
@@ -197,7 +197,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 修改操作员页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editOperatorPage(){
 		try {
@@ -217,7 +217,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 添加操作员
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addOperator(){
 		try {
@@ -247,7 +247,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 删除操作员
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delOperator(){
 		try {
@@ -270,7 +270,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 修改操作员
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editOperator(){
 		try {
@@ -313,7 +313,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 显示操作员页面列表
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listOperatorPage(){
 		return SUCCESS;
@@ -321,7 +321,7 @@ public class OperatorAction extends ActionSupport {
 	
 	/**
 	 * 获取操作员列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getOperatorlist(){
 		String hql="From Operator where isdel=0";
@@ -338,6 +338,10 @@ public class OperatorAction extends ActionSupport {
 	}
 	
 	
+	/**
+	 * 用户登录检测
+	 * @return		ACTION执行正常返回SUCCESS,浏览器版本不兼容、用户名密码不匹配则返回errormsg
+	 */
 	public String login(){
 		String agent=ServletActionContext.getRequest().getHeader("user-agent");
 		System.out.println("浏览器信息:"+agent);
@@ -413,7 +417,7 @@ public class OperatorAction extends ActionSupport {
 	 * 用来初始化操作员admin的密码为admin
 	 * 注意:需要在请求信息加入id=96096才会执行初始化
 	 * 用于忘记密码的情况，可以直接将超级管理员的密码恢复
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String initOperator(){
 		try {

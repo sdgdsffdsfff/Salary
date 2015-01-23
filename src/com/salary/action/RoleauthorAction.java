@@ -120,7 +120,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 添加角色权限页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addRoleauthorPage(){
 		return SUCCESS;
@@ -128,7 +128,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 修改角色权限页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editRoleauthorPage(){
 		try {
@@ -145,7 +145,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 添加角色权限
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addRoleauthor(){
 		try {
@@ -161,7 +161,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 修改角色权限
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editRoleauthor(){
 		try {
@@ -194,7 +194,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 删除角色权限
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delRoleauthor(){
 		return SUCCESS;
@@ -202,7 +202,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 显示角色权限列表页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listRoleauthorPage(){
 		try {
@@ -219,7 +219,7 @@ public class RoleauthorAction extends ActionSupport {
 	
 	/**
 	 * 获取角色权限列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getRoleauthorlist(){
 		try {

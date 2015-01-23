@@ -325,7 +325,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 显示奖金明细页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listSalarydetailPage(){
 		initlistSalarydetailPage();
@@ -335,7 +335,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 获取奖金明细json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getSalarydetaillist(){
 		try {
@@ -395,7 +395,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 自动核算
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String calcSalarydetail(){
 		try {
@@ -440,6 +440,48 @@ public class SalarydetailAction extends ActionSupport {
 				}
 			}
 			
+			
+			//此段代码第二次执行，是为了防止计算部门的合计金额用于后期核算的bug
+			//第一步，取出人员的列表，关联上公式模板
+			hql="From Employee where isdel=0";
+			listemployee=employeeService.query(hql, null);
+			
+			exp_hql="From Salary_item_expression";
+			listsalaryitemexpression=salary_item_expressionService.query(exp_hql, null);
+			expressionMap=new HashMap<String,Salary_item_expression>();
+			
+			for(Salary_item_expression salary_item_expression:listsalaryitemexpression){
+				expressionMap.put(
+						Integer.toString(salary_item_expression.getId()), 
+						salary_item_expression);
+			}
+
+			unit_hql="From Salary_item_unit";
+			listsalary_item_unit=salary_item_unitService.query(unit_hql, null);
+			mapsalary_item_unit=new HashMap<String,String>();
+			
+			for(Salary_item_unit salary_item_unit:listsalary_item_unit){
+				mapsalary_item_unit.put(Integer.toString(salary_item_unit.getId()), salary_item_unit.getSequence());
+			}
+			
+			
+			for(Employee employee:listemployee){
+				//第二步，读取该人员的公式模板
+				String[] salary_item_expressionid=mapsalary_item_unit.
+						get(Integer.toString(employee.getSalary_item_unit_id())).split(",");
+				//第三步，循环执行该计算公式
+				for(String expressionid:salary_item_expressionid){
+					Salary_item_expression salary_item_expression=expressionMap.get(expressionid);
+					String hql_money=salary_item_expression.getDynmaicsql();
+					hql_money=SalaryUtils.parseSQL(hql_money, account_id, employee.getId());
+					
+					//用来存储sql语句获取到的money值
+					
+					BigDecimal money=NumberUtils.ObjectToBigDecimal(
+							salary_item_expressionService.queryNaviSql(hql_money, null).get(0).get("money"));
+					salary_detailService.callprSetsalarydetail(account_id, employee.getId(), salary_item_expression.getSalary_item_id(), money);
+				}
+			}
 
 			//第四部，显示计算好的页面
 			initlistSalarydetailPage();
@@ -455,7 +497,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 保存来自Easyui的Datagrid传递过来的json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalarydetailFromDatagrid(){
 		try {
@@ -492,7 +534,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 批量设置奖金明细页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String batchSetSalarydetailPage(){
 		try {
@@ -512,7 +554,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 批量设置奖金明细
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String batchSetSalarydetail(){
 		try {
@@ -553,7 +595,7 @@ public class SalarydetailAction extends ActionSupport {
 	
 	/**
 	 * 重新读取CRM/A6数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String initSalaryDetail(){
 		if(account_id!=null){

@@ -3,6 +3,11 @@ package com.salary.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * 数字转换工具
+ * @author 陈捷
+ *
+ */
 public class NumberUtils {
 	
 	/**
@@ -18,8 +23,8 @@ public class NumberUtils {
 	
 	/**
 	 * 将BigInteger类型的obj转换成int类型数据
-	 * @param obj
-	 * @return
+	 * @param 	obj
+	 * @return	int类型数据
 	 */
 	public static Integer BigIntegerToInteger(Object obj){
 		return ((BigInteger) obj).intValue();
@@ -27,8 +32,8 @@ public class NumberUtils {
 	
 	/**
 	 * 将BigDecimal类型的obj转换成float类型的数据
-	 * @param obj
-	 * @return
+	 * @param 	obj
+	 * @return	float类型的数据
 	 */
 	public static float BigDecimalToFloat(Object obj){
 		return ((BigDecimal) obj).floatValue();
@@ -36,8 +41,8 @@ public class NumberUtils {
 	
 	/**
 	 * 将Object对象转换为BigDecimal
-	 * @param obj
-	 * @return
+	 * @param 		obj
+	 * @return 		BigDecimal
 	 */
 	public static BigDecimal ObjectToBigDecimal(Object obj){
 		if(obj==null){

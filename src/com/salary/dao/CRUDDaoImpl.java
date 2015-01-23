@@ -347,7 +347,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	/**
 	 * 根据员工A6CODE来设置该员工的奖金明细
 	 * @param account_id		奖金期间id
-	 * @param emp_code			员工code
+	 * @param emp_codea6		A6员工code
 	 * @param salary_item_id	奖金项目id
 	 * @param money				奖金金额
 	 */

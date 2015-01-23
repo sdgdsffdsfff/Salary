@@ -119,7 +119,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 显示添加奖金项目页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitemPage(){
 		return SUCCESS;
@@ -127,7 +127,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 显示修改奖金项目页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitemPage(){
 		String hql="From Salary_item where id="+id;
@@ -137,7 +137,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 添加奖金项目
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitem(){
 		try {
@@ -165,7 +165,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 修改奖金项目信息
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitem(){
 		try {
@@ -197,7 +197,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 删除奖金项目
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delSalaryitem(){
 		try {
@@ -243,7 +243,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 奖金项目列表页
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listSalaryitemPage(){
 		return SUCCESS;
@@ -251,7 +251,7 @@ public class SalaryitemAction extends ActionSupport{
 	
 	/**
 	 * 获取工资项目列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getSalaryitemlist(){
 		this.init();

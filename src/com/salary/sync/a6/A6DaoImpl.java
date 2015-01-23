@@ -26,7 +26,7 @@ public class A6DaoImpl extends CRUDDaoImpl<Account>{
 	
 	/**
 	 * 返回A6的所有员工信息
-	 * @return
+	 * @return	List<Map<String,Object>>返回A6的所有员工信息
 	 */
 	public List<Map<String,Object>> getEmployeelist(){
 		String sql="select cName as EMP_NAME,cCode as EMP_CODE from CM_EMPLOYEE";

@@ -170,7 +170,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 
 	/**
 	 * 添加奖金公式页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitemexpressionPage(){
 		try {
@@ -195,7 +195,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	
 	/**
 	 * 修改奖金页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitemexpressionPage(){
 		try {
@@ -224,7 +224,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	
 	/**
 	 * 添加奖金公式
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitemexpression(){
 		try {
@@ -253,7 +253,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	
 	/**
 	 * 修改奖金公式
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitemexpression(){
 		try {
@@ -288,7 +288,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	
 	/**
 	 * 删除奖金公式
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delSalaryitemexpression(){
 		try {
@@ -329,7 +329,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	
 	/**
 	 * 显示奖金公式页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listSalaryitemexpressionPage(){
 		return SUCCESS;
@@ -337,7 +337,7 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	
 	/**
 	 * 获取奖金公式列表json数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getSalaryitemexpressionlist(){
 		this.init();

@@ -123,7 +123,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 显示添加部门页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addDepartmentPage(){
 		return SUCCESS;
@@ -131,7 +131,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 显示修改部门页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editDepartmentPage(){
 		try {
@@ -148,7 +148,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 添加部门
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addDepartment(){
 		try {
@@ -175,7 +175,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 修改部门
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editDepartment(){
 		try {
@@ -207,7 +207,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 删除部门
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delDepartment(){
 		try {
@@ -236,7 +236,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 显示部门列表信息
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String listDepartmentPage(){
 		return SUCCESS;
@@ -244,7 +244,7 @@ public class DepartmentAction extends ActionSupport {
 	
 	/**
 	 * 获取部门列表josn数据
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getDepartmentlist(){
 		this.init();
