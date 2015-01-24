@@ -44,7 +44,7 @@
 				<td>金额:</td>
 				<td>
 					<input name="money" type="text" class="easyui-numberbox" 
-							data-options="min:0,precision:1,required:true" />
+							data-options="min:0,precision:1,required:true,width:150," />
 				</td>
 			</tr>
 			<tr>

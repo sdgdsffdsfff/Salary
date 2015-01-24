@@ -7,7 +7,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<title>角色授权信息</title>
+<title>角色菜单授权信息</title>
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
 	<script type="text/javascript" src="./easyui/jquery.min.js"></script>
@@ -17,9 +17,9 @@
 </head>
 <body>
 <div style="padding:20px;">
-	<form id="editRoleauthorForm" action="editRoleauthor" method="POST" >
+	<form id="editRolemenuForm" action="editRolemenu" method="POST" >
 		<input type="hidden" id="roleid" name="role.id" value='<s:property value="role.id" />' />
-		<input type="hidden" id="authorids" name="authorids" />
+		<input type="hidden" id="menuids" name="menuids" />
 		<table cellpadding="5" >
 			<tr>
 				<td>角色名称:</td>
@@ -34,9 +34,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td>权限信息</td>
+				<td>菜单权限</td>
 				<td>
-					<ul id="ul_roleauthor" ></ul>
+					<ul id="ul_rolemenu" ></ul>
 				</td>
 			</tr>
 			<tr>
@@ -52,11 +52,11 @@
 
 	$(function(){
 		//randomString为的是防止读取缓存，随机生成的10位字符串，而不去数据库里面找更新的数据
-		var uri="getRoleauthorlist";
+		var uri="getRolemenulist";
 		var data={'id':$('#roleid').val(),'randomString':randomString(10)};
 		console.log(data);
 	    $.getJSON(uri,data,function(json){
-					        $('#ul_roleauthor').tree({
+					        $('#ul_rolemenu').tree({
 					            data:json.data,
 					            checkbox: true,
 					    	    animate:true,
@@ -68,22 +68,22 @@
 	});
 	
 	function submit(){
-		var isValid=$('#editRoleauthorForm').form('validate');
+		var isValid=$('#editRolemenuForm').form('validate');
 		if(!isValid){
 			$.messager.alert('提示','请输入完整的信息!','warning');
 			return false;
 		}
 		
 		//获取被选中的权限
-		var chkboxs=$('#ul_roleauthor').tree('getChecked');
+		var chkboxs=$('#ul_rolemenu').tree('getChecked');
 		var ids="";
 		
 		for(var i=0;i<chkboxs.length;i++){
 			ids=ids+chkboxs[i].id+",";
 		}
 		
-		$('#authorids').attr('value',ids);
-		$('#editRoleauthorForm').submit();
+		$('#menuids').attr('value',ids);
+		$('#editRolemenuForm').submit();
 	}
 	
 </script>

@@ -1,14 +1,10 @@
 package com.salary.action;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.sf.json.JSONObject;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.dao.CRUDDaoImpl;
-import com.salary.util.SalaryUtils;
 
 /**
  * 测试Action
@@ -18,6 +14,7 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class testAction extends ActionSupport {
+
 	private Integer id;
 	private Integer account_id;
 	private Integer emp_id;

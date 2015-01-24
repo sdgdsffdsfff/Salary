@@ -3,8 +3,11 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
 import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Department;
 import com.salary.entity.Employee;
@@ -38,6 +41,7 @@ public class EmployeeAction extends ActionSupport {
 	private List<Salary_item_unit> listsalary_item_unit;//奖金模板列表
 	private Employee employee;						//职员
 	private String errormessage;					//错误消息
+	private List<Employee> listemployee;			//员工列表
 	
 	public String getErrormessage() {
 		return errormessage;
@@ -154,8 +158,13 @@ public class EmployeeAction extends ActionSupport {
 	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
-	
-	
+	public List<Employee> getListemployee() {
+		return listemployee;
+	}
+	public void setListemployee(List<Employee> listemployee) {
+		this.listemployee = listemployee;
+	}
+
 	/**
 	 * 添加员工页面
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR

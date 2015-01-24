@@ -1,17 +1,16 @@
 package com.salary.util;
 
 /**
- * 操作权限json类
+ * 菜单权限json类
  * @author 陈捷
  *
  */
-public class AuthorJson {
+public class MenuJson {
 	private int id;
 	private int pid;
 	private String text;
 	private Boolean checked;
 	private String state;
-	
 	public int getId() {
 		return id;
 	}
@@ -42,5 +41,6 @@ public class AuthorJson {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
 	
 }

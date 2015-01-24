@@ -28,6 +28,9 @@
 	</div>
 	<div data-options="region:'west'" title="菜单栏" style="width:200px;">
 		<div class="easyui-accordion" data-options="multiple:true">
+		<%
+			
+		%>
 			<div title="基本资料" data-options="iconCls:'icon-ok'">
 				<ul>
 					<li>
@@ -112,7 +115,7 @@
 						%>
 						<h2>你好<s:property value="#session.operatorinfo.name" />，欢迎使用爱信诺奖金管理系统</h2>
 					</div>
-					<div style="margin-top:100px;">
+<div style="margin-top:100px;">
 <h2>技服部绩效考核规则说明</h2>
 <h3>
 业务部分专项：<br/>
@@ -126,8 +129,8 @@ IT增值服务业务 （所完成金额的10%）；产业化招生（100元/人�
 <br/><br/>金盾组：工作量（上门服务+有效回访）20%，服务费60%，销售20%；                                                                                                                                   
 <br/><br/>金税组：工作量（上门服务+有效回访）20%，服务费40%，二次销售40%                                                                                 
 <br/><br/>呼叫中心：电话量20%,服务费达成40%，二次销售40%
-					</h3>
-					</div>
+</h3>
+</div>
 			</div>
 		</div>
 	</div>
