@@ -4,21 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
-
 import com.opensymphony.xwork2.ActionSupport;
-import com.salary.entity.Author;
 import com.salary.entity.Menu;
 import com.salary.entity.Role;
-import com.salary.entity.Role_author;
 import com.salary.entity.Role_menu;
 import com.salary.service.MenuService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_menuService;
-import com.salary.util.AuthorJson;
+import com.salary.util.MenuJson;
 
 @SuppressWarnings("serial")
 public class RolemenuAction extends ActionSupport {
@@ -35,6 +30,7 @@ public class RolemenuAction extends ActionSupport {
 	private Integer roleid;							//角色id
 	private Integer pid;							//上级id
 	private List<Menu> listmenu;					//菜单列表
+	private JSONObject jsonobj;						//json对象，传递给Easyui表格
 	
 	
 	public Role_menuService getRole_menuService() {
@@ -109,7 +105,12 @@ public class RolemenuAction extends ActionSupport {
 	public void setListmenu(List<Menu> listmenu) {
 		this.listmenu = listmenu;
 	}
-	
+	public JSONObject getJsonobj() {
+		return jsonobj;
+	}
+	public void setJsonobj(JSONObject jsonobj) {
+		this.jsonobj = jsonobj;
+	}
 	
 	/**
 	 * 显示添加菜单权限页面
@@ -124,6 +125,48 @@ public class RolemenuAction extends ActionSupport {
 	 * @return
 	 */
 	public String editRolemenuPage(){
+		try {
+			String hql="From Role_menu where id="+id;
+			role_menu=role_menuService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示角色菜单权限列表页面
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
+	 */
+	public String listRolemenuPage(){
+		try {
+			String hql="From Role where id="+id;
+			role=roleService.get(hql, null);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 添加菜单权限
+	 * @return
+	 */
+	public String addRolemenu(){
+		return SUCCESS;
+	}
+	
+	/**
+	 * 修改菜单权限
+	 * @return
+	 */
+	public String editRolemenu(){
 		try {
 			String sql="update role_menu set isallow=0 where role_id="+role.getId();
 			//如果是超级管理员，则直接将所有菜单权限更新为1
@@ -150,22 +193,6 @@ public class RolemenuAction extends ActionSupport {
 	}
 	
 	/**
-	 * 添加菜单权限
-	 * @return
-	 */
-	public String addRolemenu(){
-		return SUCCESS;
-	}
-	
-	/**
-	 * 修改菜单权限
-	 * @return
-	 */
-	public String editRolemenu(){
-		return SUCCESS;
-	}
-	
-	/**
 	 * 删除菜单权限
 	 * @return
 	 */
@@ -179,23 +206,50 @@ public class RolemenuAction extends ActionSupport {
 	 */
 	public String getRolemenulist(){
 		try {
-			String sql="select menu.* from role_menu left join menu on " +
-					"menu.id=role_menu.menu_id where isallow=1 " +
-					"and role_id=:roleid and pid=:pid";
+			//检测菜单权限表中是否有新增加的权限，有的话就自动添加到角色菜单权限表中
+			role_menuService.initRolemenu();
 			
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("roleid", roleid);
-			params.put("pid", pid);
+			String hql="From Role_menu where role_id="+id;
+			List<Role_menu> listrole_menu=role_menuService.query(hql, null);
+			List<MenuJson> list_jsonmenu=new ArrayList<MenuJson>();
 			
-			List<Map<String,Object>> listmapmenu=menuService.queryNaviSql(sql, params);
+			hql="From Menu";
+			List<Menu> list_menu=menuService.query(hql, null);
+			Map<String,Menu> menuMap=new HashMap<String,Menu>();
 			
-			if(listmapmenu!=null && !listmapmenu.isEmpty()){
-				for(Map<String,Object> mapMenu:listmapmenu){
-
-				}
+			for(Menu menu:list_menu){
+				menuMap.put(Integer.toString(menu.getId()), menu);
 			}
 			
+			for(Role_menu role_menu:listrole_menu){
+				Menu menu=new Menu();
+				MenuJson menujson=new MenuJson();
+				menu=menuMap.get(Integer.toString(role_menu.getMenu_id()));
+				menujson.setId(menu.getId());
+				menujson.setText(menu.getName());
+				menujson.setChecked(false);
+				
+				//除了根目录展开外，tree子目录全部关闭
+				if(menu.getId()>1){
+					menujson.setPid(menu.getPid());
+					menujson.setState("closed");
+				}
+				
+				//如果取到isallow的值为1，则tree勾选框选中
+				if(role_menu.getIsallow()==1){
+					menujson.setChecked(true);
+				}
+				
+				list_jsonmenu.add(menujson);
+			}
+			
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("data", list_jsonmenu);
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;

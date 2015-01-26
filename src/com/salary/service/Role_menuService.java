@@ -1,9 +1,9 @@
 package com.salary.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.salary.dao.Role_menuDaoImpl;
 import com.salary.entity.Menu;
 import com.salary.entity.Role_menu;
@@ -38,6 +38,13 @@ public class Role_menuService extends CRUDService<Role_menu> {
 		this.executeSQL(sqlBuffer.toString());
 	}
 	
+	
+	/**
+	 * 根据角色id和pid来获取菜单列表
+	 * @param roleid		角色id
+	 * @param pid			上级菜单id
+	 * @return				List<Menu>
+	 */
 	public List<Menu> getMenulist(int roleid,int pid){
 		//循环读取菜单信息
 		String sql="select menu.* from role_menu left join menu on " +
@@ -49,6 +56,7 @@ public class Role_menuService extends CRUDService<Role_menu> {
 		params.put("pid", pid);
 		
 		List<Map<String,Object>> listmapmenu=role_menuDaoimpl.queryNaviSql(sql, params);
+		List<Menu> listmenu=new ArrayList<Menu>();
 		
 		if(listmapmenu!=null && !listmapmenu.isEmpty()){
 			for(Map<String,Object> mapMenu:listmapmenu){
@@ -59,9 +67,10 @@ public class Role_menuService extends CRUDService<Role_menu> {
 				menu.setUri(mapMenu.get("uri").toString());
 				menu.setIconcls(mapMenu.get("iconcls").toString());
 				
-				
-				adf
+				listmenu.add(menu);
 			}
 		}
+		
+		return listmenu;
 	}
 }

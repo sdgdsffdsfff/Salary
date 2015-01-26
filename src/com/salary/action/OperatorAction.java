@@ -1,5 +1,6 @@
 package com.salary.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Author;
+import com.salary.entity.Menu;
 import com.salary.entity.Operator;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
@@ -21,6 +23,7 @@ import com.salary.service.AuthorService;
 import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
+import com.salary.service.Role_menuService;
 import com.salary.util.MD5Util;
 import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
@@ -38,6 +41,7 @@ public class OperatorAction extends ActionSupport {
 	private RoleService roleService;
 	private Role_authorService role_authorService;
 	private AuthorService authorService;
+	private Role_menuService role_menuService;
 	private Operator operator;						//操作员
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -54,18 +58,21 @@ public class OperatorAction extends ActionSupport {
 	public String getErrormessage() {
 		return errormessage;
 	}
-
 	public void setErrormessage(String errormessage) {
 		this.errormessage = errormessage;
 	}
 	public Logger getLogger() {
 		return logger;
 	}
-
 	public void setLogger(Logger logger) {
 		this.logger = logger;
 	}
-
+	public Role_menuService getRole_menuService() {
+		return role_menuService;
+	}
+	public void setRole_menuService(Role_menuService role_menuService) {
+		this.role_menuService = role_menuService;
+	}
 	/**
 	 * 初始化分页
 	 */
@@ -396,6 +403,9 @@ public class OperatorAction extends ActionSupport {
 				//session域权限信息
 				ActionContext.getContext().getSession().put("maprole_author", maprole_author);
 				
+				String menu_list=this.getMenulist(operator);
+				ActionContext.getContext().getSession().put("menu_list", menu_list);
+				
 				resultMap.put("status", "1");
 				resultMap.put("errormsg", "");
 				
@@ -436,5 +446,29 @@ public class OperatorAction extends ActionSupport {
 		}
 		
 		return SUCCESS;
+	}
+	
+	
+	/**
+	 * 获取菜单列表
+	 * @param op	操作员信息
+	 * @return		Menulist
+	 */
+	public String getMenulist(Operator op){
+		StringBuffer menuBuffer=new StringBuffer(2000);
+		
+		List<Menu> listmenu_main=new ArrayList<Menu>();
+		listmenu_main=role_menuService.getMenulist(op.getRole_id(),0);
+		for(Menu menu_main:listmenu_main){
+			menuBuffer.append("<div title=\""+menu_main.getName()+"\" data-options=\"iconCls:'"+menu_main.getIconcls()+"'\"><ul>");
+			List<Menu> listmenu_slave=role_menuService.getMenulist(op.getRole_id(),menu_main.getId());
+			for(Menu menu_slave:listmenu_slave){
+				menuBuffer.append("<li><a class=\"easyui-linkbutton\" href=\""+menu_slave.getUri()+"\" data-options=\"plain:true,width:100\" >"+menu_slave.getName()+"</a></li>");
+			}
+			
+			menuBuffer.append("</ul></div>");
+		}
+		
+		return menuBuffer.toString();
 	}
 }

@@ -59,6 +59,8 @@
 				<value>com/salary/entity/hbm/Salary_item_unit.hbm.xml</value>
 				<value>com/salary/entity/hbm/Salary_item.hbm.xml</value>
 				<value>com/salary/entity/hbm/Report.hbm.xml</value>
+				<value>com/salary/entity/hbm/Menu.hbm.xml</value>
+				<value>com/salary/entity/hbm/Role_menu.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -121,6 +123,13 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="reportDaoimpl" class="com.salary.dao.ReportDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="menuDaoimpl" class="com.salary.dao.MenuDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="role_menuDaoimpl" class="com.salary.dao.Role_menuDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
@@ -190,6 +199,15 @@
 		<property name="crudDaoimpl" ref="crudDaoimpl" />
 	</bean>
 	
+	<bean id="menuService" class="com.salary.service.MenuService">
+		<property name="menuDaoimpl" ref="menuDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	<bean id="role_menuService" class="com.salary.service.Role_menuService">
+		<property name="role_menuDaoimpl" ref="role_menuDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
 	
 	
 	
@@ -239,6 +257,7 @@
 		<property name="roleService" ref="roleService" />
 		<property name="role_authorService" ref="role_authorService" />
 		<property name="authorService" ref="authorService" />
+		<property name="role_menuService" ref="role_menuService" />
 	</bean>
 	
 	<bean id="roleauthorAction" class="com.salary.action.RoleauthorAction">
@@ -253,5 +272,10 @@
 	<bean id="reportAction" class="com.salary.action.ReportAction">
 		<property name="reportService" ref="reportService" />
 	</bean>
+	
+	<bean id="rolemenuAction" class="com.salary.action.RolemenuAction">
+		<property name="role_menuService" ref="role_menuService" />
+	</bean>
+	
 	
 </beans>

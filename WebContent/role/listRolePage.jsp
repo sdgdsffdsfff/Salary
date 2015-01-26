@@ -58,7 +58,8 @@
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
-		<a onclick="grant()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">授权</a>
+		<a onclick="grantOperator()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">操作权限</a>
+		<a onclick="grantMenu()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">菜单权限</a>
 		
 	</div>
 	
@@ -109,8 +110,8 @@
 		}
 		
 		
-		//授权
-		function grant(){
+		//操作权限授权
+		function grantOperator(){
 			var row=$('#tb_role').datagrid('getSelected');
 			if(row){
 				$('#di_edit').dialog({
@@ -118,6 +119,20 @@
 					width:'400',
 					height:'500',
 					href:"listRoleauthorPage?id="+row.id+"&randomString="+randomString(10),
+					modal:true,
+				});
+			}
+		}
+		
+		//菜单权限授权
+		function grantMenu(){
+			var row=$('#tb_role').datagrid('getSelected');
+			if(row){
+				$('#di_edit').dialog({
+					title:'菜单权限',
+					width:'400',
+					height:'500',
+					href:"listRolemenuPage?id="+row.id+"&randomString="+randomString(10),
 					modal:true,
 				});
 			}

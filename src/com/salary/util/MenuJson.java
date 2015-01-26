@@ -11,6 +11,7 @@ public class MenuJson {
 	private String text;
 	private Boolean checked;
 	private String state;
+	
 	public int getId() {
 		return id;
 	}
