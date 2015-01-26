@@ -311,11 +311,18 @@ public class EmployeeAction extends ActionSupport {
 	 */
 	public String getEmployeelist(){
 		this.init();
-		String hql="From Employee where isdel=0";
-		List<Employee> listemployee=employeeService.queryByPage(hql, null, page, rows);
+		StringBuffer hqlBuffer=new StringBuffer(500);
+		hqlBuffer.append(" select emp.id,emp.code,emp.a6code,emp.name,dept.name as department_id, ");
+		hqlBuffer.append(" case emp.level when 0 then '员工' when 1 then '主管' else '经理' end as level ");
+		hqlBuffer.append(" From employee emp  ");
+		hqlBuffer.append(" left join department dept ");
+		hqlBuffer.append(" on emp.department_id=dept.id ");
+		hqlBuffer.append(" where emp.isdel=0 ");
+		
+		List<Map<String,Object>> listemployee=employeeService.queryNaviSqlByPage(hqlBuffer.toString(), null, page, rows);
 		Map<String,Object> jsonMap=new HashMap<String,Object>();
 		jsonMap.put("rows", listemployee);
-		jsonMap.put("total", employeeService.query(hql, null).size());
+		jsonMap.put("total", employeeService.queryNaviSql(hqlBuffer.toString(), null).size());
 		
 		jsonobj=new JSONObject();
 		jsonobj=JSONObject.fromObject(jsonMap);

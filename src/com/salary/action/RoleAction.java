@@ -198,8 +198,10 @@ public class RoleAction extends ActionSupport {
 			}
 			
 			//删除角色前先删除角色权限表下与此角色关联的信息
-			sql="delete from role_author where role_id="+id;
-			roleService.executeSQL(sql);
+			String sql_del_role_author="delete from role_author where role_id="+id;
+			String sql_del_role_menu="delete from role_menu where role_id="+id;
+			roleService.executeSQL(sql_del_role_author);
+			roleService.executeSQL(sql_del_role_menu);
 			
 			String hql="From Role where id="+id;
 			role=roleService.get(hql, null);

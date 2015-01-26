@@ -31,7 +31,6 @@
                 columns:[[
 					{field:'id',title:'角色编号',width:80}, 
                     {field:'name',title:'角色名称',width:220}, 
-                    {field:'isdel',title:'是否删除'},
                 ]], 
                 pagination:true,  //分页控件
                 rownumbers:true,  //行号

@@ -30,11 +30,11 @@
                 idField:'id', 
                 columns:[[
 					{field:'id',title:'项目编号',width:80}, 
-                    {field:'name',title:'项目名称',width:120}, 
-                    {field:'level',title:'是否公式计算',width:80},
+                    {field:'name',title:'项目名称',width:150}, 
+                    {field:'level',title:'是否计算',width:80},
                     {field:'isshow',title:'是否显示',width:80},
                     {field:'isedit',title:'是否编辑',width:80},
-                    {field:'isdel',title:'是否删除',width:80} 
+                    {field:'issum',title:'是否合计',width:80},
                 ]], 
                 pagination:true,  //分页控件
                 rownumbers:true,  //行号

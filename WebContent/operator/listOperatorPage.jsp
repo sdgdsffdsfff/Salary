@@ -29,10 +29,9 @@
                 remoteSort: false, 
                 idField:'id', 
                 columns:[[
-					{field:'id',title:'操作员编号',width:80}, 
-                    {field:'name',title:'操作员名称',width:220},
-                    {field:'role_id',title:'角色编号',width:80},
-                    {field:'isdel',title:'是否删除',width:80},
+					{field:'id',title:'编号',width:80}, 
+                    {field:'name',title:'操作员编码',width:220},
+                    {field:'role_id',title:'操作员角色',width:80},
                 ]], 
                 pagination:true,  //分页控件
                 rownumbers:true,  //行号

@@ -29,9 +29,9 @@
                 remoteSort: false, 
                 idField:'id', 
                 columns:[[
-					{field:'id',title:'项目编号',width:80}, 
-					{field:'salary_item_id',title:'奖金编号',width:80},
-                    {field:'name',title:'公式名称',width:120},
+					{field:'id',title:'公式编号',width:80}, 
+					{field:'salary_item_id',title:'奖金项名称',width:150},
+                    {field:'name',title:'公式名称',width:150},
                     {field:'comment',title:'公式内容',width:150},
                     {field:'dynmaicsql',title:'公式SQL',width:220}, 
                 ]], 

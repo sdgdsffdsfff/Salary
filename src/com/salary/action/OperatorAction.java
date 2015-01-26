@@ -340,12 +340,12 @@ public class OperatorAction extends ActionSupport {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getOperatorlist(){
-		String hql="From Operator where isdel=0";
-		List<Operator> listoperator=operatorService.queryByPage(hql, null, page, rows);
+		String sql="select ope.id,ope.name,rol.name as role_id From operator ope left join role rol on ope.role_id=rol.id where ope.isdel=0";
+		List<Map<String,Object>> listoperator=operatorService.queryNaviSqlByPage(sql, null, page, rows);
 		Map<String,Object> jsonMap=new HashMap<String,Object>();
 		
 		jsonMap.put("rows", listoperator);
-		jsonMap.put("total", operatorService.query(hql, null).size());
+		jsonMap.put("total", operatorService.queryNaviSql(sql, null).size());
 		
 		jsonobj=new JSONObject();
 		jsonobj=JSONObject.fromObject(jsonMap);

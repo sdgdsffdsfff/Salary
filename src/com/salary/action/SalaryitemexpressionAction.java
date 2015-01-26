@@ -341,14 +341,20 @@ public class SalaryitemexpressionAction extends ActionSupport{
 	 */
 	public String getSalaryitemexpressionlist(){
 		this.init();
-		String hql="From Salary_item_expression";
+		StringBuffer sqlBuffer=new StringBuffer(200);
+		sqlBuffer.append(" select sal_e.id,sal_i.name as salary_item_id, ");
+		sqlBuffer.append(" sal_e.name,sal_e.dynmaicsql,sal_e.comment ");
+		sqlBuffer.append(" From salary_item_expression sal_e ");
+		sqlBuffer.append(" left join salary_item sal_i ");
+		sqlBuffer.append(" on sal_e.salary_item_id=sal_i.id ");
+		
 		Map<String,Object> params=new HashMap<String,Object>();
-		List<Salary_item_expression> listSalaryitemexpression=
-				salary_item_expressionService.queryByPage(hql, params, page, rows);
+		List<Map<String,Object>> listSalaryitemexpression=
+				salary_item_expressionService.queryNaviSqlByPage(sqlBuffer.toString(), params, page, rows);
 		
 		Map<String,Object> jsonMap=new HashMap<String,Object>();
 		jsonMap.put("rows", listSalaryitemexpression);
-		jsonMap.put("total", salary_item_expressionService.query(hql, params).size());
+		jsonMap.put("total", salary_item_expressionService.queryNaviSql(sqlBuffer.toString(), params).size());
 		
 		jsonobj=new JSONObject();
 		jsonobj=JSONObject.fromObject(jsonMap);

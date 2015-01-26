@@ -255,14 +255,20 @@ public class SalaryitemAction extends ActionSupport{
 	 */
 	public String getSalaryitemlist(){
 		this.init();
-		String hql="From Salary_item where isdel=0";
-		Map<String,Object> params=new HashMap<String,Object>();
+		StringBuffer sqlBuffer=new StringBuffer(500);
+		sqlBuffer.append(" select sal.id,sal.name, ");
+		sqlBuffer.append(" case level when 1 then '是' else '否' end as level, ");
+		sqlBuffer.append(" case isshow when 1 then '是' else '否' end as isshow, ");
+		sqlBuffer.append(" case isedit when 1 then '是' else '否' end as isedit, ");
+		sqlBuffer.append(" case issum when 1 then '是' else '否' end as issum ");
+		sqlBuffer.append(" From salary_item sal ");
+		sqlBuffer.append(" where isdel=0 ");
 		
-		List<Salary_item> listSalaryitem=salary_itemService.queryByPage(hql, params,page, rows);
+		List<Map<String,Object>> listSalaryitem=salary_itemService.queryNaviSqlByPage(sqlBuffer.toString(), null,page, rows);
 		Map<String,Object> jsonMap=new HashMap<String,Object>();
 		
 		jsonMap.put("rows", listSalaryitem);
-		jsonMap.put("total", salary_itemService.query(hql, null).size());
+		jsonMap.put("total", salary_itemService.queryNaviSql(sqlBuffer.toString(), null).size());
 		jsonobj=new JSONObject();
 		jsonobj=JSONObject.fromObject(jsonMap);
 	

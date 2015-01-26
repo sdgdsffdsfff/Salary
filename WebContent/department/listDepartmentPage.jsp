@@ -31,7 +31,6 @@
                 columns:[[
 					{field:'id',title:'编号',width:80},
 					{field:'name',title:'部门名称',width:120},
-                    {field:'isdel',title:'是否删除',width:120},
                 ]], 
                 pagination:true,  //分页控件
                 rownumbers:true,  //行号
