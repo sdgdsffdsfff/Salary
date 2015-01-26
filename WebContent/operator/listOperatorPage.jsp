@@ -58,6 +58,8 @@
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
+		<a onclick="editPassword()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">修改密码</a>
+	
 	</div>
 	
 	<script type="text/javascript">
@@ -104,6 +106,17 @@
 					}
 				});
 			}
+		}
+		
+		//修改自身的密码
+		function editPassword(){
+			$('#di_edit').dialog({
+				title:'修改操作员',
+				width:'350',
+				height:'230',
+				href:'editPasswordPage?&randomString='+randomString(10),
+				modal:true,
+			});
 		}
 		
 	</script>

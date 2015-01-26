@@ -26,6 +26,14 @@
 		<action name="initOperator" class="com.salary.action.OperatorAction" method="initOperator">
 			<result name="success">/login.jsp</result>
 		</action>
+		<!-- 显示修改密码页面 -->
+		<action name="editPasswordPage" class="com.salary.action.OperatorAction" method="editPasswordPage">
+			<result name="success">/operator/editPasswordPage.jsp</result>
+		</action>
+		<!-- 修改密码 -->
+		<action name="editPassword" class="com.salary.action.OperatorAction" method="editPassword">
+			<result name="success">/operator/listOperatorPage.jsp</result>
+		</action>
 	</package>
 	
 	

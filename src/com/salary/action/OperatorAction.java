@@ -467,6 +467,9 @@ public class OperatorAction extends ActionSupport {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
 		}
 		
 		return SUCCESS;
@@ -482,7 +485,7 @@ public class OperatorAction extends ActionSupport {
 		StringBuffer menuBuffer=new StringBuffer(2000);
 		
 		List<Menu> listmenu_main=new ArrayList<Menu>();
-		listmenu_main=role_menuService.getMenulist(op.getRole_id(),0);
+		listmenu_main=role_menuService.getMenulist(op.getRole_id(),1);
 		for(Menu menu_main:listmenu_main){
 			menuBuffer.append("<div title=\""+menu_main.getName()+"\" data-options=\"iconCls:'"+menu_main.getIconcls()+"'\"><ul>");
 			List<Menu> listmenu_slave=role_menuService.getMenulist(op.getRole_id(),menu_main.getId());
@@ -494,5 +497,34 @@ public class OperatorAction extends ActionSupport {
 		}
 		
 		return menuBuffer.toString();
+	}
+	
+	/**
+	 * 修改自己的密码
+	 * @return	ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
+	 */
+	public String editPassword(){
+		try {
+			Operator tmpOperator=(Operator) ActionContext.getContext().getSession().get("operatorinfo");
+			tmpOperator.setPass(MD5Util.MD5(operator.getPass()));
+			operatorService.edit(tmpOperator);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			errormessage=e.getMessage();
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * 显示修改密码页面
+	 * @return
+	 */
+	public String editPasswordPage(){
+		operator=(Operator) ActionContext.getContext().getSession().get("operatorinfo");
+
+		return SUCCESS;
 	}
 }
