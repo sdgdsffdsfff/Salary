@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.salary.dao.AccountDaoImpl;
 import com.salary.dao.EmployeeDaoImpl;
 import com.salary.dao.Salary_detailDaoImpl;
 import com.salary.dao.Salary_itemDaoImpl;
 import com.salary.entity.Account;
+import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.sync.a6.A6DaoImpl;
@@ -140,17 +142,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	 * @param account_id	奖金期间id
 	 * @return				奖金项目明细表sql语句
 	 */
-	public String GetfnGetsalarysql(int account_id){
-		
-		//查找quick_sql表中，是否有相应的sql语句
-		String sql="select dynmaicsql,status from quick_sql where name='GetfnGetsalarysql'";
-		List<Map<String,Object>> listquick_sql=salary_itemDaoimpl.queryNaviSql(sql, null);
-		if(listquick_sql!=null && listquick_sql.size()>0){
-			if(listquick_sql.get(0).get("status").toString().equals("0")){
-				System.out.println("GetfnGetsalarysql -->使用了快速sql...");
-				return listquick_sql.get(0).get("dynmaicsql").toString();
-			}
-		}
+	public String GetfnGetsalarysql(int account_id,Employee employee){
 		
 		//存储外层sql
 		StringBuffer sqlBuffer=new StringBuffer(1000);
@@ -177,15 +169,27 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		
 		sqlBuffer.append(" from (");
 		sqlBuffer2.append(" from salary_detail where account_id=:account_id ) sal left join employee emp on emp.id=sal.emp_id ");
-		sqlBuffer2.append(" left join department dept on emp.department_id=dept.id group by emp.name,emp.code, ");
-		sqlBuffer2.append(" dept.name order by deptname,empname ");
+		sqlBuffer2.append(" left join department dept on emp.department_id=dept.id ");
+		
+		//如果session域里面有读取到用户的信息，则说明不是超级管理员，需要进行部门或人员的过滤
+		if(employee!=null){
+			//如果该人员的等级为2，则可以看到该部门下的奖金明细信息
+			if(employee.getLevel()==1){
+				sqlBuffer2.append(" where dept.id="+employee.getDepartment_id());
+			}
+			//如果该人员的等级为0，则只能看到自己的奖金明细信息
+			if(employee.getLevel()==0){
+				sqlBuffer2.append(" where emp.id="+employee.getId());
+			}
+			
+			System.out.println("GetfnGetsalarysql:employee is "+employee.getName());
+		}else{
+			System.out.println("GetfnGetsalarysql:employee is null");
+		}
+		sqlBuffer2.append(" group by emp.name,emp.code,dept.name ");
+		sqlBuffer2.append(" order by deptname,empname ");
 		
 		sqlBuffer.append(sqlBuffer2);
-		
-		String dynmaicsql=sqlBuffer.toString();
-		//更新快速SQL表的status为0
-		String update_quick_sql="update quick_sql set status=0,dynmaicsql='"+dynmaicsql+"' where name='GetfnGetsalarysql'";
-		salary_detailDaoimpl.executeSQL(update_quick_sql);
 		
 		return sqlBuffer.toString();
 	}

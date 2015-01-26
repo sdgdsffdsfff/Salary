@@ -14,12 +14,14 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Author;
+import com.salary.entity.Employee;
 import com.salary.entity.Menu;
 import com.salary.entity.Operator;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
 import com.salary.entity.Salary_item;
 import com.salary.service.AuthorService;
+import com.salary.service.EmployeeService;
 import com.salary.service.OperatorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
@@ -42,6 +44,7 @@ public class OperatorAction extends ActionSupport {
 	private Role_authorService role_authorService;
 	private AuthorService authorService;
 	private Role_menuService role_menuService;
+	private EmployeeService employeeService;
 	private Operator operator;						//操作员
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -72,6 +75,12 @@ public class OperatorAction extends ActionSupport {
 	}
 	public void setRole_menuService(Role_menuService role_menuService) {
 		this.role_menuService = role_menuService;
+	}
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
 	}
 	/**
 	 * 初始化分页
@@ -367,6 +376,7 @@ public class OperatorAction extends ActionSupport {
 			}
 		}
 		
+		//先在操作员表中读取信息，如果找到该操作员，则返回success
 		if(operator!=null && operator.getName()!=null && operator.getPass()!=null){
 			//MD5加密
 			operator.setPass(MD5Util.MD5(operator.getPass()));
@@ -374,6 +384,7 @@ public class OperatorAction extends ActionSupport {
 			Map<String,Object> params=new HashMap<String,Object>();
 			params.put("name", operator.getName());
 			params.put("pass", operator.getPass());
+			
 			
 			List<Operator> listoperator=operatorService.query(hql, params);
 			if(listoperator!=null && listoperator.size()>0){
@@ -402,6 +413,19 @@ public class OperatorAction extends ActionSupport {
 				ActionContext.getContext().getSession().put("operatorinfo", operator);
 				//session域权限信息
 				ActionContext.getContext().getSession().put("maprole_author", maprole_author);
+				
+				/**
+				 * 读取用户信息，如果不是超级管理员的权限，则需要关联用户信息，根据人员的等级来区分是否可查看全部人员的奖金信息，部门人员的奖金信息，个人的奖金信息
+				 */
+				if(operator.getRole_id()>1){
+					Map<String,Object> params_emp=new HashMap<String,Object>();
+					params_emp.put("code", operator.getName());
+					String hql_emp="From Employee where code=:code";
+					Employee employee=employeeService.get(hql_emp, params_emp);
+					//session域人员信息
+					ActionContext.getContext().getSession().put("employeeinfo", employee);
+					System.out.println("login-->employee:"+employee.getName());
+				}
 				
 				String menu_list=this.getMenulist(operator);
 				ActionContext.getContext().getSession().put("menu_list", menu_list);

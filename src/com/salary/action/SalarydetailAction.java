@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Department;
@@ -341,8 +343,10 @@ public class SalarydetailAction extends ActionSupport {
 		try {
 			//先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
-			//读取quick_sql表中的预存sql语句，如果有，则直接返回动态sql语句
-			String sql=salary_detailService.GetfnGetsalarysql(account_id);
+			
+			Employee employee=(Employee) ActionContext.getContext().getSession().get("employeeinfo");
+			//返回动态sql语句
+			String sql=salary_detailService.GetfnGetsalarysql(account_id,employee);
 			Map<String,Object> params=new HashMap<String,Object>();
 			params.put("account_id", account_id);
 			List<Map<String,Object>> listsalarydetail=salary_detailService.queryNaviSql(sql, params);
