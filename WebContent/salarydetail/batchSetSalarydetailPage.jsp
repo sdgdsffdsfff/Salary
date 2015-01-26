@@ -33,7 +33,6 @@
 				<td>
 					<select class="easyui-combobox" name="departmentid"
 							data-options='required:true,width:150,' >
-							<option value="0">所有部门</option>
 							<s:iterator value="listdepartment">
 								<option value='<s:property value="id" />'><s:property value="name" /></option>
 							</s:iterator>

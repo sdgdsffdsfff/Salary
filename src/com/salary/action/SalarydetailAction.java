@@ -12,6 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Department;
 import com.salary.entity.Employee;
+import com.salary.entity.Operator;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
@@ -404,7 +405,13 @@ public class SalarydetailAction extends ActionSupport {
 	public String calcSalarydetail(){
 		try {
 			//第一步，取出人员的列表，关联上公式模板
-			String hql="From Employee where isdel=0";
+			String hql="From Employee where isdel=0 ";
+			
+			//如果人员的信息不为空，则表示非超级管理员，则只能计算自己部门的信息
+			Employee tmpEmployee=(Employee) ActionContext.getContext().getSession().get("employeeinfo");
+			if(tmpEmployee!=null){
+				hql+=" and department_id="+tmpEmployee.getDepartment_id();
+			}
 			List<Employee> listemployee=employeeService.query(hql, null);
 			
 			String exp_hql="From Salary_item_expression";
@@ -525,8 +532,22 @@ public class SalarydetailAction extends ActionSupport {
 			String hql_salary_item="From Salary_item where isdel=0 and isedit=1";
 			listsalary_item=salary_itemService.query(hql_salary_item, null);
 			
-			String hql_dept="From Department where isdel=0";
+			
+			String hql_dept="From Department where isdel=0 ";
+			//如果人员的信息不为空，则表示非超级管理员，则只能读取自己部门的信息
+			Employee tmpEmployee=(Employee) ActionContext.getContext().getSession().get("employeeinfo");
+			if(tmpEmployee!=null){
+				hql_dept+=" and id="+tmpEmployee.getDepartment_id();
+			}
+			
 			listdepartment=departmentService.query(hql_dept, null);
+			//如果人员的信息为空，则表示是超级管理员，添加一项“所有部门”
+			if(tmpEmployee==null){
+				Department tmpDepartment=new Department();
+				tmpDepartment.setId(0);
+				tmpDepartment.setName("所有部门");
+				listdepartment.add(0, tmpDepartment);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			errormessage=e.getMessage();
