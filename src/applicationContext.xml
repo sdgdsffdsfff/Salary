@@ -25,8 +25,8 @@
 		<property name="acquireIncrement" value="5" />
 		
 		<!-- JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements    
-  属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。    
-  如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+		  属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。    
+		  如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
 		<property name="maxStatements" value="0" />
 		<property name="maxStatementsPerConnection" value="0" />
 		
@@ -37,8 +37,8 @@
 		<property name="acquireRetryAttempts" value="30" />
 		
 		<!-- 获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效    
-  保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试    
-  获取连接失败后该数据源将申明已断开并永久关闭。Default: false -->
+		  保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试    
+		  获取连接失败后该数据源将申明已断开并永久关闭。Default: false -->
 		<property name="breakAfterAcquireFailure" value="true" />
 		
 	</bean>
@@ -70,12 +70,6 @@
 		</property>
 	</bean>
 
-	
-	<!-- 测试用 -->
-	<bean id="testAction" class="com.salary.action.testAction">
-		<property name="crudDaoimpl" ref="crudDaoimpl" />
-	</bean>
-	
 	
 	<!-- Dao层 -->
 	<bean id="crudDaoimpl" class="com.salary.dao.CRUDDaoImpl">

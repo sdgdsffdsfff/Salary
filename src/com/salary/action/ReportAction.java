@@ -3,12 +3,8 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
-
 import net.sf.json.JSONObject;
-
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Report;
 import com.salary.service.ReportService;
 
@@ -18,78 +14,60 @@ import com.salary.service.ReportService;
  *
  */
 @SuppressWarnings("serial")
-public class ReportAction extends ActionSupport {
+public class ReportAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(ReportAction.class);
 	private ReportService reportService;
 	private Integer id;
-	private Integer page;							//Easyui分页号
-	private Integer rows;							//Easyui分页大小
 	private Report report;							//自定义报表类
 	private JSONObject jsonobj;						//json数据
 	private String dynmaiccolumn;					//动态的Easyui表格列
-	private String errormessage;					//错误信息
 	
-	/**
-	 * 初始化分页
-	 */
-	public void init(){
-		page=(page==null || page==0)?new Integer(1):page;
-		rows=(rows==null || rows==0)?new Integer(10):rows;
-	}
-	
-	public ReportService getReportService() {
-		return reportService;
-	}
-	public void setReportService(ReportService reportService) {
-		this.reportService = reportService;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public Integer getPage() {
-		return page;
-	}
-	public void setPage(Integer page) {
-		this.page = page;
-	}
-	public Integer getRows() {
-		return rows;
-	}
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-	public Report getReport() {
-		return report;
-	}
-	public void setReport(Report report) {
-		this.report = report;
-	}
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-	public String getDynmaiccolumn() {
-		return dynmaiccolumn;
-	}
-	public void setDynmaiccolumn(String dynmaiccolumn) {
-		this.dynmaiccolumn = dynmaiccolumn;
-	}
 	public Logger getLogger() {
 		return logger;
 	}
+
 	public void setLogger(Logger logger) {
 		this.logger = logger;
 	}
-	public String getErrormessage() {
-		return errormessage;
+
+	public ReportService getReportService() {
+		return reportService;
 	}
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
+
+	public void setReportService(ReportService reportService) {
+		this.reportService = reportService;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Report getReport() {
+		return report;
+	}
+
+	public void setReport(Report report) {
+		this.report = report;
+	}
+
+	public JSONObject getJsonobj() {
+		return jsonobj;
+	}
+
+	public void setJsonobj(JSONObject jsonobj) {
+		this.jsonobj = jsonobj;
+	}
+
+	public String getDynmaiccolumn() {
+		return dynmaiccolumn;
+	}
+
+	public void setDynmaiccolumn(String dynmaiccolumn) {
+		this.dynmaiccolumn = dynmaiccolumn;
 	}
 
 	/**

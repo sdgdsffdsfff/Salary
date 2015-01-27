@@ -6,112 +6,117 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Menu;
 import com.salary.entity.Role;
 import com.salary.entity.Role_menu;
+import com.salary.json.MenuJson;
 import com.salary.service.MenuService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_menuService;
-import com.salary.util.MenuJson;
 
 @SuppressWarnings("serial")
-public class RolemenuAction extends ActionSupport {
+public class RolemenuAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(RolemenuAction.class);
 	
 	private Role_menuService role_menuService;		//角色菜单服务
 	private MenuService menuService;				//菜单表服务
 	private RoleService roleService;				//角色服务
 	private Integer id;								//主键
-	private String errormessage;					//错误消息
 	private Role role;								//角色信息
 	private Role_menu role_menu;					//菜单权限表
 	private String menuids;							//允许的菜单id列表
 	private Integer roleid;							//角色id
 	private Integer pid;							//上级id
 	private List<Menu> listmenu;					//菜单列表
-	private JSONObject jsonobj;						//json对象，传递给Easyui表格
 	
-	
-	public Role_menuService getRole_menuService() {
-		return role_menuService;
-	}
-	public void setRole_menuService(Role_menuService role_menuService) {
-		this.role_menuService = role_menuService;
-	}
-	public MenuService getMenuService() {
-		return menuService;
-	}
-	public void setMenuService(MenuService menuService) {
-		this.menuService = menuService;
-	}
-	public RoleService getRoleService() {
-		return roleService;
-	}
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getErrormessage() {
-		return errormessage;
-	}
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
-	}
-	public Role getRole() {
-		return role;
-	}
-	public void setRole(Role role) {
-		this.role = role;
-	}
-	public Role_menu getRole_menu() {
-		return role_menu;
-	}
-	public void setRole_menu(Role_menu role_menu) {
-		this.role_menu = role_menu;
-	}
 	public Logger getLogger() {
 		return logger;
 	}
+
 	public void setLogger(Logger logger) {
 		this.logger = logger;
 	}
+
+	public Role_menuService getRole_menuService() {
+		return role_menuService;
+	}
+
+	public void setRole_menuService(Role_menuService role_menuService) {
+		this.role_menuService = role_menuService;
+	}
+
+	public MenuService getMenuService() {
+		return menuService;
+	}
+
+	public void setMenuService(MenuService menuService) {
+		this.menuService = menuService;
+	}
+
+	public RoleService getRoleService() {
+		return roleService;
+	}
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Role_menu getRole_menu() {
+		return role_menu;
+	}
+
+	public void setRole_menu(Role_menu role_menu) {
+		this.role_menu = role_menu;
+	}
+
 	public String getMenuids() {
 		return menuids;
 	}
+
 	public void setMenuids(String menuids) {
 		this.menuids = menuids;
 	}
+
 	public Integer getRoleid() {
 		return roleid;
 	}
+
 	public void setRoleid(Integer roleid) {
 		this.roleid = roleid;
 	}
+
 	public Integer getPid() {
 		return pid;
 	}
+
 	public void setPid(Integer pid) {
 		this.pid = pid;
 	}
+
 	public List<Menu> getListmenu() {
 		return listmenu;
 	}
+
 	public void setListmenu(List<Menu> listmenu) {
 		this.listmenu = listmenu;
 	}
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-	
+
 	/**
 	 * 显示添加菜单权限页面
 	 * @return

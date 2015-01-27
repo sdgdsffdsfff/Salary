@@ -1,4 +1,4 @@
-package com.salary.util;
+package com.salary.json;
 
 /**
  * 操作权限json类

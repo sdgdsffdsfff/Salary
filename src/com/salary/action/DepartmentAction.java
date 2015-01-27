@@ -3,12 +3,8 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
-
 import net.sf.json.JSONObject;
-
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Department;
 import com.salary.entity.Salary_item;
 import com.salary.service.DepartmentService;
@@ -20,7 +16,7 @@ import com.salary.util.NumberUtils;
  *
  */
 @SuppressWarnings("serial")
-public class DepartmentAction extends ActionSupport {
+public class DepartmentAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(DepartmentAction.class);
 	
 	private DepartmentService departmentService;
@@ -28,19 +24,7 @@ public class DepartmentAction extends ActionSupport {
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
-	private JSONObject jsonobj;						//json对象，传递给Easyui表格
-	private Integer page;							//Easyui分页号
-	private Integer rows;							//Easyui分页大小
 	private Department department;					//部门信息
-	private String errormessage;					//错误消息
-	
-	public String getErrormessage() {
-		return errormessage;
-	}
-
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
-	}
 	
 	public Logger getLogger() {
 		return logger;
@@ -50,13 +34,22 @@ public class DepartmentAction extends ActionSupport {
 		this.logger = logger;
 	}
 
-	/**
-	 * 初始化分页
-	 */
-	public void init(){
-		page=(page==null || page==0)?new Integer(1):page;
-		rows=(rows==null || rows==0)?new Integer(10):rows;
+	public DepartmentService getDepartmentService() {
+		return departmentService;
 	}
+
+	public void setDepartmentService(DepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getAccount_id() {
 		return account_id;
 	}
@@ -81,46 +74,14 @@ public class DepartmentAction extends ActionSupport {
 		this.salary_item = salary_item;
 	}
 
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-
-	public Integer getPage() {
-		return page;
-	}
-	public void setPage(Integer page) {
-		this.page = page;
-	}
-	public Integer getRows() {
-		return rows;
-	}
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-	public DepartmentService getDepartmentService() {
-		return departmentService;
-	}
-
-	public void setDepartmentService(DepartmentService departmentService) {
-		this.departmentService = departmentService;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
 	public Department getDepartment() {
 		return department;
 	}
+
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-	
+
 	/**
 	 * 显示添加部门页面
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR

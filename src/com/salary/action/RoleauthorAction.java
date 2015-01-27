@@ -4,19 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
-
 import net.sf.json.JSONObject;
-
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Author;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
+import com.salary.json.AuthorJson;
 import com.salary.service.AuthorService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_authorService;
-import com.salary.util.AuthorJson;
 
 /**
  * 角色权限处理action
@@ -24,26 +20,16 @@ import com.salary.util.AuthorJson;
  *
  */
 @SuppressWarnings("serial")
-public class RoleauthorAction extends ActionSupport {
+public class RoleauthorAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(RoleauthorAction.class);
 	
 	private Role_authorService role_authorService;
 	private AuthorService authorService;			
 	private Role role;								//角色信息
 	private Role_author role_author;				//角色权限
-	private JSONObject jsonobj;						//json对象，传递给Easyui表格
 	private String authorids;						//未选中的权限集合
 	private RoleService roleService;				//角色服务
 	private Integer id;								//主键
-	private String errormessage;					//错误消息
-	
-	public String getErrormessage() {
-		return errormessage;
-	}
-
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
-	}
 	
 	public Logger getLogger() {
 		return logger;
@@ -85,14 +71,6 @@ public class RoleauthorAction extends ActionSupport {
 		this.role_author = role_author;
 	}
 
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-
 	public String getAuthorids() {
 		return authorids;
 	}
@@ -100,7 +78,7 @@ public class RoleauthorAction extends ActionSupport {
 	public void setAuthorids(String authorids) {
 		this.authorids = authorids;
 	}
-	
+
 	public RoleService getRoleService() {
 		return roleService;
 	}
@@ -117,7 +95,6 @@ public class RoleauthorAction extends ActionSupport {
 		this.id = id;
 	}
 
-	
 	/**
 	 * 添加角色权限页面
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR

@@ -45,20 +45,16 @@ public class NumberUtils {
 	 * @return 		BigDecimal
 	 */
 	public static BigDecimal ObjectToBigDecimal(Object obj){
-		if(obj==null){
-			return BigDecimal.valueOf(0.0);
-		}
-		
-		if(obj instanceof BigDecimal){
-			return (BigDecimal) obj;
-		}
-		if(obj instanceof BigInteger){
-			return BigDecimal.valueOf(((BigInteger) obj).doubleValue());
-		}
-		if(obj instanceof Integer){
-			return BigDecimal.valueOf(((Integer) obj).doubleValue());
-		}
-		
-		return null;
+		return BigDecimal.valueOf(Double.parseDouble(String.valueOf(obj)));
+	}
+	
+	
+	/**
+	 * 将Object类型的数据转换为float类型数据
+	 * @param obj		Object类型数据
+	 * @return			float类型数据
+	 */
+	public static float ObjectToFloat(Object obj){
+		return Float.parseFloat(String.valueOf(obj));
 	}
 }

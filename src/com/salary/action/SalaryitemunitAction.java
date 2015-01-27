@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
@@ -20,7 +19,7 @@ import com.salary.util.NumberUtils;
  *
  */
 @SuppressWarnings("serial")
-public class SalaryitemunitAction extends ActionSupport {
+public class SalaryitemunitAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(SalaryitemunitAction.class);
 	
 	private Salary_item_unitService salary_item_unitService;
@@ -30,20 +29,8 @@ public class SalaryitemunitAction extends ActionSupport {
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
-	private JSONObject jsonobj;						//json对象，传递给Easyui表格
-	private Integer page;							//Easyui分页号
-	private Integer rows;							//Easyui分页大小
 	private List<Salary_item_expression> listsalary_item_expression;//奖金公式列表
 	private Salary_item_unit salary_item_unit;		//奖金公式单元
-	private String errormessage;					//错误消息
-	
-	/**
-	 * 初始化分页
-	 */
-	public void init(){
-		page=(page==null || page==0)?new Integer(1):page;
-		rows=(rows==null || rows==0)?new Integer(10):rows;
-	}
 	
 	public Logger getLogger() {
 		return logger;
@@ -51,6 +38,24 @@ public class SalaryitemunitAction extends ActionSupport {
 
 	public void setLogger(Logger logger) {
 		this.logger = logger;
+	}
+
+	public Salary_item_unitService getSalary_item_unitService() {
+		return salary_item_unitService;
+	}
+
+	public void setSalary_item_unitService(
+			Salary_item_unitService salary_item_unitService) {
+		this.salary_item_unitService = salary_item_unitService;
+	}
+
+	public Salary_item_expressionService getSalary_item_expressionService() {
+		return salary_item_expressionService;
+	}
+
+	public void setSalary_item_expressionService(
+			Salary_item_expressionService salary_item_expressionService) {
+		this.salary_item_expressionService = salary_item_expressionService;
 	}
 
 	public EmployeeService getEmployeeService() {
@@ -93,71 +98,21 @@ public class SalaryitemunitAction extends ActionSupport {
 		this.salary_item = salary_item;
 	}
 
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-
-	public Integer getPage() {
-		return page;
-	}
-	
-	public void setPage(Integer page) {
-		this.page = page;
-	}
-	
-	public Integer getRows() {
-		return rows;
-	}
-	
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-	
-	public Salary_item_unitService getSalary_item_unitService() {
-		return salary_item_unitService;
-	}
-
-	public void setSalary_item_unitService(
-			Salary_item_unitService salary_item_unitService) {
-		this.salary_item_unitService = salary_item_unitService;
-	}
-	
-	public Salary_item_unit getSalary_item_unit() {
-		return salary_item_unit;
-	}
-	
-	public void setSalary_item_unit(Salary_item_unit salary_item_unit) {
-		this.salary_item_unit = salary_item_unit;
-	}
-	
-	public Salary_item_expressionService getSalary_item_expressionService() {
-		return salary_item_expressionService;
-	}
-	
-	public void setSalary_item_expressionService(
-			Salary_item_expressionService salary_item_expressionService) {
-		this.salary_item_expressionService = salary_item_expressionService;
-	}
-	
 	public List<Salary_item_expression> getListsalary_item_expression() {
 		return listsalary_item_expression;
 	}
-	
+
 	public void setListsalary_item_expression(
 			List<Salary_item_expression> listsalary_item_expression) {
 		this.listsalary_item_expression = listsalary_item_expression;
 	}
-	
-	public String getErrormessage() {
-		return errormessage;
+
+	public Salary_item_unit getSalary_item_unit() {
+		return salary_item_unit;
 	}
 
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
+	public void setSalary_item_unit(Salary_item_unit salary_item_unit) {
+		this.salary_item_unit = salary_item_unit;
 	}
 
 	/**

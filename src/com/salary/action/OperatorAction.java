@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Author;
 import com.salary.entity.Employee;
@@ -36,7 +32,7 @@ import com.salary.util.SalaryUtils;
  *
  */
 @SuppressWarnings("serial")
-public class OperatorAction extends ActionSupport {
+public class OperatorAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(OperatorAction.class);
 	
 	private OperatorService operatorService;
@@ -51,51 +47,63 @@ public class OperatorAction extends ActionSupport {
 	private Account account;						//账户期间
 	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
-	private JSONObject jsonobj;						//json对象，传递给Easyui表格
-	private Integer page;							//Easyui分页号
-	private Integer rows;							//Easyui分页大小
 	private List<Role> listrole;					//角色信息列表
 	private Role role;								//角色信息
-	private String errormessage;					//错误消息
 	
-	public String getErrormessage() {
-		return errormessage;
-	}
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
-	}
 	public Logger getLogger() {
 		return logger;
 	}
+
 	public void setLogger(Logger logger) {
 		this.logger = logger;
 	}
-	public Role_menuService getRole_menuService() {
-		return role_menuService;
+
+	public OperatorService getOperatorService() {
+		return operatorService;
 	}
-	public void setRole_menuService(Role_menuService role_menuService) {
-		this.role_menuService = role_menuService;
+
+	public void setOperatorService(OperatorService operatorService) {
+		this.operatorService = operatorService;
 	}
-	public EmployeeService getEmployeeService() {
-		return employeeService;
-	}
-	public void setEmployeeService(EmployeeService employeeService) {
-		this.employeeService = employeeService;
-	}
-	/**
-	 * 初始化分页
-	 */
-	public void init(){
-		page=(page==null || page==0)?new Integer(1):page;
-		rows=(rows==null || rows==0)?new Integer(10):rows;
-	}
-	
+
 	public RoleService getRoleService() {
 		return roleService;
 	}
 
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
+	}
+
+	public Role_authorService getRole_authorService() {
+		return role_authorService;
+	}
+
+	public void setRole_authorService(Role_authorService role_authorService) {
+		this.role_authorService = role_authorService;
+	}
+
+	public AuthorService getAuthorService() {
+		return authorService;
+	}
+
+	public void setAuthorService(AuthorService authorService) {
+		this.authorService = authorService;
+	}
+
+	public Role_menuService getRole_menuService() {
+		return role_menuService;
+	}
+
+	public void setRole_menuService(Role_menuService role_menuService) {
+		this.role_menuService = role_menuService;
+	}
+
+	public EmployeeService getEmployeeService() {
+		return employeeService;
+	}
+
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
 	}
 
 	public Operator getOperator() {
@@ -105,70 +113,47 @@ public class OperatorAction extends ActionSupport {
 	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}
-	
-	public AuthorService getAuthorService() {
-		return authorService;
-	}
 
-	public void setAuthorService(AuthorService authorService) {
-		this.authorService = authorService;
-	}
-
-	public OperatorService getOperatorService() {
-		return operatorService;
-	}
-	public void setOperatorService(OperatorService operatorService) {
-		this.operatorService = operatorService;
-	}
 	public Integer getAccount_id() {
 		return account_id;
 	}
+
 	public void setAccount_id(Integer account_id) {
 		this.account_id = account_id;
 	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Account getAccount() {
 		return account;
 	}
+
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
 	public Integer getEmp_id() {
 		return emp_id;
 	}
+
 	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
+
 	public Salary_item getSalary_item() {
 		return salary_item;
 	}
+
 	public void setSalary_item(Salary_item salary_item) {
 		this.salary_item = salary_item;
 	}
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-	public Integer getPage() {
-		return page;
-	}
-	public void setPage(Integer page) {
-		this.page = page;
-	}
-	public Integer getRows() {
-		return rows;
-	}
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-	
+
 	public List<Role> getListrole() {
 		return listrole;
 	}
@@ -176,7 +161,7 @@ public class OperatorAction extends ActionSupport {
 	public void setListrole(List<Role> listrole) {
 		this.listrole = listrole;
 	}
-	
+
 	public Role getRole() {
 		return role;
 	}
@@ -184,16 +169,7 @@ public class OperatorAction extends ActionSupport {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	public Role_authorService getRole_authorService() {
-		return role_authorService;
-	}
 
-	public void setRole_authorService(Role_authorService role_authorService) {
-		this.role_authorService = role_authorService;
-	}
-	
-	
 	/**
 	 * 添加操作员页面
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR

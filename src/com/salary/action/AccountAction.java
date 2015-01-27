@@ -3,12 +3,8 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
-
 import net.sf.json.JSONObject;
-
-import com.opensymphony.xwork2.ActionSupport;
 import com.salary.entity.Account;
 import com.salary.entity.Salary_item;
 import com.salary.service.AccountService;
@@ -21,7 +17,7 @@ import com.salary.util.NumberUtils;
  *
  */
 @SuppressWarnings("serial")
-public class AccountAction extends ActionSupport {
+public class AccountAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(AccountAction.class);
 	
 	private AccountService accountService;
@@ -31,20 +27,8 @@ public class AccountAction extends ActionSupport {
 	private Account account;						//账户期间
 	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
-	private JSONObject jsonobj;						//json对象，传递给Easyui表格
-	private Integer page;							//Easyui分页号
-	private Integer rows;							//Easyui分页大小
 	private String daystart;						//日期开始
 	private String dayend;							//日期结束
-	private String errormessage;					//错误消息
-	
-	public String getErrormessage() {
-		return errormessage;
-	}
-
-	public void setErrormessage(String errormessage) {
-		this.errormessage = errormessage;
-	}
 	
 	public Logger getLogger() {
 		return logger;
@@ -54,20 +38,28 @@ public class AccountAction extends ActionSupport {
 		this.logger = logger;
 	}
 
-	/**
-	 * 初始化分页
-	 */
-	public void init(){
-		page=(page==null || page==0)?new Integer(1):page;
-		rows=(rows==null || rows==0)?new Integer(10):rows;
+	public AccountService getAccountService() {
+		return accountService;
 	}
-	
+
+	public void setAccountService(AccountService accountService) {
+		this.accountService = accountService;
+	}
+
 	public Salary_detailService getSalary_detailService() {
 		return salary_detailService;
 	}
 
 	public void setSalary_detailService(Salary_detailService salary_detailService) {
 		this.salary_detailService = salary_detailService;
+	}
+
+	public Integer getAccount_id() {
+		return account_id;
+	}
+
+	public void setAccount_id(Integer account_id) {
+		this.account_id = account_id;
 	}
 
 	public Integer getId() {
@@ -77,21 +69,13 @@ public class AccountAction extends ActionSupport {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
 	}
 
 	public Integer getEmp_id() {
@@ -110,33 +94,6 @@ public class AccountAction extends ActionSupport {
 		this.salary_item = salary_item;
 	}
 
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
-	}
-	public Integer getPage() {
-		return page;
-	}
-	public void setPage(Integer page) {
-		this.page = page;
-	}
-	public Integer getRows() {
-		return rows;
-	}
-	public void setRows(Integer rows) {
-		this.rows = rows;
-	}
-	public AccountService getAccountService() {
-		return accountService;
-	}
-
-	public void setAccountService(AccountService accountService) {
-		this.accountService = accountService;
-	}
-	
 	public String getDaystart() {
 		return daystart;
 	}
@@ -144,6 +101,7 @@ public class AccountAction extends ActionSupport {
 	public void setDaystart(String daystart) {
 		this.daystart = daystart;
 	}
+
 	public String getDayend() {
 		return dayend;
 	}
@@ -151,7 +109,6 @@ public class AccountAction extends ActionSupport {
 	public void setDayend(String dayend) {
 		this.dayend = dayend;
 	}
-
 
 	/**
 	 * 增加奖金期间页面
