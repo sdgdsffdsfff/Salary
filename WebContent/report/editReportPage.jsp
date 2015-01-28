@@ -26,7 +26,17 @@
 					data-options="
 					required:true,
 					width:150,
-					validType:'length[1,20]'" />
+					validType:'length[1,20]'" />&nbsp;&nbsp;&nbsp;&nbsp;
+					数据来源:
+					<select class="easyui-combobox" name="report.source" 
+					data-options="
+					required:true,
+					width:150,
+					validType:'length[1,20]'" >
+						<option value="0">奖金系统</option>
+						<option value="1">CRM系统</option>
+						<option value="2">A6系统</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -39,7 +49,7 @@
 					width:500,
 					height:200,
 					multiline:true,
-					validType:'length[1,2000]'" />
+					validType:'length[1,9000]'" />
 				</td>
 			</tr>
 			<tr>
@@ -76,17 +86,14 @@
 				</td>
 			</tr>
 			<tr>
-				<td>数据来源:</td>
+				<td>查询参数:</td>
 				<td>
-					<select id="sel_source" class="easyui-combobox" name="report.source" 
-					data-options="
-					required:true,
-					width:150,
-					validType:'length[1,20]'," >
-						<option value="0">奖金系统</option>
-						<option value="1">CRM系统</option>
-						<option value="2">A6系统</option>
-					</select>
+					<input type="text" class="easyui-textbox" name="report.params" 
+						value='<s:property value="report.params" />'
+						data-options="
+						required:true,
+						width:500,
+						validType:'length[1,1000]'" />
 				</td>
 			</tr>
 			<tr>

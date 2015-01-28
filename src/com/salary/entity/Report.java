@@ -13,6 +13,7 @@ public class Report {
 	private String titles;		//标题列表，用逗号隔开
 	private String widths;		//宽度列表，用逗号隔开
 	private int source;			//数据源:0  奖金系统,1  CRM系统,2  A6系统
+	private String params;		//查询参数
 	
 	public int getId() {
 		return id;
@@ -56,4 +57,11 @@ public class Report {
 	public void setSource(int source) {
 		this.source = source;
 	}
+	public String getParams() {
+		return params;
+	}
+	public void setParams(String params) {
+		this.params = params;
+	}
+	
 }

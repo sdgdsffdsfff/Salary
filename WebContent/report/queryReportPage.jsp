@@ -20,18 +20,14 @@
                 title:'自定义报表查询', 
                 iconCls:'icon-tip', 
                 singleSelect:true,
-                nowrap: true, 
-                autoRowHeight: false, 
-                striped: true,
-                url:'queryReportlist', //服务器地址,返回json格式数据
-                remoteSort: false, 
+                nowrap:true, 
+                autoRowHeight:false, 
+                striped:true,
+                remoteSort:false, 
                 idField:'id', 
                 columns:<s:property value="dynmaiccolumn" />, 
                 rownumbers:true,  //行号
                 toolbar:'#tbar',
-                queryParams:{
-                	id:$('#report_id').val(),
-                },
             });
             var p = $('#tb_report').datagrid('getPager'); 
             $(p).pagination({ 
@@ -51,12 +47,48 @@
 	<table id="tb_report"></table>
 	<div id="di_edit"></div>
 	<div id="tbar" style="padding:5px;">
-		<input id="report_id" type="hidden" value='<s:property value="id" />' />
-		<a onclick="save()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
-		<%
-		String dyn="<a onclick=\"save()\" class=\"easyui-linkbutton\" data-options=\"iconCls:'icon-save',plain:true\">保存</a>";
-		out.write(dyn);%>
+		<form id="formQueryReport" action="queryReportlist" method="POST">
+			<%out.print(request.getAttribute("dynmaiceasyui"));%>
+			<input id="report_id" name="report_id" type="hidden" value='<s:property value="report_id" />' />
+			<input id="formparams" name="formparams" type="hidden" value='<s:property value="formparams" />' />
+			<input id="formparamstype" name="formparamstype" type="hidden" value='<s:property value="formparamstype" />' />
+		</form>
 	</div>
-	
+	<script type="text/javascript">
+
+		function submit(){
+			var isValid=$('#formQueryReport').form('validate');
+			if(!isValid){
+				$.messager.show({
+					title:'提示',
+					msg:'请输入完整的信息',
+				});
+				return;
+			}
+			
+			var uri="queryReportlist?report_id="+$('#report_id').val()+"&";
+			var params=$('#formparams').val().split(',');
+			var paramstype=$('#formparamstype').val().split(',');
+			for(var i=0;i<params.length;i++){
+				//如果参数类型是datebox类型则走这里
+				if(paramstype[i]=='datebox'){
+					uri+=params[i]+"="+$("#"+params[i]).datebox('getText')+"&";
+				}
+				if(paramstype[i]=='textbox'){
+					uri+=params[i]+"="+$("#"+params[i]).textbox('getText')+"&";
+				}
+			}
+			
+			uri=uri.substring(0,uri.length-1);
+			console.log("uri:"+uri);
+			
+			$.getJSON(uri,null,function (json){
+				console.log(json);
+				$('#tb_report').datagrid({
+					data:json,
+				});
+			});
+		}
+	</script>
 </body>
 </html>

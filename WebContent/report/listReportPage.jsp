@@ -104,7 +104,7 @@
 		function queryReportPage(){
 			var row=$('#tb_report').datagrid('getSelected');
 			if(row){
-				location.href="queryReportPage?id="+row.id;
+				location.href="queryReportPage?report_id="+row.id;
 			}
 			
 		}

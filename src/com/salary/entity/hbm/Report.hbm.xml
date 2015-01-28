@@ -15,6 +15,7 @@
 		<property name="titles" />
 		<property name="widths" />
 		<property name="source" />
+		<property name="params" />
 		
 	</class>
 </hibernate-mapping>

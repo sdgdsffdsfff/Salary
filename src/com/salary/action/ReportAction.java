@@ -3,10 +3,19 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
+
 import com.salary.entity.Report;
 import com.salary.service.ReportService;
+import com.salary.sync.a6.A6DaoImpl;
+import com.salary.sync.crm.CRMDaoImpl;
+import com.salary.util.ReportUtils;
 
 /**
  * 自定义报表action
@@ -18,9 +27,13 @@ public class ReportAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(ReportAction.class);
 	private ReportService reportService;
 	private Integer id;
+	private Integer report_id;						//报表id
 	private Report report;							//自定义报表类
 	private JSONObject jsonobj;						//json数据
 	private String dynmaiccolumn;					//动态的Easyui表格列
+	private String dynmaiceasyui;					//动态的Easyui组件列表(用来传递参数)
+	private String formparams;						//form表单的参数列表,用逗号分割
+	private String formparamstype;					//form表单的Easyui类型列表,用逗号分割
 	
 	public Logger getLogger() {
 		return logger;
@@ -69,6 +82,38 @@ public class ReportAction extends CRUDAction {
 	public void setDynmaiccolumn(String dynmaiccolumn) {
 		this.dynmaiccolumn = dynmaiccolumn;
 	}
+	
+	public String getDynmaiceasyui() {
+		return dynmaiceasyui;
+	}
+
+	public void setDynmaiceasyui(String dynmaiceasyui) {
+		this.dynmaiceasyui = dynmaiceasyui;
+	}
+	
+	public Integer getReport_id() {
+		return report_id;
+	}
+
+	public void setReport_id(Integer report_id) {
+		this.report_id = report_id;
+	}
+	
+	public String getFormparams() {
+		return formparams;
+	}
+
+	public void setFormparams(String formparams) {
+		this.formparams = formparams;
+	}
+	
+	public String getFormparamstype() {
+		return formparamstype;
+	}
+
+	public void setFormparamstype(String formparamstype) {
+		this.formparamstype = formparamstype;
+	}
 
 	/**
 	 * 显示添加自定义报表页
@@ -102,6 +147,7 @@ public class ReportAction extends CRUDAction {
 	 */
 	public String addReport(){
 		reportService.add(report);
+		System.out.println(report.getDynmaicsql());
 		return SUCCESS;
 	}
 	
@@ -111,6 +157,7 @@ public class ReportAction extends CRUDAction {
 	 */
 	public String editReport(){
 		reportService.edit(report);
+		System.out.println(report.getDynmaicsql());
 		return SUCCESS;
 	}
 	
@@ -150,22 +197,8 @@ public class ReportAction extends CRUDAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String queryReportPage(){
-		String hql="From Report where id="+id;
-		report=reportService.get(hql, null);
-		String[] fields=report.getFields().split(",");
-		String[] titles=report.getTitles().split(",");
-		String[] widths=report.getWidths().split(",");
-		
-		StringBuffer colBuffer=new StringBuffer(5000);
-		colBuffer.append("[[");
-		
-		
-		for(int i=0;i<fields.length;i++){
-			colBuffer.append("{field:'"+fields[i]+"',title:'"+titles[i]+"',width:"+widths[i]+"},");
-		}
-		
-		colBuffer.append("]]");
-		dynmaiccolumn=colBuffer.toString();
+		//生成EasyUI的表格、组件
+		this.generalEasyuiDataGrid();
 		return SUCCESS;
 	}
 	
@@ -175,15 +208,39 @@ public class ReportAction extends CRUDAction {
 	 */
 	public String queryReportlist(){
 		try {
-			String hql="From Report where id="+id;
+			String hql="From Report where id="+report_id;
 			report=reportService.get(hql, null);
 			
 			String sql=report.getDynmaicsql();
-			List<Map<String,Object>> listjson=reportService.queryNaviSql(sql, null);
+			
+			HttpServletRequest request=ServletActionContext.getRequest();
+			Map<String,Object> params=this.autoSetParams(report.getParams(),request);
+			List<Map<String,Object>> listjson=null;
+			
+			//判断数据来源是哪里的
+			switch(report.getSource()){
+			case 0:
+				listjson=reportService.queryNaviSql(sql, params);
+				break;
+			case 1:
+				CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
+				listjson=crmDaoimpl.queryNaviSql(sql, params);
+				break;
+			case 2:
+				A6DaoImpl a6Daoimpl=new A6DaoImpl();
+				listjson=a6Daoimpl.queryNaviSql(sql, params);
+				break;
+			}
+			
+			for(String key:params.keySet()){
+				System.out.println("queryReportlist   params-->"+key+" : "+params.get(key));
+			}
+			
+			//生成EasyUI的表格、组件
+			this.generalEasyuiDataGrid();
+			
 			Map<String,Object> jsonMap=new HashMap<String,Object>();
 			jsonMap.put("rows", listjson);
-			jsonMap.put("total", listjson.size());
-			
 			jsonobj=new JSONObject();
 			jsonobj=JSONObject.fromObject(jsonMap);
 		} catch (Exception e) {
@@ -194,5 +251,50 @@ public class ReportAction extends CRUDAction {
 		}
 		
 		return SUCCESS;
+	}
+	
+	/**
+	 * 自动生成EasyUI表格和查询组件
+	 */
+	public void generalEasyuiDataGrid(){
+		String hql="From Report where id="+report_id;
+		report=reportService.get(hql, null);
+		//获取参数列表给表单
+		List<String> listParamField=ReportUtils.parseReportParamFields(report.getParams());
+		formparams="";
+		for(String param:listParamField){
+			formparams+=param+",";
+		}
+		
+		//获取参数类型列表给表单
+		List<String> listParamFieldType=ReportUtils.parseReportParamFieldsType(report.getParams());
+		formparamstype="";
+		for(String paramtype:listParamFieldType){
+			formparamstype+=paramtype+",";
+		}
+		
+		formparams=formparams.substring(0, formparams.length()-1);
+		formparamstype=formparamstype.substring(0,formparamstype.length()-1);
+		dynmaiccolumn=ReportUtils.reportParamsToDynmaiccolumn(report.getFields(), report.getTitles(), report.getWidths());
+		dynmaiceasyui=ReportUtils.reportParamsToEasyui(report.getParams());
+		
+	}
+	
+	/**
+	 * 自动添加参数
+	 * @param reportParams	自定义查询的参数字段
+	 * @return				Map<String,Object> params
+	 */
+	public Map<String,Object> autoSetParams(String reportParams,HttpServletRequest request){
+		Map<String,Object> params=new HashMap<String,Object>();
+		//首先要解析出有哪些参数
+		List<String> listParamField=ReportUtils.parseReportParamFields(reportParams);
+		if(listParamField!=null && !listParamField.isEmpty()){
+			for(String param:listParamField){
+				params.put(param,request.getParameter(param));
+			}
+		}
+		
+		return params;
 	}
 }

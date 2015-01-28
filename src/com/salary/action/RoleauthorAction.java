@@ -202,7 +202,7 @@ public class RoleauthorAction extends CRUDAction {
 		try {
 			//检测权限表中是否有新增加的权限，有的话就自动添加到角色权限表中
 			role_authorService.initRoleauthor();
-					
+			
 			String hql="From Role_author where role_id="+id;
 			List<Role_author> listrole_author=role_authorService.query(hql, null);
 			List<AuthorJson> list_jsonauthor=new ArrayList<AuthorJson>();
