@@ -90,14 +90,15 @@
 				text:'数据处理中',
 			});
 			
-			/**这段代码改成同步模式
+			
 			$.getJSON(uri,null,function (json){
 				$('#tb_report').datagrid({
 					data:json,
 				});
+				$.messager.progress('close');
 			});
-			**/
 			
+			/**这段代码改成异步模式
 			$.ajax({
 				type:'POST',
 				url:uri,
@@ -108,11 +109,10 @@
 					$('#tb_report').datagrid({
 						data:json,
 					});
-					
 					$.messager.progress('close');
 				}
 			});
-			
+			**/
 			
 		}
 	</script>
