@@ -70,6 +70,7 @@
 		<a onclick="calcSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">自动核算</a>
 		<a onclick="batchSetSalarydetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">批量设置</a>
 		<a onclick="initSalaryDetail()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">重新读取CRM/A6数据</a>
+		<a onclick="location.href='listAccountPage'" class="easyui-linkbutton" data-options="iconCls:'icon-back',plain:true">返回</a>
 		
 	</div>
 	

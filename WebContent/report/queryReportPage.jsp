@@ -17,7 +17,7 @@
     <script type="text/javascript">
         $(function(){ 
             $('#tb_report').datagrid({ 
-                title:'自定义报表查询', 
+                title:'自定义报表 ( '+$('#reportname').val()+' )', 
                 iconCls:'icon-tip', 
                 singleSelect:true,
                 nowrap:true, 
@@ -52,6 +52,8 @@
 			<input id="report_id" name="report_id" type="hidden" value='<s:property value="report_id" />' />
 			<input id="formparams" name="formparams" type="hidden" value='<s:property value="formparams" />' />
 			<input id="formparamstype" name="formparamstype" type="hidden" value='<s:property value="formparamstype" />' />
+			<input id="reportname" name="reportname" type="hidden" value='<s:property value="report.name" />' />
+			<a onclick="location.href='listReportPage'" class="easyui-linkbutton" data-options="iconCls:'icon-back',plain:true">返回</a>
 		</form>
 	</div>
 	<script type="text/javascript">
@@ -82,12 +84,36 @@
 			uri=uri.substring(0,uri.length-1);
 			console.log("uri:"+uri);
 			
+			$.messager.progress({
+				tilte:'提示',
+				msg:'正在查询中请稍后...',
+				text:'数据处理中',
+			});
+			
+			/**这段代码改成同步模式
 			$.getJSON(uri,null,function (json){
-				console.log(json);
 				$('#tb_report').datagrid({
 					data:json,
 				});
 			});
+			**/
+			
+			$.ajax({
+				type:'POST',
+				url:uri,
+				data:null,
+				dataType:'json',
+				async:false,
+				success:function(json){
+					$('#tb_report').datagrid({
+						data:json,
+					});
+					
+					$.messager.progress('close');
+				}
+			});
+			
+			
 		}
 	</script>
 </body>
