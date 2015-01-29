@@ -54,7 +54,6 @@
 		//randomString为的是防止读取缓存，随机生成的10位字符串，而不去数据库里面找更新的数据
 		var uri="getRolemenulist";
 		var data={'id':$('#roleid').val(),'randomString':randomString(10)};
-		console.log(data);
 	    $.getJSON(uri,data,function(json){
 					        $('#ul_rolemenu').tree({
 					            data:json.data,

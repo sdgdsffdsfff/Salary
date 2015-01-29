@@ -82,7 +82,6 @@
 			}
 			
 			uri=uri.substring(0,uri.length-1);
-			console.log("uri:"+uri);
 			
 			$.messager.progress({
 				tilte:'提示',
