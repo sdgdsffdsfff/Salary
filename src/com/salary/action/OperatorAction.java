@@ -453,7 +453,7 @@ public class OperatorAction extends CRUDAction {
 	
 	
 	/**
-	 * 获取菜单列表
+	 * 获取菜单列表,用于显示左侧的菜单项
 	 * @param op	操作员信息
 	 * @return		Menulist
 	 */
@@ -461,10 +461,10 @@ public class OperatorAction extends CRUDAction {
 		StringBuffer menuBuffer=new StringBuffer(2000);
 		
 		List<Menu> listmenu_main=new ArrayList<Menu>();
-		listmenu_main=role_menuService.getMenulist(op.getRole_id(),1);
+		listmenu_main=role_menuService.getMenulistForMenu(op.getRole_id(),1);
 		for(Menu menu_main:listmenu_main){
 			menuBuffer.append("<div title=\""+menu_main.getName()+"\" data-options=\"iconCls:'"+menu_main.getIconcls()+"'\"><ul>");
-			List<Menu> listmenu_slave=role_menuService.getMenulist(op.getRole_id(),menu_main.getId());
+			List<Menu> listmenu_slave=role_menuService.getMenulistForMenu(op.getRole_id(),menu_main.getId());
 			for(Menu menu_slave:listmenu_slave){
 				menuBuffer.append("<li><a class=\"easyui-linkbutton\" href=\""+menu_slave.getUri()+"\" data-options=\"plain:true,width:100\" >"+menu_slave.getName()+"</a></li>");
 			}

@@ -4,6 +4,11 @@ import net.sf.json.JSONObject;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * 通用CRUDAction
+ * @author 陈捷
+ *
+ */
 @SuppressWarnings("serial")
 public class CRUDAction extends ActionSupport {
 	

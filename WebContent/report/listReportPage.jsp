@@ -30,8 +30,7 @@
                 idField:'id', 
                 columns:[[
 					{field:'id',title:'报表编号',width:80}, 
-                    {field:'name',title:'报表名称',width:220}, 
-                    {field:'dynmaicsql',title:'动态语句'},
+                    {field:'name',title:'报表名称',width:350}, 
                 ]], 
                 pagination:true,  //分页控件
                 rownumbers:true,  //行号

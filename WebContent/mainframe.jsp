@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>爱信诺奖金管理系统</title>
+<title>爱信诺绩效考核系统</title>
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="./easyui/themes/icon.css">
 	<script type="text/javascript" src="./easyui/jquery.min.js"></script>
@@ -15,15 +15,15 @@
 </head>
 <body class="easyui-layout">
 	<div data-options="region:'north'" 
-		style="width:980px; height:109px;margin:0 auto;background:#E0ECFF" >
+		style="width:980px; height:109px;margin:0 auto;" >
 		<div style="margin:15px 50px;">
-			<img src="./images/logo2.jpg" />
-			<img style="margin:0px 0px 0px 100px;" src="./images/logo_jjhsxt.jpg" />
+			<img src="./images/logo.jpg" />
+			<img style="margin:0px 0px 0px 100px;" src="./images/logo_jxkhxt.jpg" />
 		</div>
 	</div>
 	<div data-options="region:'south'" style="height:25px;text-align:center">
 	<div style="margin:5px 0px;">
-	贵州爱信诺航天信息有限公司版权所有(Version2.2.0)
+	贵州爱信诺航天信息有限公司版权所有(Version2.2.1)
 	</div>
 	</div>
 	<div data-options="region:'west'" title="菜单栏" style="width:200px;">
@@ -46,7 +46,7 @@
 		<div id="centerTab" class="easyui-tabs" fit="true" border="false" >
 			<div id="welcomTab" title="欢迎页" style="padding:20px;overflow:hidden;"> 
 					<div style="margin-top:20px;">
-						<h2>你好<s:property value="#session.operatorinfo.name" />，欢迎使用爱信诺奖金管理系统</h2>
+						<h2>你好<s:property value="#session.operatorinfo.name" />，欢迎使用爱信诺绩效考核系统</h2>
 					</div>
 <div style="margin-top:100px;">
 <h2>技服部绩效考核规则说明</h2>
