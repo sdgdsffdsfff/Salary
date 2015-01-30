@@ -37,10 +37,10 @@ public class ReportUtils {
 	
 	/**
 	 * 将自定义报表的字段，标题，宽度转换为Easyuid的动态表格列
-	 * @param fields
-	 * @param titles
-	 * @param widths
-	 * @return
+	 * @param sqlfields		自定义报表的字段
+	 * @param sqltitles		自定义报表的标题
+	 * @param sqlwidths		自定义报表的宽度
+	 * @return				json数据:Easyuid的动态表格列
 	 */
 	public static String reportParamsToDynmaiccolumn(String sqlfields,String sqltitles,String sqlwidths){
 		

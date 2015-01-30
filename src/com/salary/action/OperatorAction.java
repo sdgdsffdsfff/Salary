@@ -496,7 +496,7 @@ public class OperatorAction extends CRUDAction {
 	
 	/**
 	 * 显示修改密码页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editPasswordPage(){
 		operator=(Operator) ActionContext.getContext().getSession().get("operatorinfo");

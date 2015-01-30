@@ -119,7 +119,7 @@ public class RolemenuAction extends CRUDAction {
 
 	/**
 	 * 显示添加菜单权限页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addRolemenuPage(){
 		return SUCCESS;
@@ -127,7 +127,7 @@ public class RolemenuAction extends CRUDAction {
 	
 	/**
 	 * 显示修改菜单权限页面
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editRolemenuPage(){
 		try {
@@ -161,7 +161,7 @@ public class RolemenuAction extends CRUDAction {
 	
 	/**
 	 * 添加菜单权限
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addRolemenu(){
 		return SUCCESS;
@@ -169,7 +169,7 @@ public class RolemenuAction extends CRUDAction {
 	
 	/**
 	 * 修改菜单权限
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editRolemenu(){
 		try {
@@ -199,7 +199,7 @@ public class RolemenuAction extends CRUDAction {
 	
 	/**
 	 * 删除菜单权限
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delRolemenu(){
 		return SUCCESS;
@@ -207,7 +207,7 @@ public class RolemenuAction extends CRUDAction {
 	
 	/**
 	 * 获取菜单权限列表
-	 * @return
+	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String getRolemenulist(){
 		try {
