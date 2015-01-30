@@ -28,28 +28,18 @@
 					width:150,
 					validType:'length[1,20]'" />&nbsp;&nbsp;&nbsp;&nbsp;
 					数据来源:
-					<select class="easyui-combobox" name="report.source" 
-					data-options="
-					required:true,
-					width:150,
-					validType:'length[1,20]'" >
-						<option value="0">奖金系统</option>
-						<option value="1">CRM系统</option>
-						<option value="2">A6系统</option>
+					<select id="reportsource" class="easyui-combobox" name="report.source" 
+					data-options='required:true,width:150,value:<s:property value="report.source" />' >
+						<option value='0'>奖金系统</option>
+						<option value='1'>CRM系统</option>
+						<option value='2'>A6系统</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>动态语句:</td>
 				<td>
-					<input type="text" class="easyui-textbox" name="report.dynmaicsql" 
-					value='<s:property value="report.dynmaicsql" />'
-					data-options="
-					required:true,
-					width:500,
-					height:200,
-					multiline:true,
-					validType:'length[1,9000]'" />
+					<textarea name="report.dynmaicsql" rows="12" cols="60"><s:property value="report.dynmaicsql" /></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -106,7 +96,7 @@
 	</form>
 </div>
 <script type="text/javascript">
-	
+
 	function submit(){
 		var isValid=$('#editReportForm').form('validate');
 		if(!isValid){
