@@ -3,6 +3,11 @@ package com.salary.sync.a6;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * A6工具类
+ * @author 陈捷
+ *
+ */
 public class A6Util {
 
     private static final SessionFactory sessionFactory;

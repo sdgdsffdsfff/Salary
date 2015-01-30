@@ -14,6 +14,11 @@ import com.salary.service.MenuService;
 import com.salary.service.RoleService;
 import com.salary.service.Role_menuService;
 
+/**
+ * 角色菜单权限action
+ * @author 陈捷
+ *
+ */
 @SuppressWarnings("serial")
 public class RolemenuAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(RolemenuAction.class);

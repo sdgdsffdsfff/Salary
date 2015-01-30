@@ -6,6 +6,11 @@ import org.junit.Test;
 import com.salary.dao.CRUDDaoImpl;
 import com.salary.entity.Account;
 
+/**
+ * A6系统数据处理Dao
+ * @author 陈捷
+ *
+ */
 public class A6DaoImpl extends CRUDDaoImpl<Account>{
 	
 	public A6DaoImpl(){
