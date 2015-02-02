@@ -11,11 +11,19 @@ import com.salary.entity.Account;
  *
  */
 public class CRMDaoImpl extends CRUDDaoImpl<Account>{
+	private static CRMDaoImpl crmDaoimpl;
 	
-	public CRMDaoImpl(){
+	private CRMDaoImpl(){
 		this.setSessionFactory(CRMUtil.getSessionFactory());
 	}
 	
+	//单例模式
+	public static CRMDaoImpl getInstance(){
+		if(crmDaoimpl==null){
+			crmDaoimpl=new CRMDaoImpl();
+		}
+		return crmDaoimpl;
+	}
 	/**
 	 * 返回CRM的所有员工信息
 	 * @return		List<Map<String,Object>> EMP_NAME,ENGINEERS_NO,EMP_CODE

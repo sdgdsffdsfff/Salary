@@ -96,7 +96,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		
 		
 		//用来读取A6数据的信息并进行动态设置
-		A6DaoImpl a6Daoimpl=new A6DaoImpl();
+		A6DaoImpl a6Daoimpl=A6DaoImpl.getInstance();
 		String a6sql="select DYNMAICSQL,COMMENT,SALARY_ITEM_ID from a6_sql where SALARY_ITEM_ID!=0";
 		List<Map<String,Object>> lista6sql=salary_detailDaoimpl.queryNaviSql(a6sql, null);
 		listSalarydetail=new ArrayList<Map<String,Object>>();
@@ -115,7 +115,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		
 
 		//用来读取CRM的数据信息
-		CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
+		CRMDaoImpl crmDaoimpl=CRMDaoImpl.getInstance();
 		
 		String crmsql="select DYNMAICSQL,COMMENT,SALARY_ITEM_ID from crm_sql";
 		List<Map<String,Object>> listcrmsql=salary_detailDaoimpl.queryNaviSql(crmsql, null);

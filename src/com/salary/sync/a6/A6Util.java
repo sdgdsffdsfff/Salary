@@ -20,7 +20,7 @@ public class A6Util {
             throw new ExceptionInInitializerError(ex);
         }
     }
-
+    
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }

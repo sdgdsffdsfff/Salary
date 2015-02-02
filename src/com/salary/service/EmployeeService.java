@@ -29,7 +29,7 @@ public class EmployeeService extends CRUDService<Employee> {
 	 * 同步奖金系统对应A6员工的的用户CODE
 	 */
 	public void syncEmployeeFromA6(){
-		A6DaoImpl a6Daoimpl=new A6DaoImpl();
+		A6DaoImpl a6Daoimpl=A6DaoImpl.getInstance();
 		
 		//读取出A6的用户信息列表
 		List<Map<String,Object>> a6Employeelist=a6Daoimpl.getEmployeelist();

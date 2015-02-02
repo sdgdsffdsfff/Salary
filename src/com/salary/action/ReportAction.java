@@ -147,7 +147,6 @@ public class ReportAction extends CRUDAction {
 	 */
 	public String addReport(){
 		reportService.add(report);
-		System.out.println(report.getDynmaicsql());
 		return SUCCESS;
 	}
 	
@@ -157,7 +156,6 @@ public class ReportAction extends CRUDAction {
 	 */
 	public String editReport(){
 		reportService.edit(report);
-		System.out.println(report.getDynmaicsql());
 		return SUCCESS;
 	}
 	
@@ -223,17 +221,13 @@ public class ReportAction extends CRUDAction {
 				listjson=reportService.queryNaviSql(sql, params);
 				break;
 			case 1:
-				CRMDaoImpl crmDaoimpl=new CRMDaoImpl();
+				CRMDaoImpl crmDaoimpl=CRMDaoImpl.getInstance();
 				listjson=crmDaoimpl.queryNaviSql(sql, params);
 				break;
 			case 2:
-				A6DaoImpl a6Daoimpl=new A6DaoImpl();
+				A6DaoImpl a6Daoimpl=A6DaoImpl.getInstance();
 				listjson=a6Daoimpl.queryNaviSql(sql, params);
 				break;
-			}
-			
-			for(String key:params.keySet()){
-				System.out.println("queryReportlist   params-->"+key+" : "+params.get(key));
 			}
 			
 			//生成EasyUI的表格、组件

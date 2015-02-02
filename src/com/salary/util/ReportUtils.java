@@ -30,7 +30,6 @@ public class ReportUtils {
 		
 		//添加查询按钮
 		easyuiBuffer.append("<a onclick=\"submit()\" class=\"easyui-linkbutton\" data-options=\"iconCls:'icon-search',plain:true\">查询</a>");
-		System.out.println("parserReportParamsToTools:"+easyuiBuffer);
 		return easyuiBuffer.toString();
 	}
 	
@@ -70,8 +69,6 @@ public class ReportUtils {
 		for(String params:paramComma){
 			String[] paramField=params.split(":");
 			listFields.add(paramField[0]);
-			
-			System.out.println("parseReportParamFields:"+paramField[0]);
 		}
 		
 		return listFields;
@@ -89,8 +86,6 @@ public class ReportUtils {
 		for(String params:paramComma){
 			String[] paramField=params.split(":");
 			listFields.add(paramField[1]);
-			
-			System.out.println("parseReportParamFields:"+paramField[1]);
 		}
 		
 		return listFields;
