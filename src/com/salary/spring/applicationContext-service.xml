@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	
+	<!-- Service层 -->
+	<bean id="accountService" class="com.salary.service.AccountService">
+		<property name="accountDaoimpl" ref="accountDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="crudService" class="com.salary.service.CRUDService">
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="departmentService" class="com.salary.service.DepartmentService">
+		<property name="departmentDaoimpl" ref="departmentDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="employeeService" class="com.salary.service.EmployeeService">
+		<property name="employeeDaoimpl" ref="employeeDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="salary_detailService" class="com.salary.service.Salary_detailService">
+		<property name="salary_detailDaoimpl" ref="salary_detailDaoimpl" />
+		<property name="employeeDaoimpl" ref="employeeDaoimpl" />
+		<property name="accountDaoimpl" ref="accountDaoimpl" />
+		<property name="salary_itemDaoimpl" ref="salary_itemDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="salary_item_expressionService" class="com.salary.service.Salary_item_expressionService">
+		<property name="salary_item_expressionDaoimpl" ref="salary_item_expressionDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="salary_item_unitService" class="com.salary.service.Salary_item_unitService">
+		<property name="salary_item_unitDaoimpl" ref="salary_item_unitDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="salary_itemService" class="com.salary.service.Salary_itemService">
+		<property name="salary_itemDaoimpl" ref="salary_itemDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="authorService" class="com.salary.service.AuthorService">
+		<property name="authorDaoimpl" ref="authorDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	<bean id="operatorService" class="com.salary.service.OperatorService">
+		<property name="operatorDaoimpl" ref="operatorDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	<bean id="role_authorService" class="com.salary.service.Role_authorService">
+		<property name="role_authorDaoimpl" ref="role_authorDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	<bean id="roleService" class="com.salary.service.RoleService">
+		<property name="roleDaoimpl" ref="roleDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	<bean id="reportService" class="com.salary.service.ReportService">
+		<property name="reportDaoimpl" ref="reportDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	
+	<bean id="menuService" class="com.salary.service.MenuService">
+		<property name="menuDaoimpl" ref="menuDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+	<bean id="role_menuService" class="com.salary.service.Role_menuService">
+		<property name="role_menuDaoimpl" ref="role_menuDaoimpl" />
+		<property name="crudDaoimpl" ref="crudDaoimpl" />
+	</bean>
+
+</beans>

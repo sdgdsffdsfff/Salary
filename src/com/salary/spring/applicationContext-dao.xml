@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+	
+	<!-- Dao层 -->
+	<bean id="crudDaoimpl" class="com.salary.dao.CRUDDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="accountDaoimpl" class="com.salary.dao.AccountDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="departmentDaoimpl" class="com.salary.dao.DepartmentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="employeeDaoimpl" class="com.salary.dao.EmployeeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="salary_detailDaoimpl" class="com.salary.dao.Salary_detailDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="salary_item_expressionDaoimpl" class="com.salary.dao.Salary_item_expressionDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="salary_item_unitDaoimpl" class="com.salary.dao.Salary_item_unitDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="salary_itemDaoimpl" class="com.salary.dao.Salary_itemDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="authorDaoimpl" class="com.salary.dao.AuthorDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="operatorDaoimpl" class="com.salary.dao.OperatorDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="role_authorDaoimpl" class="com.salary.dao.Role_authorDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="roleDaoimpl" class="com.salary.dao.RoleDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="reportDaoimpl" class="com.salary.dao.ReportDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="menuDaoimpl" class="com.salary.dao.MenuDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="role_menuDaoimpl" class="com.salary.dao.Role_menuDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+</beans>

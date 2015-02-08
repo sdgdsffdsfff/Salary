@@ -47,29 +47,29 @@ public class ExcelUtils {
 	public void writeExcel(OutputStream outputStream,String[] titles,String[] fields,List<Map<String,Object>> list_map) throws Exception{
 		WritableWorkbook workbook = Workbook.createWorkbook(outputStream);
 		WritableSheet sheet = workbook.createSheet("爱信诺绩效考核系统", 0);
-		int row_index=0;
-		int key_index=0;
+		//Excel行位置、列位置
+		int row_index=0,col_index=0;
 		
 		if(list_map!=null && list_map.size()>0){
-			//根据field_title来设置首行数据
+			//根据titles来设置首行数据
 			for(String titles_key:titles){
-				Label label = new Label(key_index,row_index,titles_key);
+				Label label = new Label(col_index,row_index,titles_key);
 				sheet.addCell(label);
-				key_index++;
+				col_index++;
 			}
 			
-			//根据field_title来读取出内容
+			//根据fields来读取出内容
 			row_index=1;
-			key_index=0;
+			col_index=0;
 			for(Map<String,Object> map:list_map){
 				for(String field_key:fields){
-					Label label = new Label(key_index,row_index,map.get(field_key).toString());
+					Label label = new Label(col_index,row_index,map.get(field_key).toString());
 					sheet.addCell(label);
-					key_index++;
-					System.out.println(map.get(field_key).toString());
+					col_index++;
 				}
+				
 				row_index++;
-				key_index=0;
+				col_index=0;
 			}
 			
 		}

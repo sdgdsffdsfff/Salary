@@ -92,10 +92,10 @@
 			
 			
 			$.getJSON(uri,null,function (json){
+				$.messager.progress('close');
 				$('#tb_report').datagrid({
 					data:json,
 				});
-				$.messager.progress('close');
 			});
 			
 		}
