@@ -21,7 +21,7 @@
                 iconCls:'icon-save', 
                 height:500, 
                 singleSelect:true,
-                onDblClickRow:edit,
+                onDblClickRow:queryReportPage,
                 nowrap: true, 
                 autoRowHeight: false, 
                 striped: true,

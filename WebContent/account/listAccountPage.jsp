@@ -21,7 +21,7 @@
                 iconCls:'icon-save', 
                 height:500, 
                 singleSelect:true,
-                onDblClickRow:edit,
+                onDblClickRow:listSalarydetail,
                 nowrap: true, 
                 autoRowHeight: false, 
                 striped: true,
@@ -116,7 +116,7 @@
 		
 		//清除所有奖金期间
 		function cleanAllAccount(){
-			$.messager.confirm("提示","是否要清空所有的奖金期间?",function(val){
+			$.messager.confirm("提示","是否要清空所有的奖金期间数据?",function(val){
 				if(val==true){
 					location.href="cleanAllAccount";
 				}

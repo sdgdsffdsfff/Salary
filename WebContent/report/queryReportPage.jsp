@@ -53,6 +53,7 @@
 			<input id="formparams" name="formparams" type="hidden" value='<s:property value="formparams" />' />
 			<input id="formparamstype" name="formparamstype" type="hidden" value='<s:property value="formparamstype" />' />
 			<input id="reportname" name="reportname" type="hidden" value='<s:property value="report.name" />' />
+			<a onclick="getReportExcel()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">导出到Excel</a>
 			<a onclick="location.href='listReportPage'" class="easyui-linkbutton" data-options="iconCls:'icon-back',plain:true">返回</a>
 		</form>
 	</div>
@@ -97,22 +98,35 @@
 				$.messager.progress('close');
 			});
 			
-			/**这段代码改成异步模式
-			$.ajax({
-				type:'POST',
-				url:uri,
-				data:null,
-				dataType:'json',
-				async:false,
-				success:function(json){
-					$('#tb_report').datagrid({
-						data:json,
-					});
-					$.messager.progress('close');
-				}
-			});
-			**/
+		}
+		
+		//导出数据到Excel
+		function getReportExcel(){
+			var isValid=$('#formQueryReport').form('validate');
+			if(!isValid){
+				$.messager.show({
+					title:'提示',
+					msg:'请输入完整的信息',
+				});
+				return;
+			}
 			
+			var uri="getReportExcel?report_id="+$('#report_id').val()+"&";
+			var params=$('#formparams').val().split(',');
+			var paramstype=$('#formparamstype').val().split(',');
+			for(var i=0;i<params.length;i++){
+				//如果参数类型是datebox类型则走这里
+				if(paramstype[i]=='datebox'){
+					uri+=params[i]+"="+$("#"+params[i]).datebox('getText')+"&";
+				}
+				if(paramstype[i]=='textbox'){
+					uri+=params[i]+"="+$("#"+params[i]).textbox('getText')+"&";
+				}
+			}
+			
+			uri=uri.substring(0,uri.length-1);
+			
+			location.href=uri;
 		}
 	</script>
 </body>

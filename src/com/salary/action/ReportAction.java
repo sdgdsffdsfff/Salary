@@ -1,5 +1,7 @@
 package com.salary.action;
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +15,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.salary.entity.Report;
 import com.salary.service.ReportService;
-import com.salary.sync.a6.A6DaoImpl;
-import com.salary.sync.crm.CRMDaoImpl;
+import com.salary.util.ExcelUtils;
 import com.salary.util.ReportUtils;
 
 /**
@@ -34,6 +35,7 @@ public class ReportAction extends CRUDAction {
 	private String dynmaiceasyui;					//动态的Easyui组件列表(用来传递参数)
 	private String formparams;						//form表单的参数列表,用逗号分割
 	private String formparamstype;					//form表单的Easyui类型列表,用逗号分割
+	private InputStream inputStream;				//文件输出流
 	
 	public Logger getLogger() {
 		return logger;
@@ -113,6 +115,14 @@ public class ReportAction extends CRUDAction {
 
 	public void setFormparamstype(String formparamstype) {
 		this.formparamstype = formparamstype;
+	}
+	
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		this.inputStream = inputStream;
 	}
 
 	/**
@@ -196,7 +206,9 @@ public class ReportAction extends CRUDAction {
 	 */
 	public String queryReportPage(){
 		//生成EasyUI的表格、组件
-		this.generalEasyuiDataGrid();
+		String hql="From Report where id="+report_id;
+		report=reportService.get(hql, null);
+		this.generalEasyuiDataGrid(report);
 		return SUCCESS;
 	}
 	
@@ -209,29 +221,11 @@ public class ReportAction extends CRUDAction {
 			String hql="From Report where id="+report_id;
 			report=reportService.get(hql, null);
 			
-			String sql=report.getDynmaicsql();
-			
 			HttpServletRequest request=ServletActionContext.getRequest();
-			Map<String,Object> params=this.autoSetParams(report.getParams(),request);
-			List<Map<String,Object>> listjson=null;
-			
-			//判断数据来源是哪里的
-			switch(report.getSource()){
-			case 0:
-				listjson=reportService.queryNaviSql(sql, params);
-				break;
-			case 1:
-				CRMDaoImpl crmDaoimpl=CRMDaoImpl.getInstance();
-				listjson=crmDaoimpl.queryNaviSql(sql, params);
-				break;
-			case 2:
-				A6DaoImpl a6Daoimpl=A6DaoImpl.getInstance();
-				listjson=a6Daoimpl.queryNaviSql(sql, params);
-				break;
-			}
+			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
 			
 			//生成EasyUI的表格、组件
-			this.generalEasyuiDataGrid();
+			this.generalEasyuiDataGrid(report);
 			
 			Map<String,Object> jsonMap=new HashMap<String,Object>();
 			jsonMap.put("rows", listjson);
@@ -247,12 +241,11 @@ public class ReportAction extends CRUDAction {
 		return SUCCESS;
 	}
 	
+	
 	/**
 	 * 自动生成EasyUI表格和查询组件
 	 */
-	public void generalEasyuiDataGrid(){
-		String hql="From Report where id="+report_id;
-		report=reportService.get(hql, null);
+	public void generalEasyuiDataGrid(Report report){
 		//获取参数列表给表单
 		List<String> listParamField=ReportUtils.parseReportParamFields(report.getParams());
 		formparams="";
@@ -271,24 +264,48 @@ public class ReportAction extends CRUDAction {
 		formparamstype=formparamstype.substring(0,formparamstype.length()-1);
 		dynmaiccolumn=ReportUtils.reportParamsToDynmaiccolumn(report.getFields(), report.getTitles(), report.getWidths());
 		dynmaiceasyui=ReportUtils.reportParamsToEasyui(report.getParams());
-		
 	}
+
 	
 	/**
-	 * 自动添加参数
-	 * @param reportParams	自定义查询的参数字段
-	 * @return				Map<String,Object> params
+	 * 自定义报表获取Excel数据
+	 * @return
 	 */
-	public Map<String,Object> autoSetParams(String reportParams,HttpServletRequest request){
-		Map<String,Object> params=new HashMap<String,Object>();
-		//首先要解析出有哪些参数
-		List<String> listParamField=ReportUtils.parseReportParamFields(reportParams);
-		if(listParamField!=null && !listParamField.isEmpty()){
-			for(String param:listParamField){
-				params.put(param,request.getParameter(param));
-			}
+	public String getReportExcel(){
+		try {
+			String hql="From Report where id="+report_id;
+			report=reportService.get(hql, null);
+			
+			HttpServletRequest request=ServletActionContext.getRequest();
+			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
+			
+			ExcelUtils excel=new ExcelUtils();
+			String[] field_title=report.getFields().split(",");
+			
+			inputStream=excel.getExcelInputStream(field_title, listjson);
+			
+//			上面一行是正确的，下面都是做测试用的
+//			String[] test_field_title={"姓名","年龄"};
+//			List<Map<String,Object>> test_listjson=new ArrayList<Map<String,Object>>();
+//			Map<String,Object> test_map=new HashMap<String,Object>();
+//			Map<String,Object> test_map2=new HashMap<String,Object>();
+//			test_map.put("姓名", "陈捷");
+//			test_map.put("年龄", "26");
+//			test_listjson.add(test_map);
+//			test_map2.put("姓名", "陈军");
+//			test_map2.put("年龄", "22");
+//			test_listjson.add(test_map2);
+//			inputStream=excel.getExcelInputStream(test_field_title, test_listjson);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			errormessage="动态查询语句不正确，请检查...";
+			return ERROR;
 		}
 		
-		return params;
+		return SUCCESS;
 	}
+	
+	
 }

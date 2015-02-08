@@ -64,7 +64,15 @@
 		<action name="delReport" class="com.salary.action.ReportAction" method="delReport">
 			<result name="success">/report/listReportPage.jsp</result>
 		</action>
-		
+		<!-- 导出Excel -->
+		<action name="getReportExcel" class="com.salary.action.ReportAction" method="getReportExcel">
+			<result name="success" type="stream">
+				<param name="contentType">application/msexcel;charset=UTF-8</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">attachment;filename="salary.xls"</param>
+			</result>
+		</action>
 		
 		
 		
