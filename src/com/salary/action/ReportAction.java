@@ -1,18 +1,13 @@
 package com.salary.action;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-
 import com.salary.entity.Report;
 import com.salary.service.ReportService;
 import com.salary.util.ExcelUtils;
@@ -280,22 +275,10 @@ public class ReportAction extends CRUDAction {
 			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
 			
 			ExcelUtils excel=new ExcelUtils();
-			String[] field_title=report.getFields().split(",");
+			String[] titles=report.getTitles().split(",");
+			String[] fields=report.getFields().split(",");
 			
-			inputStream=excel.getExcelInputStream(field_title, listjson);
-			
-//			上面一行是正确的，下面都是做测试用的
-//			String[] test_field_title={"姓名","年龄"};
-//			List<Map<String,Object>> test_listjson=new ArrayList<Map<String,Object>>();
-//			Map<String,Object> test_map=new HashMap<String,Object>();
-//			Map<String,Object> test_map2=new HashMap<String,Object>();
-//			test_map.put("姓名", "陈捷");
-//			test_map.put("年龄", "26");
-//			test_listjson.add(test_map);
-//			test_map2.put("姓名", "陈军");
-//			test_map2.put("年龄", "22");
-//			test_listjson.add(test_map2);
-//			inputStream=excel.getExcelInputStream(test_field_title, test_listjson);
+			inputStream=excel.getExcelInputStream(titles,fields, listjson);
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
