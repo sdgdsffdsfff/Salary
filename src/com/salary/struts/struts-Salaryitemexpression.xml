@@ -7,31 +7,7 @@
 
     <constant name="struts.devMode" value="true" />
 
-    <package name="Salaryitemexpression" namespace="/" extends="struts-default">
-    	<result-types>
-	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
-	    </result-types>
-	    <interceptors>
-	    	<!-- 检测用户的session是否有效 -->
-	    	<interceptor name="commonInterceptor" class="com.salary.interceptor.commonInterceptor" />
-	    	<interceptor-stack name="mydefaultinterceptor">
-	    		<interceptor-ref name="defaultStack" />
-	    		<interceptor-ref name="commonInterceptor" />
-	    	</interceptor-stack>
-	    </interceptors>
-	    <default-interceptor-ref name="mydefaultinterceptor" />
-	    
-	   	<global-results>
-            <result name="input">/login.jsp</result>
-            <result name="none">/common/noAuthor.jsp</result>
-            <result name="error">/common/Error.jsp</result>
-        </global-results>
-        <global-exception-mappings>
-            <exception-mapping exception="java.lang.Exception" result="error"/>
-        </global-exception-mappings>
-        
-        
-        
+    <package name="Salaryitemexpression" namespace="/" extends="struts-global">
         <!-- 奖金项目公式页面显示 -->
         <!-- 显示奖金项目公式列表页面 -->
         <action name="listSalaryitemexpressionPage" class="com.salary.action.SalaryitemexpressionAction" method="listSalaryitemexpressionPage">

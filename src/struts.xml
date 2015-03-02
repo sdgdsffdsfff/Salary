@@ -3,10 +3,28 @@
 <struts>
     <constant name="struts.devMode" value="true" />
 
-    <package name="default" namespace="/" extends="struts-default">
+    <package name="struts-global" namespace="/" extends="struts-default">
     	<result-types>
 	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
 	    </result-types>
+	    <interceptors>
+	    	<!-- 检测用户的session是否有效 -->
+	    	<interceptor name="commonInterceptor" class="com.salary.interceptor.commonInterceptor" />
+	    	<interceptor-stack name="mydefaultinterceptor">
+	    		<interceptor-ref name="defaultStack" />
+	    		<interceptor-ref name="commonInterceptor" />
+	    	</interceptor-stack>
+	    </interceptors>
+	    <default-interceptor-ref name="mydefaultinterceptor" />
+	    
+	   	<global-results>
+            <result name="input">/login.jsp</result>
+            <result name="none">/common/noAuthor.jsp</result>
+            <result name="error">/common/Error.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="error"/>
+        </global-exception-mappings>
     </package>
     
     <include file="com/salary/struts/struts-Account.xml" />

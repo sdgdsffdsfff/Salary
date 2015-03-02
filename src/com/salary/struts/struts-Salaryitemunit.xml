@@ -4,33 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-
-    <constant name="struts.devMode" value="true" />
-
-    <package name="Salaryitemunit" namespace="/" extends="struts-default">
-    	<result-types>
-	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
-	    </result-types>
-	    <interceptors>
-	    	<!-- 检测用户的session是否有效 -->
-	    	<interceptor name="commonInterceptor" class="com.salary.interceptor.commonInterceptor" />
-	    	<interceptor-stack name="mydefaultinterceptor">
-	    		<interceptor-ref name="defaultStack" />
-	    		<interceptor-ref name="commonInterceptor" />
-	    	</interceptor-stack>
-	    </interceptors>
-	    <default-interceptor-ref name="mydefaultinterceptor" />
-	    
-	   	<global-results>
-            <result name="input">/login.jsp</result>
-            <result name="none">/common/noAuthor.jsp</result>
-            <result name="error">/common/Error.jsp</result>
-        </global-results>
-        <global-exception-mappings>
-            <exception-mapping exception="java.lang.Exception" result="error"/>
-        </global-exception-mappings>
-        
-		
+    <package name="Salaryitemunit" namespace="/" extends="struts-global">
 		<!-- 奖金模板页面显示 -->
 		<!-- 显示奖金模板列表页 -->
 		<action name="listSalaryitemunitPage" class="com.salary.action.SalaryitemunitAction" method="listSalaryitemunitPage">

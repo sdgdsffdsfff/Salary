@@ -57,4 +57,32 @@ public class NumberUtils {
 	public static float ObjectToFloat(Object obj){
 		return Float.parseFloat(String.valueOf(obj));
 	}
+	
+	
+	/**
+	 * 将Object类型数据转换成Ingeger类型数据
+	 * @param obj	Object类型数据
+	 * @return		Integer类型数据
+	 */
+	public static Integer ObjectToInteger(Object obj){
+		return Integer.parseInt(String.valueOf(obj));
+	}
+	
+	/**
+	 * 将Object类型数据转换成Long类型数据
+	 * @param obj	Object类型数据
+	 * @return		Long类型数据
+	 */
+	public static Long ObjectToLong(Object obj){
+		return Long.parseLong(String.valueOf(obj));
+	}
+	
+	/**
+	 * 将Object类型的数据转换为Double类型数据
+	 * @param obj		Object类型数据
+	 * @return			Double类型数据
+	 */
+	public static Double ObjectToDouble(Object obj){
+		return Double.parseDouble(String.valueOf(obj));
+	}
 }

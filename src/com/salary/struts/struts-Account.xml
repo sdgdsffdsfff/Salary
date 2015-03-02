@@ -2,32 +2,8 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-    <constant name="struts.devMode" value="true" />
-
-    <package name="Account" namespace="/" extends="struts-default">
-    	<result-types>
-	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
-	    </result-types>
-	    <interceptors>
-	    	<!-- 检测用户的session是否有效 -->
-	    	<interceptor name="commonInterceptor" class="com.salary.interceptor.commonInterceptor" />
-	    	<interceptor-stack name="mydefaultinterceptor">
-	    		<interceptor-ref name="defaultStack" />
-	    		<interceptor-ref name="commonInterceptor" />
-	    	</interceptor-stack>
-	    </interceptors>
-	    <default-interceptor-ref name="mydefaultinterceptor" />
-	    
-	   	<global-results>
-            <result name="input">/login.jsp</result>
-            <result name="none">/common/noAuthor.jsp</result>
-            <result name="error">/common/Error.jsp</result>
-        </global-results>
-        <global-exception-mappings>
-            <exception-mapping exception="java.lang.Exception" result="error"/>
-        </global-exception-mappings>
-		 
-		 
+    <package name="Account" namespace="/" extends="struts-global">
+    
 		 <!-- 奖金期间页面显示 -->
 		 <!-- 显示奖金期间列表页面 -->
 		 <action name="listAccountPage" class="com.salary.action.AccountAction" method="listAccountPage">
@@ -41,7 +17,6 @@
 		 <action name="editAccountPage" class="com.salary.action.AccountAction" method="editAccountPage">
 		 	<result name="success">/account/editAccountPage.jsp</result>
 		 </action>
-		 
 		 
 		 <!-- 奖金期间业务处理 -->
 		 <!-- 添加奖金期间 -->
@@ -68,7 +43,5 @@
 		 		<param name="root">jsonobj</param>
 		 	</result>
 		 </action>
-		 
-		 
     </package>
 </struts>
