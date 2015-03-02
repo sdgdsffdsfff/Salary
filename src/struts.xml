@@ -9,7 +9,6 @@
 	    </result-types>
     </package>
     
-    <include file="com/salary/struts/struts-test.xml" />
     <include file="com/salary/struts/struts-Account.xml" />
     <include file="com/salary/struts/struts-Department.xml" />
     <include file="com/salary/struts/struts-Employee.xml" />
