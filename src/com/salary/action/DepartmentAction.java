@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
 import com.salary.entity.Department;
 import com.salary.entity.Salary_item;
-import com.salary.service.DepartmentService;
+import com.salary.service.impl.DepartmentServiceImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -19,7 +19,7 @@ import com.salary.util.NumberUtils;
 public class DepartmentAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(DepartmentAction.class);
 	
-	private DepartmentService departmentService;
+	private DepartmentServiceImpl departmentService;
 	private Integer id;								//部门id
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
@@ -34,11 +34,11 @@ public class DepartmentAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public DepartmentService getDepartmentService() {
+	public DepartmentServiceImpl getDepartmentService() {
 		return departmentService;
 	}
 
-	public void setDepartmentService(DepartmentService departmentService) {
+	public void setDepartmentService(DepartmentServiceImpl departmentService) {
 		this.departmentService = departmentService;
 	}
 

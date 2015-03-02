@@ -9,7 +9,7 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import com.salary.entity.Report;
-import com.salary.service.ReportService;
+import com.salary.service.impl.ReportServiceImpl;
 import com.salary.util.ExcelUtils;
 import com.salary.util.ReportUtils;
 
@@ -21,7 +21,7 @@ import com.salary.util.ReportUtils;
 @SuppressWarnings("serial")
 public class ReportAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(ReportAction.class);
-	private ReportService reportService;
+	private ReportServiceImpl reportService;
 	private Integer id;
 	private Integer report_id;						//报表id
 	private Report report;							//自定义报表类
@@ -40,11 +40,11 @@ public class ReportAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public ReportService getReportService() {
+	public ReportServiceImpl getReportService() {
 		return reportService;
 	}
 
-	public void setReportService(ReportService reportService) {
+	public void setReportService(ReportServiceImpl reportService) {
 		this.reportService = reportService;
 	}
 

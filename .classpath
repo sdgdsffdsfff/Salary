@@ -18,6 +18,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-3.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-commons-3.3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/asm-tree-3.3.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload.jar"/>
@@ -33,6 +34,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-validator.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/dwr.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/extremecomponents-1.0.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ezmorph-1.0.6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/freemarker-2.3.19.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate3.jar"/>
@@ -40,19 +42,13 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javassist-3.9.0.GA.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-lib-2.3-jdk15.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jxl.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.0.4-bin.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ognl-3.0.5.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-log4j12-1.5.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sqljdbc4.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts2-core-2.3.4.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts2-json-plugin-2.3.4.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xwork-core-2.3.4.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/c3p0-0.9.1.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/extremecomponents-1.0.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jxl.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-aop-3.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-aspects-3.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-beans-3.2.4.RELEASE.jar"/>
@@ -67,6 +63,10 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-struts-3.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-3.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-3.2.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts2-core-2.3.4.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts2-json-plugin-2.3.4.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/struts2-spring-plugin-2.3.4.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xwork-core-2.3.4.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sqljdbc4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

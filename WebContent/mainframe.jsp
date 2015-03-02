@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.salary.entity.Operator,com.salary.service.Role_menuService,java.util.ArrayList,java.util.List,com.salary.entity.Menu,org.springframework.context.ApplicationContext,org.springframework.context.support.ClassPathXmlApplicationContext" %>
+<%@ page import="com.salary.entity.Operator,com.salary.service.impl.Role_menuServiceImpl,java.util.ArrayList,java.util.List,com.salary.entity.Menu,org.springframework.context.ApplicationContext,org.springframework.context.support.ClassPathXmlApplicationContext" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -23,7 +23,7 @@
 	</div>
 	<div data-options="region:'south'" style="height:25px;text-align:center">
 	<div style="margin:5px 0px;">
-	贵州爱信诺航天信息有限公司版权所有(Version2.3.1)
+	贵州爱信诺航天信息有限公司版权所有(Version2.4.0)
 	</div>
 	</div>
 	<div data-options="region:'west'" title="菜单栏" style="width:200px;">

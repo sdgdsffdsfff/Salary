@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
 import com.salary.entity.Salary_item;
-import com.salary.service.Salary_itemService;
+import com.salary.service.impl.Salary_itemServiceImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -18,7 +18,7 @@ import com.salary.util.NumberUtils;
 public class SalaryitemAction extends CRUDAction{
 	private Logger logger=Logger.getLogger(SalaryitemAction.class);
 	
-	private Salary_itemService salary_itemService;	//工资项目业务处理sercice
+	private Salary_itemServiceImpl salary_itemService;	//工资项目业务处理sercice
 	private Integer id;								//工资项目id
 	private Integer salary_item_id;					//工资项目的id
 	private Integer account_id;						//奖金期间id
@@ -33,11 +33,11 @@ public class SalaryitemAction extends CRUDAction{
 		this.logger = logger;
 	}
 
-	public Salary_itemService getSalary_itemService() {
+	public Salary_itemServiceImpl getSalary_itemService() {
 		return salary_itemService;
 	}
 
-	public void setSalary_itemService(Salary_itemService salary_itemService) {
+	public void setSalary_itemService(Salary_itemServiceImpl salary_itemService) {
 		this.salary_itemService = salary_itemService;
 	}
 

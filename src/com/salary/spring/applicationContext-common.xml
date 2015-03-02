@@ -70,4 +70,7 @@
 		</property>
 	</bean>
 
+	<bean id="crudDaoImpl" class="com.salary.dao.CRUDDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>

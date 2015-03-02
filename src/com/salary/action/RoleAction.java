@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
 import com.salary.entity.Account;
 import com.salary.entity.Role;
 import com.salary.entity.Salary_item;
-import com.salary.service.RoleService;
+import com.salary.service.impl.RoleServiceImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -20,7 +20,7 @@ import com.salary.util.NumberUtils;
 public class RoleAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(RoleAction.class);
 	
-	private RoleService roleService;
+	private RoleServiceImpl roleService;
 	private Role role;								//角色
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -36,11 +36,11 @@ public class RoleAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public RoleService getRoleService() {
+	public RoleServiceImpl getRoleService() {
 		return roleService;
 	}
 
-	public void setRoleService(RoleService roleService) {
+	public void setRoleService(RoleServiceImpl roleService) {
 		this.roleService = roleService;
 	}
 

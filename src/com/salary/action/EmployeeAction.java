@@ -9,9 +9,9 @@ import com.salary.entity.Department;
 import com.salary.entity.Employee;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_unit;
-import com.salary.service.DepartmentService;
-import com.salary.service.EmployeeService;
-import com.salary.service.Salary_item_unitService;
+import com.salary.service.impl.DepartmentServiceImpl;
+import com.salary.service.impl.EmployeeServiceImpl;
+import com.salary.service.impl.Salary_item_unitServiceImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -23,9 +23,9 @@ import com.salary.util.NumberUtils;
 public class EmployeeAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(EmployeeAction.class);
 	
-	private EmployeeService employeeService;
-	private DepartmentService departmentService;	
-	private Salary_item_unitService salary_item_unitService;
+	private EmployeeServiceImpl employeeService;
+	private DepartmentServiceImpl departmentService;	
+	private Salary_item_unitServiceImpl salary_item_unitService;
 	private Integer id;								//员工id
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
@@ -43,28 +43,28 @@ public class EmployeeAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public EmployeeService getEmployeeService() {
+	public EmployeeServiceImpl getEmployeeService() {
 		return employeeService;
 	}
 
-	public void setEmployeeService(EmployeeService employeeService) {
+	public void setEmployeeService(EmployeeServiceImpl employeeService) {
 		this.employeeService = employeeService;
 	}
 
-	public DepartmentService getDepartmentService() {
+	public DepartmentServiceImpl getDepartmentService() {
 		return departmentService;
 	}
 
-	public void setDepartmentService(DepartmentService departmentService) {
+	public void setDepartmentService(DepartmentServiceImpl departmentService) {
 		this.departmentService = departmentService;
 	}
 
-	public Salary_item_unitService getSalary_item_unitService() {
+	public Salary_item_unitServiceImpl getSalary_item_unitService() {
 		return salary_item_unitService;
 	}
 
 	public void setSalary_item_unitService(
-			Salary_item_unitService salary_item_unitService) {
+			Salary_item_unitServiceImpl salary_item_unitService) {
 		this.salary_item_unitService = salary_item_unitService;
 	}
 

@@ -10,9 +10,9 @@ import com.salary.entity.Menu;
 import com.salary.entity.Role;
 import com.salary.entity.Role_menu;
 import com.salary.json.MenuJson;
-import com.salary.service.MenuService;
-import com.salary.service.RoleService;
-import com.salary.service.Role_menuService;
+import com.salary.service.impl.MenuServiceImpl;
+import com.salary.service.impl.RoleServiceImpl;
+import com.salary.service.impl.Role_menuServiceImpl;
 
 /**
  * 角色菜单权限action
@@ -23,9 +23,9 @@ import com.salary.service.Role_menuService;
 public class RolemenuAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(RolemenuAction.class);
 	
-	private Role_menuService role_menuService;		//角色菜单服务
-	private MenuService menuService;				//菜单表服务
-	private RoleService roleService;				//角色服务
+	private Role_menuServiceImpl role_menuService;		//角色菜单服务
+	private MenuServiceImpl menuService;				//菜单表服务
+	private RoleServiceImpl roleService;				//角色服务
 	private Integer id;								//主键
 	private Role role;								//角色信息
 	private Role_menu role_menu;					//菜单权限表
@@ -42,27 +42,27 @@ public class RolemenuAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public Role_menuService getRole_menuService() {
+	public Role_menuServiceImpl getRole_menuService() {
 		return role_menuService;
 	}
 
-	public void setRole_menuService(Role_menuService role_menuService) {
+	public void setRole_menuService(Role_menuServiceImpl role_menuService) {
 		this.role_menuService = role_menuService;
 	}
 
-	public MenuService getMenuService() {
+	public MenuServiceImpl getMenuService() {
 		return menuService;
 	}
 
-	public void setMenuService(MenuService menuService) {
+	public void setMenuService(MenuServiceImpl menuService) {
 		this.menuService = menuService;
 	}
 
-	public RoleService getRoleService() {
+	public RoleServiceImpl getRoleService() {
 		return roleService;
 	}
 
-	public void setRoleService(RoleService roleService) {
+	public void setRoleService(RoleServiceImpl roleService) {
 		this.roleService = roleService;
 	}
 

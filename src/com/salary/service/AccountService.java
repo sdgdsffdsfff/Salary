@@ -1,22 +1,8 @@
 package com.salary.service;
 
-import com.salary.dao.AccountDaoImpl;
+import com.salary.dao.CRUDDao;
 import com.salary.entity.Account;
 
-/**
- * 奖金期间service
- * @author 陈捷
- *
- */
-public class AccountService extends CRUDService<Account> {
-	private AccountDaoImpl accountDaoimpl;
+public interface AccountService extends CRUDDao<Account> {
 
-	public AccountDaoImpl getAccountDaoimpl() {
-		return accountDaoimpl;
-	}
-
-	public void setAccountDaoimpl(AccountDaoImpl accountDaoimpl) {
-		this.accountDaoimpl = accountDaoimpl;
-	}
-	
 }

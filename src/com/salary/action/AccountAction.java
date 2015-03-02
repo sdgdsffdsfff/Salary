@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
 import com.salary.entity.Account;
 import com.salary.entity.Salary_item;
-import com.salary.service.AccountService;
-import com.salary.service.Salary_detailService;
+import com.salary.service.impl.AccountServiceImpl;
+import com.salary.service.impl.Salary_detailServiceImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -20,8 +20,8 @@ import com.salary.util.NumberUtils;
 public class AccountAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(AccountAction.class);
 	
-	private AccountService accountService;
-	private Salary_detailService salary_detailService;
+	private AccountServiceImpl accountService;
+	private Salary_detailServiceImpl salary_detailService;
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
 	private Account account;						//账户期间
@@ -38,19 +38,19 @@ public class AccountAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public AccountService getAccountService() {
+	public AccountServiceImpl getAccountService() {
 		return accountService;
 	}
 
-	public void setAccountService(AccountService accountService) {
+	public void setAccountService(AccountServiceImpl accountService) {
 		this.accountService = accountService;
 	}
 
-	public Salary_detailService getSalary_detailService() {
+	public Salary_detailServiceImpl getSalary_detailService() {
 		return salary_detailService;
 	}
 
-	public void setSalary_detailService(Salary_detailService salary_detailService) {
+	public void setSalary_detailService(Salary_detailServiceImpl salary_detailService) {
 		this.salary_detailService = salary_detailService;
 	}
 

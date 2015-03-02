@@ -10,9 +10,9 @@ import com.salary.entity.Author;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
 import com.salary.json.AuthorJson;
-import com.salary.service.AuthorService;
-import com.salary.service.RoleService;
-import com.salary.service.Role_authorService;
+import com.salary.service.impl.AuthorServiceImpl;
+import com.salary.service.impl.RoleServiceImpl;
+import com.salary.service.impl.Role_authorServiceImpl;
 
 /**
  * 角色权限处理action
@@ -23,12 +23,12 @@ import com.salary.service.Role_authorService;
 public class RoleauthorAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(RoleauthorAction.class);
 	
-	private Role_authorService role_authorService;
-	private AuthorService authorService;			
+	private Role_authorServiceImpl role_authorService;
+	private AuthorServiceImpl authorService;			
 	private Role role;								//角色信息
 	private Role_author role_author;				//角色权限
 	private String authorids;						//未选中的权限集合
-	private RoleService roleService;				//角色服务
+	private RoleServiceImpl roleService;				//角色服务
 	private Integer id;								//主键
 	
 	public Logger getLogger() {
@@ -39,19 +39,19 @@ public class RoleauthorAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public Role_authorService getRole_authorService() {
+	public Role_authorServiceImpl getRole_authorService() {
 		return role_authorService;
 	}
 
-	public void setRole_authorService(Role_authorService role_authorService) {
+	public void setRole_authorService(Role_authorServiceImpl role_authorService) {
 		this.role_authorService = role_authorService;
 	}
 
-	public AuthorService getAuthorService() {
+	public AuthorServiceImpl getAuthorService() {
 		return authorService;
 	}
 
-	public void setAuthorService(AuthorService authorService) {
+	public void setAuthorService(AuthorServiceImpl authorService) {
 		this.authorService = authorService;
 	}
 
@@ -79,11 +79,11 @@ public class RoleauthorAction extends CRUDAction {
 		this.authorids = authorids;
 	}
 
-	public RoleService getRoleService() {
+	public RoleServiceImpl getRoleService() {
 		return roleService;
 	}
 
-	public void setRoleService(RoleService roleService) {
+	public void setRoleService(RoleServiceImpl roleService) {
 		this.roleService = roleService;
 	}
 

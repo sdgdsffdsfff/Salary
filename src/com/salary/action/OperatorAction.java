@@ -16,12 +16,12 @@ import com.salary.entity.Operator;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
 import com.salary.entity.Salary_item;
-import com.salary.service.AuthorService;
-import com.salary.service.EmployeeService;
-import com.salary.service.OperatorService;
-import com.salary.service.RoleService;
-import com.salary.service.Role_authorService;
-import com.salary.service.Role_menuService;
+import com.salary.service.impl.AuthorServiceImpl;
+import com.salary.service.impl.EmployeeServiceImpl;
+import com.salary.service.impl.OperatorServiceImpl;
+import com.salary.service.impl.RoleServiceImpl;
+import com.salary.service.impl.Role_authorServiceImpl;
+import com.salary.service.impl.Role_menuServiceImpl;
 import com.salary.util.MD5Util;
 import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
@@ -35,12 +35,12 @@ import com.salary.util.SalaryUtils;
 public class OperatorAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(OperatorAction.class);
 	
-	private OperatorService operatorService;
-	private RoleService roleService;
-	private Role_authorService role_authorService;
-	private AuthorService authorService;
-	private Role_menuService role_menuService;
-	private EmployeeService employeeService;
+	private OperatorServiceImpl operatorService;
+	private RoleServiceImpl roleService;
+	private Role_authorServiceImpl role_authorService;
+	private AuthorServiceImpl authorService;
+	private Role_menuServiceImpl role_menuService;
+	private EmployeeServiceImpl employeeService;
 	private Operator operator;						//操作员
 	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
@@ -58,51 +58,51 @@ public class OperatorAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public OperatorService getOperatorService() {
+	public OperatorServiceImpl getOperatorService() {
 		return operatorService;
 	}
 
-	public void setOperatorService(OperatorService operatorService) {
+	public void setOperatorService(OperatorServiceImpl operatorService) {
 		this.operatorService = operatorService;
 	}
 
-	public RoleService getRoleService() {
+	public RoleServiceImpl getRoleService() {
 		return roleService;
 	}
 
-	public void setRoleService(RoleService roleService) {
+	public void setRoleService(RoleServiceImpl roleService) {
 		this.roleService = roleService;
 	}
 
-	public Role_authorService getRole_authorService() {
+	public Role_authorServiceImpl getRole_authorService() {
 		return role_authorService;
 	}
 
-	public void setRole_authorService(Role_authorService role_authorService) {
+	public void setRole_authorService(Role_authorServiceImpl role_authorService) {
 		this.role_authorService = role_authorService;
 	}
 
-	public AuthorService getAuthorService() {
+	public AuthorServiceImpl getAuthorService() {
 		return authorService;
 	}
 
-	public void setAuthorService(AuthorService authorService) {
+	public void setAuthorService(AuthorServiceImpl authorService) {
 		this.authorService = authorService;
 	}
 
-	public Role_menuService getRole_menuService() {
+	public Role_menuServiceImpl getRole_menuService() {
 		return role_menuService;
 	}
 
-	public void setRole_menuService(Role_menuService role_menuService) {
+	public void setRole_menuService(Role_menuServiceImpl role_menuService) {
 		this.role_menuService = role_menuService;
 	}
 
-	public EmployeeService getEmployeeService() {
+	public EmployeeServiceImpl getEmployeeService() {
 		return employeeService;
 	}
 
-	public void setEmployeeService(EmployeeService employeeService) {
+	public void setEmployeeService(EmployeeServiceImpl employeeService) {
 		this.employeeService = employeeService;
 	}
 

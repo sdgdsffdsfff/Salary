@@ -8,9 +8,9 @@ import net.sf.json.JSONObject;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
-import com.salary.service.EmployeeService;
-import com.salary.service.Salary_item_expressionService;
-import com.salary.service.Salary_item_unitService;
+import com.salary.service.impl.EmployeeServiceImpl;
+import com.salary.service.impl.Salary_item_expressionServiceImpl;
+import com.salary.service.impl.Salary_item_unitServiceImpl;
 import com.salary.util.NumberUtils;
 
 /**
@@ -22,9 +22,9 @@ import com.salary.util.NumberUtils;
 public class SalaryitemunitAction extends CRUDAction {
 	private Logger logger=Logger.getLogger(SalaryitemunitAction.class);
 	
-	private Salary_item_unitService salary_item_unitService;
-	private Salary_item_expressionService salary_item_expressionService;
-	private EmployeeService employeeService;
+	private Salary_item_unitServiceImpl salary_item_unitService;
+	private Salary_item_expressionServiceImpl salary_item_expressionService;
+	private EmployeeServiceImpl employeeService;
 	private Integer id;								//奖金期间id
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
@@ -40,29 +40,29 @@ public class SalaryitemunitAction extends CRUDAction {
 		this.logger = logger;
 	}
 
-	public Salary_item_unitService getSalary_item_unitService() {
+	public Salary_item_unitServiceImpl getSalary_item_unitService() {
 		return salary_item_unitService;
 	}
 
 	public void setSalary_item_unitService(
-			Salary_item_unitService salary_item_unitService) {
+			Salary_item_unitServiceImpl salary_item_unitService) {
 		this.salary_item_unitService = salary_item_unitService;
 	}
 
-	public Salary_item_expressionService getSalary_item_expressionService() {
+	public Salary_item_expressionServiceImpl getSalary_item_expressionService() {
 		return salary_item_expressionService;
 	}
 
 	public void setSalary_item_expressionService(
-			Salary_item_expressionService salary_item_expressionService) {
+			Salary_item_expressionServiceImpl salary_item_expressionService) {
 		this.salary_item_expressionService = salary_item_expressionService;
 	}
 
-	public EmployeeService getEmployeeService() {
+	public EmployeeServiceImpl getEmployeeService() {
 		return employeeService;
 	}
 
-	public void setEmployeeService(EmployeeService employeeService) {
+	public void setEmployeeService(EmployeeServiceImpl employeeService) {
 		this.employeeService = employeeService;
 	}
 
