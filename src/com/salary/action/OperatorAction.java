@@ -8,6 +8,7 @@ import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
 import com.salary.entity.Author;
 import com.salary.entity.Employee;
@@ -32,7 +33,7 @@ import com.salary.util.SalaryUtils;
  *
  */
 @SuppressWarnings("serial")
-public class OperatorAction extends CRUDAction {
+public class OperatorAction extends BaseAction {
 	private Logger logger=Logger.getLogger(OperatorAction.class);
 	
 	private OperatorServiceImpl operatorService;

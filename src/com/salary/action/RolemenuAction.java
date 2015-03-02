@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
+
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Menu;
 import com.salary.entity.Role;
 import com.salary.entity.Role_menu;
@@ -20,7 +22,7 @@ import com.salary.service.impl.Role_menuServiceImpl;
  *
  */
 @SuppressWarnings("serial")
-public class RolemenuAction extends CRUDAction {
+public class RolemenuAction extends BaseAction {
 	private Logger logger=Logger.getLogger(RolemenuAction.class);
 	
 	private Role_menuServiceImpl role_menuService;		//角色菜单服务

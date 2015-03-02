@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
+
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Department;
 import com.salary.entity.Salary_item;
 import com.salary.service.impl.DepartmentServiceImpl;
@@ -16,7 +18,7 @@ import com.salary.util.NumberUtils;
  *
  */
 @SuppressWarnings("serial")
-public class DepartmentAction extends CRUDAction {
+public class DepartmentAction extends BaseAction {
 	private Logger logger=Logger.getLogger(DepartmentAction.class);
 	
 	private DepartmentServiceImpl departmentService;

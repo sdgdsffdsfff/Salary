@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Report;
 import com.salary.service.impl.ReportServiceImpl;
 import com.salary.util.ExcelUtils;
@@ -19,7 +21,7 @@ import com.salary.util.ReportUtils;
  *
  */
 @SuppressWarnings("serial")
-public class ReportAction extends CRUDAction {
+public class ReportAction extends BaseAction {
 	private Logger logger=Logger.getLogger(ReportAction.class);
 	private ReportServiceImpl reportService;
 	private Integer id;

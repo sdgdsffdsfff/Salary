@@ -7,6 +7,7 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import com.opensymphony.xwork2.ActionContext;
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
 import com.salary.entity.Department;
 import com.salary.entity.Employee;
@@ -32,7 +33,7 @@ import com.salary.util.SalaryUtils;
  * 
  */
 @SuppressWarnings("serial")
-public class SalarydetailAction extends CRUDAction {
+public class SalarydetailAction extends BaseAction {
 	private Logger logger = Logger.getLogger(SalarydetailAction.class);
 
 	private Salary_detailServiceImpl salary_detailService;

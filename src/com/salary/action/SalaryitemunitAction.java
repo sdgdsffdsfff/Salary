@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
+
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
@@ -19,7 +21,7 @@ import com.salary.util.NumberUtils;
  *
  */
 @SuppressWarnings("serial")
-public class SalaryitemunitAction extends CRUDAction {
+public class SalaryitemunitAction extends BaseAction {
 	private Logger logger=Logger.getLogger(SalaryitemunitAction.class);
 	
 	private Salary_item_unitServiceImpl salary_item_unitService;

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
+
+import com.salary.action.base.BaseAction;
 import com.salary.entity.Author;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
@@ -20,7 +22,7 @@ import com.salary.service.impl.Role_authorServiceImpl;
  *
  */
 @SuppressWarnings("serial")
-public class RoleauthorAction extends CRUDAction {
+public class RoleauthorAction extends BaseAction {
 	private Logger logger=Logger.getLogger(RoleauthorAction.class);
 	
 	private Role_authorServiceImpl role_authorService;

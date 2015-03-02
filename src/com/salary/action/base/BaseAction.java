@@ -1,4 +1,4 @@
-package com.salary.action;
+package com.salary.action.base;
 
 import net.sf.json.JSONObject;
 
@@ -10,7 +10,7 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  */
 @SuppressWarnings("serial")
-public class CRUDAction extends ActionSupport {
+public class BaseAction extends ActionSupport {
 	
 	public Integer page;							//Easyui分页号
 	public Integer rows;							//Easyui分页大小
