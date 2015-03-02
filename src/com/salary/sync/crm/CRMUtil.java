@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
  * @author 陈捷
  *
  */
+@Deprecated
 public class CRMUtil {
 
     private static final SessionFactory sessionFactory;

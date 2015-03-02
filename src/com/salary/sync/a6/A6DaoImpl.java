@@ -13,22 +13,6 @@ import com.salary.entity.Account;
  */
 public class A6DaoImpl extends CRUDDaoImpl<Account>{
 	
-	private static A6DaoImpl a6Daoimpl;
-	
-	private A6DaoImpl(){
-		this.setSessionFactory(A6Util.getSessionFactory());
-	}
-	
-	//修改成单例模式
-	public static A6DaoImpl getInstance(){
-		if(a6Daoimpl==null){
-			a6Daoimpl=new A6DaoImpl();
-		}
-		
-		return a6Daoimpl;
-	}
-	
-	
 	@Test
 	public void test1(){
 		A6DaoImpl a6Daoimpl=new A6DaoImpl();

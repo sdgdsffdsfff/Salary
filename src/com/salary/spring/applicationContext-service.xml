@@ -21,6 +21,7 @@
 	<bean id="employeeService" class="com.salary.service.EmployeeService">
 		<property name="employeeDaoimpl" ref="employeeDaoimpl" />
 		<property name="crudDaoimpl" ref="crudDaoimpl" />
+		<property name="a6DaoImpl" ref="a6DaoImpl" />
 	</bean>
 	
 	<bean id="salary_detailService" class="com.salary.service.Salary_detailService">
@@ -29,6 +30,8 @@
 		<property name="accountDaoimpl" ref="accountDaoimpl" />
 		<property name="salary_itemDaoimpl" ref="salary_itemDaoimpl" />
 		<property name="crudDaoimpl" ref="crudDaoimpl" />
+		<property name="a6DaoImpl" ref="a6DaoImpl" />
+		<property name="crmDaoImpl" ref="crmDaoImpl" />
 	</bean>
 	
 	<bean id="salary_item_expressionService" class="com.salary.service.Salary_item_expressionService">
@@ -65,6 +68,8 @@
 	<bean id="reportService" class="com.salary.service.ReportService">
 		<property name="reportDaoimpl" ref="reportDaoimpl" />
 		<property name="crudDaoimpl" ref="crudDaoimpl" />
+		<property name="a6DaoImpl" ref="a6DaoImpl" />
+		<property name="crmDaoImpl" ref="crmDaoImpl" />
 	</bean>
 	
 	<bean id="menuService" class="com.salary.service.MenuService">

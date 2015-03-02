@@ -29,6 +29,8 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 	private EmployeeDaoImpl employeeDaoimpl;
 	private AccountDaoImpl accountDaoimpl;
 	private Salary_itemDaoImpl salary_itemDaoimpl;
+	private A6DaoImpl a6DaoImpl;
+	private CRMDaoImpl crmDaoImpl;
 
 	
 	public Salary_itemDaoImpl getSalary_itemDaoimpl() {
@@ -61,6 +63,22 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 
 	public void setAccountDaoimpl(AccountDaoImpl accountDaoimpl) {
 		this.accountDaoimpl = accountDaoimpl;
+	}
+	
+	public A6DaoImpl getA6DaoImpl() {
+		return a6DaoImpl;
+	}
+
+	public void setA6DaoImpl(A6DaoImpl a6DaoImpl) {
+		this.a6DaoImpl = a6DaoImpl;
+	}
+
+	public CRMDaoImpl getCrmDaoImpl() {
+		return crmDaoImpl;
+	}
+
+	public void setCrmDaoImpl(CRMDaoImpl crmDaoImpl) {
+		this.crmDaoImpl = crmDaoImpl;
 	}
 
 	/**
@@ -96,7 +114,6 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		
 		
 		//用来读取A6数据的信息并进行动态设置
-		A6DaoImpl a6Daoimpl=A6DaoImpl.getInstance();
 		String a6sql="select DYNMAICSQL,COMMENT,SALARY_ITEM_ID from a6_sql where SALARY_ITEM_ID!=0";
 		List<Map<String,Object>> lista6sql=salary_detailDaoimpl.queryNaviSql(a6sql, null);
 		listSalarydetail=new ArrayList<Map<String,Object>>();
@@ -104,7 +121,7 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		if(lista6sql!=null && !lista6sql.isEmpty()){
 			for(Map<String,Object> a6sqlMap:lista6sql){
 				
-				listSalarydetail=a6Daoimpl.queryNaviSql(a6sqlMap.get("DYNMAICSQL").toString(), params);
+				listSalarydetail=a6DaoImpl.queryNaviSql(a6sqlMap.get("DYNMAICSQL").toString(), params);
 				if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
 					System.out.println(a6sqlMap.get("COMMENT")+":"+listSalarydetail.size());
 					salary_detail.setSalary_item_id(Integer.parseInt(a6sqlMap.get("SALARY_ITEM_ID").toString()));
@@ -115,15 +132,13 @@ public class Salary_detailService extends CRUDService<Salary_detail> {
 		
 
 		//用来读取CRM的数据信息
-		CRMDaoImpl crmDaoimpl=CRMDaoImpl.getInstance();
-		
 		String crmsql="select DYNMAICSQL,COMMENT,SALARY_ITEM_ID from crm_sql";
 		List<Map<String,Object>> listcrmsql=salary_detailDaoimpl.queryNaviSql(crmsql, null);
 		listSalarydetail=new ArrayList<Map<String,Object>>();
 		
 		if(listcrmsql!=null && !listcrmsql.isEmpty()){
 			for(Map<String,Object> crmsqlMap:listcrmsql){
-				listSalarydetail=crmDaoimpl.queryNaviSql(crmsqlMap.get("DYNMAICSQL").toString(), params);
+				listSalarydetail=crmDaoImpl.queryNaviSql(crmsqlMap.get("DYNMAICSQL").toString(), params);
 				if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
 					System.out.println(crmsqlMap.get("COMMENT")+":"+listSalarydetail.size());
 					salary_detail.setSalary_item_id(Integer.parseInt(crmsqlMap.get("SALARY_ITEM_ID").toString()));

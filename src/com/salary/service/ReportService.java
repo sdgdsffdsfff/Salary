@@ -21,6 +21,9 @@ import com.salary.util.ReportUtils;
  */
 public class ReportService extends CRUDService<Report> {
 	private ReportDaoImpl reportDaoimpl;
+	private A6DaoImpl a6DaoImpl;
+	private CRMDaoImpl crmDaoImpl;
+	
 	public ReportDaoImpl getReportDaoimpl() {
 		return reportDaoimpl;
 	}
@@ -29,6 +32,18 @@ public class ReportService extends CRUDService<Report> {
 	}
 	
 	
+	public A6DaoImpl getA6DaoImpl() {
+		return a6DaoImpl;
+	}
+	public void setA6DaoImpl(A6DaoImpl a6DaoImpl) {
+		this.a6DaoImpl = a6DaoImpl;
+	}
+	public CRMDaoImpl getCrmDaoImpl() {
+		return crmDaoImpl;
+	}
+	public void setCrmDaoImpl(CRMDaoImpl crmDaoImpl) {
+		this.crmDaoImpl = crmDaoImpl;
+	}
 	/**
 	 * 根据报表信息来获取动态报表的数据列表
 	 * @param report		报表信息
@@ -47,12 +62,10 @@ public class ReportService extends CRUDService<Report> {
 			listjson=this.queryNaviSql(sql, params);
 			break;
 		case 1:
-			CRMDaoImpl crmDaoimpl=CRMDaoImpl.getInstance();
-			listjson=crmDaoimpl.queryNaviSql(sql, params);
+			listjson=crmDaoImpl.queryNaviSql(sql, params);
 			break;
 		case 2:
-			A6DaoImpl a6Daoimpl=A6DaoImpl.getInstance();
-			listjson=a6Daoimpl.queryNaviSql(sql, params);
+			listjson=a6DaoImpl.queryNaviSql(sql, params);
 			break;
 		}
 		
