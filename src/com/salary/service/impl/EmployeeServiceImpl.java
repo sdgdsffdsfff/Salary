@@ -41,7 +41,6 @@ public class EmployeeServiceImpl extends CRUDDaoImpl<Employee> implements Employ
 					a6Employeemap.put(
 							a6tmpMap.get("EMP_NAME").toString(), 
 							a6tmpMap.get("EMP_CODE").toString());
-					System.out.println(a6tmpMap.get("EMP_NAME"));
 				}
 			}
 			

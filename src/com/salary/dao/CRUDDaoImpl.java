@@ -77,7 +77,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			
 			return query.list();
 		} catch (HibernateException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->queryNaviSql Error:"+e.getMessage());
 		}finally{
 			session.clear();
 			session.close();
@@ -96,7 +96,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 		try {
 			return (BigDecimal) queryNaviSql(dynmaicsql, null).get(0).get("money");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->getSalarydetailmoney Error:"+e.getMessage());
 		}
 		
 		return null;
@@ -116,7 +116,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			
 			return (List<T>) query.list();
 		} catch (HibernateException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->query Error:"+e.getMessage());
 		}finally{
 			session.clear();
 			session.close();
@@ -143,7 +143,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			
 			return (List<T>) query.list();
 		} catch (HibernateException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->queryByPage Error:"+e.getMessage());
 		}finally{
 			session.clear();
 			session.close();
@@ -170,7 +170,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			
 			return query.list();
 		} catch (HibernateException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->queryNaviSqlByPage Error:"+e.getMessage());
 		}finally{
 			session.clear();
 			session.close();
@@ -194,7 +194,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			query.executeUpdate();
 			tr.commit();
 		} catch (HibernateException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->executeSQL Error:"+e.getMessage());
 		}finally{
 			session.clear();
 			session.close();
@@ -221,7 +221,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			conn.commit();
 			tr.commit();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->callprInitsalarydetail Error:"+e.getMessage());
 		}finally{
 			try {
 				stmt.close();
@@ -260,7 +260,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			stmt.execute();
 			tr.commit();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->callprSetsalarydetail Error:"+e.getMessage());
 		}finally{
 			try {
 				stmt.close();
@@ -299,7 +299,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			stmt.execute();
 			tr.commit();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->callprSetsalarydetailByEmpCode Error:"+e.getMessage());
 		}finally{
 			try {
 				stmt.close();
@@ -339,7 +339,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 			stmt.execute();
 			tr.commit();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
+			logger.error("CRUDDaoImpl-->callprSetsalarydetailByEmpCodeA6 Error:"+e.getMessage());
 		}finally{
 			try {
 				stmt.close();
@@ -427,7 +427,7 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 
 			return NumberUtils.ObjectToInteger(query.uniqueResult());
 		} catch (HibernateException e) {
-			e.printStackTrace();
+			logger.error("CRUDDaoImpl-->getRowCountByHql Error:"+e.getMessage());
 		}finally{
 			if (session != null) {
 				session.clear();

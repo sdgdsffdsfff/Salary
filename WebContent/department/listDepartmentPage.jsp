@@ -13,6 +13,44 @@
 	<script type="text/javascript" src="./easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
+	<script type="text/javascript">
+		//增加部门信息
+		function add(){
+			$('#di_edit').dialog({
+				title:'增加部门信息',
+				width:'350',
+				height:'150',
+				href:'addDepartmentPage',
+				modal:true,
+			});
+		}
+		
+		//修改部门信息
+		function edit(){
+			var row=$('#tb_department').datagrid('getSelected');
+			if(row){
+				$('#di_edit').dialog({
+					title:'修改部门信息',
+					width:'350',
+					height:'150',
+					href:'editDepartmentPage?id='+row.id+"&randomString="+randomString(10),
+					modal:true,
+				});
+			}
+		}
+		
+		//删除部门信息
+		function del(){
+			var row=$('#tb_department').datagrid('getSelected');
+			if(row){
+				$.messager.confirm('提示','确认删除吗?',function (isdel){
+					if(isdel){
+						location.href="delDepartment?id="+row.id+"&randomString="+randomString(10);
+					}
+				});
+			}
+		}
+	</script>
 	<!-- 分页代码 -->
     <script type="text/javascript"> 
         $(function(){ 
@@ -59,45 +97,5 @@
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
 	</div>
 	
-	<script type="text/javascript">
-
-		//增加部门信息
-		function add(){
-			$('#di_edit').dialog({
-				title:'增加部门信息',
-				width:'350',
-				height:'150',
-				href:'addDepartmentPage',
-				modal:true,
-			});
-		}
-		
-		//修改部门信息
-		function edit(){
-			var row=$('#tb_department').datagrid('getSelected');
-			if(row){
-				$('#di_edit').dialog({
-					title:'修改部门信息',
-					width:'350',
-					height:'150',
-					href:'editDepartmentPage?id='+row.id+"&randomString="+randomString(10),
-					modal:true,
-				});
-			}
-		}
-		
-		//删除部门信息
-		function del(){
-			var row=$('#tb_department').datagrid('getSelected');
-			if(row){
-				$.messager.confirm('提示','确认删除吗?',function (isdel){
-					if(isdel){
-						location.href="delDepartment?id="+row.id+"&randomString="+randomString(10);
-					}
-				});
-			}
-		}
-		
-	</script>
 </body>
 </html>

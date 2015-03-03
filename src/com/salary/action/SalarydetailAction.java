@@ -222,7 +222,7 @@ public class SalarydetailAction extends BaseAction {
 	 */
 	public void initlistSalarydetailPage() {
 		try {
-			account = accountService.getEntityById(id, "Account");
+			account = accountService.getEntityById(account_id, "Account");
 			// 到quick_sql表中查找相应的sql语句，status为0 则可以使用
 			String sql = "select dynmaicsql,status from quick_sql where name='initlistSalarydetailPage'";
 			List<Map<String, Object>> listquick_sql = salary_detailService.queryNaviSql(sql, null);
