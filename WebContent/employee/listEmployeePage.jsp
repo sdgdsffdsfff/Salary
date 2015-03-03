@@ -61,7 +61,7 @@
 		<a onclick="add()" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a>
 		<a onclick="edit()" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" >修改</a>
 		<a onclick="del()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">删除</a>
-		<a onclick="syncEmployeeFromA6()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">同步A6员工编号</a>
+		<a onclick="editSyncEmployeeFromA6()" class="easyui-linkbutton" data-options="iconCls:'icon-ok',plain:true">同步A6员工编号</a>
 	</div>
 	
 	<script type="text/javascript">
@@ -105,8 +105,8 @@
 		
 		
 		//同步A6员工编码
-		function syncEmployeeFromA6(){
-			location.href="syncEmployeeFromA6";
+		function editSyncEmployeeFromA6(){
+			location.href="editSyncEmployeeFromA6";
 		}
 	</script>
 	

@@ -17,6 +17,8 @@
 	<form id="editEmployeeForm" action="editEmployee" method="POST" >
 		<input type="hidden" name="employee.id" value='<s:property value="employee.id" />' />
 		<input type="hidden" name="employee.isdel" value='<s:property value="employee.isdel" />' />
+		<input type="hidden" id="temp_department_id" value='<s:property value="employee.department_id" />' />
+		<input type="hidden" id="temp_salary_item_unit_id" value='<s:property value="employee.salary_item_unit_id" />' />
 		<table cellpadding="5" >
 			<tr>
 				<td>员工名称:</td>
@@ -54,14 +56,9 @@
 			<tr>
 				<td>部门</td>
 				<td>
-					<select class="easyui-combobox" name="employee.department_id"
-							data-options='
-							required:true,width:150,
-							value:<s:property value="employee.department_id" />' >
-							<s:iterator value="listdepartment">
-								<option value='<s:property value="id" />'><s:property value="name" /></option>
-							</s:iterator>
-					</select>
+					<input id="department_id" class="easyui-combobox" 
+							name="employee.department_id" 
+							data-options="required:true,width:150" />
 				</td>
 			</tr>
 			<tr>
@@ -80,14 +77,9 @@
 			<tr>
 				<td>公式模板</td>
 				<td>
-					<select class="easyui-combobox" name="employee.salary_item_unit_id"
-							data-options='
-							required:true,width:150,
-							value:<s:property value="employee.salary_item_unit_id" />' >
-							<s:iterator value="listsalary_item_unit">
-								<option value='<s:property value="id" />'><s:property value="name" /></option>
-							</s:iterator>
-					</select>
+					<input id="salary_item_unit_id" class="easyui-combobox" 
+							name="employee.salary_item_unit_id"
+							data-options="required:true,width:150" >
 				</td>
 			</tr>
 			<tr>
@@ -100,6 +92,30 @@
 	</form>
 </div>
 <script type="text/javascript">
+	$(function(){
+		var uri_department="getDepartmentlist";
+		$.getJSON(uri_department,null,function(json){
+			$("#department_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+			
+			$("#department_id").combobox('setValue',$("#temp_department_id").val());
+		});
+		
+		var uri_salary_item_unit_id="getSalaryitemunitlist";
+		$.getJSON(uri_salary_item_unit_id,null,function(json){
+			$("#salary_item_unit_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+			
+			$("#salary_item_unit_id").combobox('setValue',$("#temp_salary_item_unit_id").val());
+		});
+	});
+	
 	
 	function submit(){
 		var isValid=$('#editEmployeeForm').form('validate');

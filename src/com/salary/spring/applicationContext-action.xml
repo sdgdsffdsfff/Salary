@@ -23,8 +23,6 @@
 	
 	<bean id="employeeAction" class="com.salary.action.EmployeeAction">
 		<property name="employeeService" ref="employeeService" />
-		<property name="departmentService" ref="departmentService" />
-		<property name="salary_item_unitService" ref="salary_item_unitService" />
 	</bean>
 	
 	<bean id="salarydetailAction" class="com.salary.action.SalarydetailAction">

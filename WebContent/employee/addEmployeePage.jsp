@@ -49,12 +49,9 @@
 			<tr>
 				<td>部门</td>
 				<td>
-					<select class="easyui-combobox" name="employee.department_id"
-							data-options="required:true,width:150" >
-							<s:iterator value="listdepartment">
-								<option value='<s:property value="id" />'><s:property value="name" /></option>
-							</s:iterator>
-					</select>
+					<input id="department_id" class="easyui-combobox" 
+							name="employee.department_id" 
+							data-options="required:true,width:150" />
 				</td>
 			</tr>
 			<tr>
@@ -71,12 +68,9 @@
 			<tr>
 				<td>公式模板</td>
 				<td>
-					<select class="easyui-combobox" name="employee.salary_item_unit_id"
+					<input id="salary_item_unit_id" class="easyui-combobox" 
+							name="employee.salary_item_unit_id"
 							data-options="required:true,width:150" >
-							<s:iterator value="listsalary_item_unit">
-								<option value='<s:property value="id" />'><s:property value="name" /></option>
-							</s:iterator>
-					</select>
 				</td>
 			</tr>
 			<tr>
@@ -89,6 +83,27 @@
 	</form>
 </div>
 <script type="text/javascript">
+	$(function(){
+		var uri_department="getDepartmentlist";
+		$.getJSON(uri_department,null,function(json){
+			$("#department_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+		});
+		
+		var uri_salary_item_unit_id="getSalaryitemunitlist";
+		$.getJSON(uri_salary_item_unit_id,null,function(json){
+			$("#salary_item_unit_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+		});
+	});
+	
+	
 	function submit(){
 		var isValid=$('#addEmployeeForm').form('validate');
 		if(!isValid){

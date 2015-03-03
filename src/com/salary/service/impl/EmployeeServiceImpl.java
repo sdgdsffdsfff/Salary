@@ -26,7 +26,7 @@ public class EmployeeServiceImpl extends CRUDDaoImpl<Employee> implements Employ
 	/**
 	 * 同步奖金系统对应A6员工的的用户CODE
 	 */
-	public void syncEmployeeFromA6(){
+	public void editSyncEmployeeFromA6(){
 		//读取出A6的用户信息列表
 		List<Map<String,Object>> a6Employeelist=a6DaoImpl.getEmployeelist();
 		
@@ -41,6 +41,7 @@ public class EmployeeServiceImpl extends CRUDDaoImpl<Employee> implements Employ
 					a6Employeemap.put(
 							a6tmpMap.get("EMP_NAME").toString(), 
 							a6tmpMap.get("EMP_CODE").toString());
+					System.out.println(a6tmpMap.get("EMP_NAME"));
 				}
 			}
 			
