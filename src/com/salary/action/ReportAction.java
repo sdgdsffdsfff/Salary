@@ -24,7 +24,6 @@ public class ReportAction extends BaseAction {
 	private Integer id;
 	private Integer report_id;						//报表id
 	private Report report;							//自定义报表类
-	private JSONObject jsonobj;						//json数据
 	private String dynmaiccolumn;					//动态的Easyui表格列
 	private String dynmaiceasyui;					//动态的Easyui组件列表(用来传递参数)
 	private String formparams;						//form表单的参数列表,用逗号分割
@@ -53,14 +52,6 @@ public class ReportAction extends BaseAction {
 
 	public void setReport(Report report) {
 		this.report = report;
-	}
-
-	public JSONObject getJsonobj() {
-		return jsonobj;
-	}
-
-	public void setJsonobj(JSONObject jsonobj) {
-		this.jsonobj = jsonobj;
 	}
 
 	public String getDynmaiccolumn() {
@@ -124,8 +115,7 @@ public class ReportAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editReportPage(){
-		String hql="From Report where id="+id;
-		report=reportService.get(hql, null);
+		report=reportService.getEntityById(id, "Report");
 		return SUCCESS;
 	}
 	
@@ -209,7 +199,6 @@ public class ReportAction extends BaseAction {
 	public String queryReportlist(){
 		try {
 			report=reportService.getEntityById(report_id, "Report");
-			
 			HttpServletRequest request=ServletActionContext.getRequest();
 			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
 			
@@ -262,7 +251,6 @@ public class ReportAction extends BaseAction {
 	public String getReportExcel(){
 		try {
 			report=reportService.getEntityById(report_id, "Report");
-			
 			HttpServletRequest request=ServletActionContext.getRequest();
 			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
 			

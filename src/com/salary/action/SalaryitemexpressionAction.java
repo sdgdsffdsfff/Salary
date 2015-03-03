@@ -23,9 +23,6 @@ public class SalaryitemexpressionAction extends BaseAction{
 	private Salary_item_unitServiceImpl salary_item_unitService;
 	private Salary_item_expression salary_item_expression;	//奖金项目公式
 	private Integer id;										//奖金项目公式id
-	private Integer account_id;								//奖金期间id
-	private Integer emp_id;									//员工id
-	private Salary_item salary_item;						//奖金项目
 	private List<Salary_item> listsalary_item;				//奖金项目列表
 	private List<Salary_item> listsalary_item2;				//奖金项目列表2
 	public Salary_item_expressionServiceImpl getSalary_item_expressionService() {
@@ -68,30 +65,6 @@ public class SalaryitemexpressionAction extends BaseAction{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public Salary_item getSalary_item() {
-		return salary_item;
-	}
-
-	public void setSalary_item(Salary_item salary_item) {
-		this.salary_item = salary_item;
 	}
 
 	public List<Salary_item> getListsalary_item() {

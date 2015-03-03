@@ -47,12 +47,10 @@
 	
 	<bean id="salaryitemunitAction" class="com.salary.action.SalaryitemunitAction">
 		<property name="salary_item_unitService" ref="salary_item_unitService" />
-		<property name="salary_item_expressionService" ref="salary_item_expressionService" />
 	</bean>
 	
 	<bean id="operatorAction" class="com.salary.action.OperatorAction">
 		<property name="operatorService" ref="operatorService" />
-		<property name="roleService" ref="roleService" />
 		<property name="role_authorService" ref="role_authorService" />
 		<property name="authorService" ref="authorService" />
 		<property name="role_menuService" ref="role_menuService" />

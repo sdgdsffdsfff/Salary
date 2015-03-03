@@ -8,18 +8,15 @@ import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 import com.salary.action.base.BaseAction;
-import com.salary.entity.Account;
 import com.salary.entity.Author;
 import com.salary.entity.Employee;
 import com.salary.entity.Menu;
 import com.salary.entity.Operator;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
-import com.salary.entity.Salary_item;
 import com.salary.service.impl.AuthorServiceImpl;
 import com.salary.service.impl.EmployeeServiceImpl;
 import com.salary.service.impl.OperatorServiceImpl;
-import com.salary.service.impl.RoleServiceImpl;
 import com.salary.service.impl.Role_authorServiceImpl;
 import com.salary.service.impl.Role_menuServiceImpl;
 import com.salary.util.MD5Util;
@@ -33,18 +30,12 @@ import com.salary.util.SalaryUtils;
 @SuppressWarnings("serial")
 public class OperatorAction extends BaseAction {
 	private OperatorServiceImpl operatorService;
-	private RoleServiceImpl roleService;
 	private Role_authorServiceImpl role_authorService;
 	private AuthorServiceImpl authorService;
 	private Role_menuServiceImpl role_menuService;
 	private EmployeeServiceImpl employeeService;
 	private Operator operator;						//操作员
-	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
-	private Account account;						//账户期间
-	private Integer emp_id;							//员工id
-	private Salary_item salary_item;				//奖金项目
-	private List<Role> listrole;					//角色信息列表
 	private Role role;								//角色信息
 	
 	public OperatorServiceImpl getOperatorService() {
@@ -53,14 +44,6 @@ public class OperatorAction extends BaseAction {
 
 	public void setOperatorService(OperatorServiceImpl operatorService) {
 		this.operatorService = operatorService;
-	}
-
-	public RoleServiceImpl getRoleService() {
-		return roleService;
-	}
-
-	public void setRoleService(RoleServiceImpl roleService) {
-		this.roleService = roleService;
 	}
 
 	public Role_authorServiceImpl getRole_authorService() {
@@ -103,52 +86,12 @@ public class OperatorAction extends BaseAction {
 		this.operator = operator;
 	}
 
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public Salary_item getSalary_item() {
-		return salary_item;
-	}
-
-	public void setSalary_item(Salary_item salary_item) {
-		this.salary_item = salary_item;
-	}
-
-	public List<Role> getListrole() {
-		return listrole;
-	}
-
-	public void setListrole(List<Role> listrole) {
-		this.listrole = listrole;
 	}
 
 	public Role getRole() {
@@ -164,13 +107,6 @@ public class OperatorAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addOperatorPage(){
-		try {
-			String hql="From Role where isdel=0";
-			listrole=roleService.query(hql, null);
-		} catch (Exception e) {
-			return ERROR;
-		}
-		
 		return SUCCESS;
 	}
 	
@@ -180,11 +116,7 @@ public class OperatorAction extends BaseAction {
 	 */
 	public String editOperatorPage(){
 		try {
-			String hql_oper="From Operator where id="+id;
-			operator=operatorService.get(hql_oper, null);
-			
-			String hql_role="From Role where isdel=0";
-			listrole=roleService.query(hql_role, null);
+			operator=operatorService.getEntityById(id, "Operator");
 		} catch (Exception e) {
 			return ERROR;
 		}

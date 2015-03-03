@@ -44,12 +44,8 @@
 			<tr>
 				<td>奖金公式</td>
 				<td>
-					<select id="exp" class="easyui-combobox"
-							data-options="required:true,width:150" >
-							<s:iterator value="listsalary_item_expression">
-								<option value='<s:property value="id" />'><s:property value="name" /></option>
-							</s:iterator>
-					</select>
+					<input id="salary_item_expression_id" class="easyui-combobox" 
+							data-options="required:true,width:150" />
 				</td>
 			</tr>
 			<tr>
@@ -64,6 +60,19 @@
 	</form>
 </div>
 <script type="text/javascript">
+	$(function(){
+		var uri_salary_item_expression_id="getSalaryitemexpressionlist?rows=1000";
+		$.getJSON(uri_salary_item_expression_id,null,function(json){
+			$("#salary_item_expression_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+		});
+		
+	});
+	
+
 	function submit(){
 		var isValid=$('#editSalaryitemunitForm').form('validate');
 		if(!isValid){
@@ -79,7 +88,7 @@
 	//添加计算序列
 	function addSequence(){
 		var oldseq=$('#seq').textbox('getText');
-		var newseq=oldseq+$('#exp').combobox('getValue')+',';
+		var newseq=oldseq+$('#salary_item_expression_id').combobox('getValue')+',';
 		
 		$('#seq').textbox('setText',newseq);
 	}

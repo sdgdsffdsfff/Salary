@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import com.salary.action.base.BaseAction;
-import com.salary.entity.Salary_item;
-import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
-import com.salary.service.impl.EmployeeServiceImpl;
-import com.salary.service.impl.Salary_item_expressionServiceImpl;
 import com.salary.service.impl.Salary_item_unitServiceImpl;
 
 /**
@@ -20,86 +16,24 @@ import com.salary.service.impl.Salary_item_unitServiceImpl;
 @SuppressWarnings("serial")
 public class SalaryitemunitAction extends BaseAction {
 	private Salary_item_unitServiceImpl salary_item_unitService;
-	private Salary_item_expressionServiceImpl salary_item_expressionService;
-	private EmployeeServiceImpl employeeService;
 	private Integer id;								//奖金期间id
-	private Integer account_id;						//奖金期间id
-	private Integer emp_id;							//员工id
-	private Salary_item salary_item;				//奖金项目
-	private List<Salary_item_expression> listsalary_item_expression;//奖金公式列表
 	private Salary_item_unit salary_item_unit;		//奖金公式单元
-
 	public Salary_item_unitServiceImpl getSalary_item_unitService() {
 		return salary_item_unitService;
 	}
-
 	public void setSalary_item_unitService(
 			Salary_item_unitServiceImpl salary_item_unitService) {
 		this.salary_item_unitService = salary_item_unitService;
 	}
-
-	public Salary_item_expressionServiceImpl getSalary_item_expressionService() {
-		return salary_item_expressionService;
-	}
-
-	public void setSalary_item_expressionService(
-			Salary_item_expressionServiceImpl salary_item_expressionService) {
-		this.salary_item_expressionService = salary_item_expressionService;
-	}
-
-	public EmployeeServiceImpl getEmployeeService() {
-		return employeeService;
-	}
-
-	public void setEmployeeService(EmployeeServiceImpl employeeService) {
-		this.employeeService = employeeService;
-	}
-
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public Salary_item getSalary_item() {
-		return salary_item;
-	}
-
-	public void setSalary_item(Salary_item salary_item) {
-		this.salary_item = salary_item;
-	}
-
-	public List<Salary_item_expression> getListsalary_item_expression() {
-		return listsalary_item_expression;
-	}
-
-	public void setListsalary_item_expression(
-			List<Salary_item_expression> listsalary_item_expression) {
-		this.listsalary_item_expression = listsalary_item_expression;
-	}
-
 	public Salary_item_unit getSalary_item_unit() {
 		return salary_item_unit;
 	}
-
 	public void setSalary_item_unit(Salary_item_unit salary_item_unit) {
 		this.salary_item_unit = salary_item_unit;
 	}
@@ -109,14 +43,6 @@ public class SalaryitemunitAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String addSalaryitemunitPage(){
-		try {
-			String hql="From Salary_item_expression";
-			listsalary_item_expression=salary_item_expressionService.query(hql, null);
-		} catch (Exception e) {
-			errormessage=e.getMessage();
-			return ERROR;
-		}
-		
 		return SUCCESS;
 	}
 	
@@ -126,10 +52,7 @@ public class SalaryitemunitAction extends BaseAction {
 	 */
 	public String editSalaryitemunitPage(){
 		try {
-			String hql="From Salary_item_expression";
-			listsalary_item_expression=salary_item_expressionService.query(hql, null);
-			hql="From Salary_item_unit where id="+id;
-			salary_item_unit=salary_item_unitService.get(hql, null);
+			salary_item_unit=salary_item_unitService.getEntityById(id, "Salary_item_unit");
 		} catch (Exception e) {
 			errormessage=e.getMessage();
 			return ERROR;

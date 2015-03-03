@@ -23,7 +23,7 @@
 	</div>
 	<div data-options="region:'south'" style="height:25px;text-align:center">
 	<div style="margin:5px 0px;">
-	贵州爱信诺航天信息有限公司版权所有(Version2.6.1)
+	贵州爱信诺航天信息有限公司版权所有(Version2.6.3)
 	</div>
 	</div>
 	<div data-options="region:'west'" title="菜单栏" style="width:200px;">

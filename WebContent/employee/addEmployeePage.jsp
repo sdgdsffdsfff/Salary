@@ -84,7 +84,7 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var uri_department="getDepartmentlist";
+		var uri_department="getDepartmentlist?rows=1000";
 		$.getJSON(uri_department,null,function(json){
 			$("#department_id").combobox({
 				valueField:'id',
@@ -93,7 +93,7 @@
 			});
 		});
 		
-		var uri_salary_item_unit_id="getSalaryitemunitlist";
+		var uri_salary_item_unit_id="getSalaryitemunitlist?rows=1000";
 		$.getJSON(uri_salary_item_unit_id,null,function(json){
 			$("#salary_item_unit_id").combobox({
 				valueField:'id',

@@ -53,7 +53,7 @@
 			<input id="formparams" name="formparams" type="hidden" value='<s:property value="formparams" />' />
 			<input id="formparamstype" name="formparamstype" type="hidden" value='<s:property value="formparamstype" />' />
 			<input id="reportname" name="reportname" type="hidden" value='<s:property value="report.name" />' />
-			<a onclick="getReportExcel()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">导出到Excel</a>
+			<a id="btn_getReportExcel" onclick="getReportExcel()" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true,disabled:true,">导出到Excel</a>
 			<a onclick="location.href='listReportPage'" class="easyui-linkbutton" data-options="iconCls:'icon-back',plain:true">返回</a>
 		</form>
 	</div>
@@ -98,6 +98,7 @@
 				});
 			});
 			
+			$("#btn_getReportExcel").linkbutton('enable');
 		}
 		
 		//导出数据到Excel
@@ -126,6 +127,7 @@
 			
 			uri=uri.substring(0,uri.length-1);
 			
+			$("#btn_getReportExcel").linkbutton('disable');
 			location.href=uri;
 		}
 	</script>

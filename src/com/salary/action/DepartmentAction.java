@@ -6,7 +6,6 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Department;
-import com.salary.entity.Salary_item;
 import com.salary.service.impl.DepartmentServiceImpl;
 
 /**
@@ -19,9 +18,6 @@ public class DepartmentAction extends BaseAction {
 	
 	private DepartmentServiceImpl departmentService;
 	private Integer id;								//部门id
-	private Integer account_id;						//奖金期间id
-	private Integer emp_id;							//员工id
-	private Salary_item salary_item;				//奖金项目
 	private Department department;					//部门信息
 	
 	public DepartmentServiceImpl getDepartmentService() {
@@ -38,30 +34,6 @@ public class DepartmentAction extends BaseAction {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public Salary_item getSalary_item() {
-		return salary_item;
-	}
-
-	public void setSalary_item(Salary_item salary_item) {
-		this.salary_item = salary_item;
 	}
 
 	public Department getDepartment() {

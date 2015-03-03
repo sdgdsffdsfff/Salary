@@ -6,7 +6,6 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
-import com.salary.entity.Salary_item;
 import com.salary.service.impl.AccountServiceImpl;
 import com.salary.service.impl.Salary_detailServiceImpl;
 
@@ -19,11 +18,8 @@ import com.salary.service.impl.Salary_detailServiceImpl;
 public class AccountAction extends BaseAction {
 	private AccountServiceImpl accountService;
 	private Salary_detailServiceImpl salary_detailService;
-	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
 	private Account account;						//账户期间
-	private Integer emp_id;							//员工id
-	private Salary_item salary_item;				//奖金项目
 	private String daystart;						//日期开始
 	private String dayend;							//日期结束
 	
@@ -44,14 +40,6 @@ public class AccountAction extends BaseAction {
 		this.salary_detailService = salary_detailService;
 	}
 
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -66,22 +54,6 @@ public class AccountAction extends BaseAction {
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public Salary_item getSalary_item() {
-		return salary_item;
-	}
-
-	public void setSalary_item(Salary_item salary_item) {
-		this.salary_item = salary_item;
 	}
 
 	public String getDaystart() {

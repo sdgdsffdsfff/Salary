@@ -16,6 +16,7 @@
 <div style="padding:20px;">
 	<form id="editOperatorForm" action="editOperator" method="POST" >
 		<input id="operatorid" type="hidden" name="operator.id" value='<s:property value="operator.id" />' />
+		<input id="temp_role_id" type="hidden" value='<s:property value="operator.role_id" />' />
 		<table cellpadding="5" >
 			<tr>
 				<td>操作员名称:</td>
@@ -31,12 +32,7 @@
 			<tr>
 				<td>角色:</td>
 				<td>
-					<select id="operatorrole_id" name="operator.role_id" class="easyui-combobox" 
-					data-options='width:150,value:<s:property value="operator.role_id" />'>
-						<s:iterator value="listrole">
-							<option value='<s:property value="id" />'><s:property value="name" /></option>
-						</s:iterator>
-					</select>
+					<input id="role_id" name="operator.role_id" class="easyui-combobox" data-options="width:150," />
 				</td>
 			</tr>
 			<tr>
@@ -70,6 +66,19 @@
 				editable:false,
 			});
 		}
+		
+		
+		var uri_role_id="getRolelist?rows=1000";
+		$.getJSON(uri_role_id,null,function(json){
+			$("#role_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+			
+			$("#role_id").combobox('setValue',$("#temp_role_id").val());
+		});
+		
 		
 		//验证密码是否一致
 		$('#pass2').textbox({

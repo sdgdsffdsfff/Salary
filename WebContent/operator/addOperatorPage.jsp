@@ -29,11 +29,7 @@
 			<tr>
 				<td>角色:</td>
 				<td>
-					<select name="operator.role_id" class="easyui-combobox" data-options="width:150,">
-						<s:iterator value="listrole">
-							<option value='<s:property value="id" />'><s:property value="name" /></option>
-						</s:iterator>
-					</select>
+					<input id="role_id" name="operator.role_id" class="easyui-combobox" data-options="width:150," />
 				</td>
 			</tr>
 			<tr>
@@ -62,6 +58,15 @@
 </div>
 <script type="text/javascript">
 	$(function(){
+		var uri_role_id="getRolelist?rows=1000";
+		$.getJSON(uri_role_id,null,function(json){
+			$("#role_id").combobox({
+				valueField:'id',
+				textField:'name',
+				data:json.rows,
+			});
+		});
+		
 		//验证密码是否一致
 		$('#pass2').textbox({
 			validType:["equals['#pass1']",],

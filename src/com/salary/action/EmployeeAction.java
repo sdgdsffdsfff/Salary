@@ -18,7 +18,6 @@ public class EmployeeAction extends BaseAction {
 	private EmployeeServiceImpl employeeService;
 	private Integer id;								//员工id
 	private Employee employee;						//职员
-	private List<Employee> listemployee;			//员工列表
 	
 	public EmployeeServiceImpl getEmployeeService() {
 		return employeeService;
@@ -42,14 +41,6 @@ public class EmployeeAction extends BaseAction {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
-	}
-
-	public List<Employee> getListemployee() {
-		return listemployee;
-	}
-
-	public void setListemployee(List<Employee> listemployee) {
-		this.listemployee = listemployee;
 	}
 
 	/**

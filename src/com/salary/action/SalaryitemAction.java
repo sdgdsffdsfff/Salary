@@ -17,9 +17,6 @@ import com.salary.service.impl.Salary_itemServiceImpl;
 public class SalaryitemAction extends BaseAction{
 	private Salary_itemServiceImpl salary_itemService;	//工资项目业务处理sercice
 	private Integer id;								//工资项目id
-	private Integer salary_item_id;					//工资项目的id
-	private Integer account_id;						//奖金期间id
-	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
 
 	public Salary_itemServiceImpl getSalary_itemService() {
@@ -36,30 +33,6 @@ public class SalaryitemAction extends BaseAction{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getSalary_item_id() {
-		return salary_item_id;
-	}
-
-	public void setSalary_item_id(Integer salary_item_id) {
-		this.salary_item_id = salary_item_id;
-	}
-
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
 	}
 
 	public Salary_item getSalary_item() {

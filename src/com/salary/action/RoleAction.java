@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
 import com.salary.action.base.BaseAction;
-import com.salary.entity.Account;
 import com.salary.entity.Role;
-import com.salary.entity.Salary_item;
 import com.salary.service.impl.RoleServiceImpl;
 
 /**
@@ -19,11 +17,7 @@ import com.salary.service.impl.RoleServiceImpl;
 public class RoleAction extends BaseAction {
 	private RoleServiceImpl roleService;
 	private Role role;								//角色
-	private Integer account_id;						//奖金期间id
 	private Integer id;								//奖金期间id
-	private Account account;						//账户期间
-	private Integer emp_id;							//员工id
-	private Salary_item salary_item;				//奖金项目
 
 	public RoleServiceImpl getRoleService() {
 		return roleService;
@@ -41,44 +35,12 @@ public class RoleAction extends BaseAction {
 		this.role = role;
 	}
 
-	public Integer getAccount_id() {
-		return account_id;
-	}
-
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public Integer getEmp_id() {
-		return emp_id;
-	}
-
-	public void setEmp_id(Integer emp_id) {
-		this.emp_id = emp_id;
-	}
-
-	public Salary_item getSalary_item() {
-		return salary_item;
-	}
-
-	public void setSalary_item(Salary_item salary_item) {
-		this.salary_item = salary_item;
 	}
 
 	/**
