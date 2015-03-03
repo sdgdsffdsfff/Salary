@@ -5200,13 +5200,11 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS `tr_salary_item_add_update_quick_sql`;
 DELIMITER ;;
 CREATE TRIGGER `tr_salary_item_add_update_quick_sql` AFTER INSERT ON `salary_item` FOR EACH ROW update quick_sql set status=1
-;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `tr_salary_item_edit_update_quick_sql`;
 DELIMITER ;;
 CREATE TRIGGER `tr_salary_item_edit_update_quick_sql` AFTER UPDATE ON `salary_item` FOR EACH ROW update quick_sql set status=1
-;
 ;;
 DELIMITER ;
 DROP TRIGGER IF EXISTS `tr_salary_item_del_update_quick_sql`;
