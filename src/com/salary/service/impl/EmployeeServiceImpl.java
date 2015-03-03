@@ -51,8 +51,25 @@ public class EmployeeServiceImpl extends CRUDDaoImpl<Employee> implements Employ
 					this.edit(employee);
 				}
 			}
+			
 		}
 		
-		
 	}
+	
+	
+	
+	@Override
+	public void add(Employee t) {
+		super.add(t);
+	}
+	@Override
+	public void del(Employee t) {
+		super.del(t);
+	}
+	@Override
+	public void edit(Employee t) {
+		super.edit(t);
+	}
+	
+	
 }

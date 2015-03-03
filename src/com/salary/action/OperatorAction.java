@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionContext;
 import com.salary.action.base.BaseAction;
@@ -24,7 +23,6 @@ import com.salary.service.impl.RoleServiceImpl;
 import com.salary.service.impl.Role_authorServiceImpl;
 import com.salary.service.impl.Role_menuServiceImpl;
 import com.salary.util.MD5Util;
-import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
 
 /**
@@ -34,8 +32,6 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class OperatorAction extends BaseAction {
-	private Logger logger=Logger.getLogger(OperatorAction.class);
-	
 	private OperatorServiceImpl operatorService;
 	private RoleServiceImpl roleService;
 	private Role_authorServiceImpl role_authorService;
@@ -51,14 +47,6 @@ public class OperatorAction extends BaseAction {
 	private List<Role> listrole;					//角色信息列表
 	private Role role;								//角色信息
 	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-
 	public OperatorServiceImpl getOperatorService() {
 		return operatorService;
 	}
@@ -180,8 +168,6 @@ public class OperatorAction extends BaseAction {
 			String hql="From Role where isdel=0";
 			listrole=roleService.query(hql, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
 			return ERROR;
 		}
 		
@@ -200,8 +186,6 @@ public class OperatorAction extends BaseAction {
 			String hql_role="From Role where isdel=0";
 			listrole=roleService.query(hql_role, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
 			return ERROR;
 		}
 		
@@ -214,24 +198,11 @@ public class OperatorAction extends BaseAction {
 	 */
 	public String addOperator(){
 		try {
-			//先判断该操作员的名称在表中是否存在，如果存在，则页面抛出错误信息
-			String sql="select count(1) as money from operator where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", operator.getName());
-			Integer op_count=0;
-			
-			op_count=NumberUtils.BigIntegerToInteger(operatorService.queryNaviSql(sql, params).get(0).get("money"));
-			
-			if(op_count>0){
-				errormessage="添加操作员失败，已有相同名称的操作员信息...";
-				return ERROR;
-			}
 			//MD5加密
 			operator.setPass(MD5Util.MD5(operator.getPass()));
 			operatorService.add(operator);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="添加操作员失败，已有相同名称的操作员信息...";
 			return ERROR;
 		}
 		
@@ -244,17 +215,10 @@ public class OperatorAction extends BaseAction {
 	 */
 	public String delOperator(){
 		try {
-			if(id==1){
-				errormessage="超级管理员不允许删除...";
-				return ERROR;
-			}
-			
-			String hql="From Operator where id="+id;
-			operator=operatorService.get(hql, null);
+			operator=operatorService.getEntityById(id, "Operator");
 			operatorService.del(operator);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="超级管理员不允许删除...";
 			return ERROR;
 		}
 		
@@ -267,24 +231,6 @@ public class OperatorAction extends BaseAction {
 	 */
 	public String editOperator(){
 		try {
-			//首先判断角色的名称是否和原来一样，如果和原来不一样，则需要检测表中是否有重名的数据
-			String hql="From Operator where id="+operator.getId();
-			Operator tmpOperator=operatorService.get(hql, null);
-			if(!tmpOperator.getName().equals(operator.getName())){
-				//判断该操作员的名称在表中是否存在，如果存在，则页面抛出错误信息
-				String sql="select count(1) as money from operator where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", operator.getName());
-				Integer op_count=0;
-				
-				op_count=NumberUtils.BigIntegerToInteger(operatorService.queryNaviSql(sql, params).get(0).get("money"));
-				
-				if(op_count>0){
-					errormessage="修改操作员失败，已有相同名称的操作员信息...";
-					return ERROR;
-				}
-			}
-			
 			//如果是admin管理员，则不允许修改其角色。恢复默认为1管理员
 			if(operator.getId()==1){
 				operator.setRole_id(1);
@@ -293,11 +239,9 @@ public class OperatorAction extends BaseAction {
 			
 			//MD5加密
 			operator.setPass(MD5Util.MD5(operator.getPass()));
-			
 			operatorService.edit(operator);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改操作员失败，已有相同名称的操作员信息...";
 			return ERROR;
 		}
 		
@@ -318,14 +262,20 @@ public class OperatorAction extends BaseAction {
 	 */
 	public String getOperatorlist(){
 		String sql="select ope.id,ope.name,rol.name as role_id From operator ope left join role rol on ope.role_id=rol.id where ope.isdel=0";
-		List<Map<String,Object>> listoperator=operatorService.queryNaviSqlByPage(sql, null, page, rows);
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
 		
-		jsonMap.put("rows", listoperator);
-		jsonMap.put("total", operatorService.queryNaviSql(sql, null).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Map<String,Object>> listoperator=operatorService.queryNaviSqlByPage(sql, null, page, rows);
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			
+			jsonMap.put("rows", listoperator);
+			jsonMap.put("total", operatorService.queryNaviSql(sql, null).size());
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="读取操作员列表失败...";
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -444,7 +394,6 @@ public class OperatorAction extends BaseAction {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -487,8 +436,7 @@ public class OperatorAction extends BaseAction {
 			operatorService.edit(tmpOperator);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="操作员密码修改失败,请检查是否登录...";
 			return ERROR;
 		}
 		
@@ -500,8 +448,13 @@ public class OperatorAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editPasswordPage(){
-		operator=(Operator) ActionContext.getContext().getSession().get("operatorinfo");
-
+		try {
+			operator=(Operator) ActionContext.getContext().getSession().get("operatorinfo");
+		} catch (Exception e) {
+			e.printStackTrace();
+			errormessage="操作员密码修改失败,请检查是否登录...";
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 }

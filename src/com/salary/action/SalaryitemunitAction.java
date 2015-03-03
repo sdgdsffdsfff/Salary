@@ -3,9 +3,7 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
@@ -13,7 +11,6 @@ import com.salary.entity.Salary_item_unit;
 import com.salary.service.impl.EmployeeServiceImpl;
 import com.salary.service.impl.Salary_item_expressionServiceImpl;
 import com.salary.service.impl.Salary_item_unitServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 奖金公式单元action
@@ -22,8 +19,6 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class SalaryitemunitAction extends BaseAction {
-	private Logger logger=Logger.getLogger(SalaryitemunitAction.class);
-	
 	private Salary_item_unitServiceImpl salary_item_unitService;
 	private Salary_item_expressionServiceImpl salary_item_expressionService;
 	private EmployeeServiceImpl employeeService;
@@ -33,14 +28,6 @@ public class SalaryitemunitAction extends BaseAction {
 	private Salary_item salary_item;				//奖金项目
 	private List<Salary_item_expression> listsalary_item_expression;//奖金公式列表
 	private Salary_item_unit salary_item_unit;		//奖金公式单元
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public Salary_item_unitServiceImpl getSalary_item_unitService() {
 		return salary_item_unitService;
@@ -126,7 +113,6 @@ public class SalaryitemunitAction extends BaseAction {
 			String hql="From Salary_item_expression";
 			listsalary_item_expression=salary_item_expressionService.query(hql, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -145,7 +131,6 @@ public class SalaryitemunitAction extends BaseAction {
 			hql="From Salary_item_unit where id="+id;
 			salary_item_unit=salary_item_unitService.get(hql, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -159,22 +144,9 @@ public class SalaryitemunitAction extends BaseAction {
 	 */
 	public String addSalaryitemunit(){
 		try {
-			//先检测奖金项目公式模板是否有同名的
-			String sql="select count(1) as money from salary_item_unit where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", salary_item_unit.getName());
-			Integer sal_count=0;
-			sal_count=NumberUtils.BigIntegerToInteger(
-								salary_item_unitService.queryNaviSql(sql, params).get(0).get("money"));
-			if(sal_count>0){
-				errormessage="添加奖金项目公式模板失败，已有相同名称的奖金项目公式模板...";
-				return ERROR;
-			}
-			
 			salary_item_unitService.add(salary_item_unit);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="添加奖金项目公式模板失败，已有相同名称的奖金项目公式模板...";
 			return ERROR;
 		}
 		
@@ -187,27 +159,9 @@ public class SalaryitemunitAction extends BaseAction {
 	 */
 	public String editSalaryitemunit(){
 		try {
-			//先检测是否和原来的名称相同，不相同则要检测是否有同名
-			String hql="From Salary_item_unit where id="+salary_item_unit.getId();
-			Salary_item_unit tmpSal=salary_item_unitService.get(hql, null);
-			if(!tmpSal.getName().equals(salary_item_unit.getName())){
-				//先检测奖金项目公式模板是否有同名的
-				String sql="select count(1) as money from salary_item_unit where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", salary_item_unit.getName());
-				Integer sal_count=0;
-				sal_count=NumberUtils.BigIntegerToInteger(
-									salary_item_unitService.queryNaviSql(sql, params).get(0).get("money"));
-				if(sal_count>0){
-					errormessage="添加奖金项目公式模板失败，已有相同名称的奖金项目公式模板...";
-					return ERROR;
-				}
-			}
-			
 			salary_item_unitService.edit(salary_item_unit);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改奖金项目公式模板失败，已有相同名称的奖金项目公式模板...";
 			return ERROR;
 		}
 		
@@ -220,23 +174,10 @@ public class SalaryitemunitAction extends BaseAction {
 	 */
 	public String delSalaryitemunit(){
 		try {
-			//检测奖金公式单元模板是否有员工引用
-			String sql="select count(1) as money from employee where salary_item_unit_id="+id;
-			Integer sal_count=0;
-			sal_count=NumberUtils.BigIntegerToInteger(
-								salary_item_unitService.queryNaviSql(sql, null).get(0).get("money"));
-			
-			if(sal_count>0){
-				errormessage="删除奖金公式单元模板失败，该奖金公式单元模板已经在使用中...";
-				return ERROR;
-			}
-			
-			String hql="From Salary_item_unit where id="+id;
-			salary_item_unit=salary_item_unitService.get(hql, null);
+			salary_item_unit=salary_item_unitService.getEntityById(id, "Salary_item_unit");
 			salary_item_unitService.del(salary_item_unit);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除奖金公式单元模板失败，该奖金公式单元模板已经在使用中...";
 			return ERROR;
 		}
 		
@@ -258,15 +199,20 @@ public class SalaryitemunitAction extends BaseAction {
 	public String getSalaryitemunitlist(){
 		this.init();
 		String hql="From Salary_item_unit";
-		List<Salary_item_unit> listsalary_item_unit=
-				salary_item_unitService.queryByPage(hql, null,page,rows);
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listsalary_item_unit);
-		jsonMap.put("total", salary_item_unitService.query(hql,null).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Salary_item_unit> listsalary_item_unit=
+					salary_item_unitService.queryByPage(hql, null,page,rows);
+			
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("rows", listsalary_item_unit);
+			jsonMap.put("total", salary_item_unitService.getRowCountByHql(hql, null));
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="获取奖金公式单元列表失败...";
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}

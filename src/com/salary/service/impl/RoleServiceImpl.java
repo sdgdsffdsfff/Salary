@@ -11,4 +11,19 @@ import com.salary.service.RoleService;
  */
 public class RoleServiceImpl extends CRUDDaoImpl<Role> implements RoleService {
 
+	@Override
+	public void add(Role t) {
+		super.add(t);
+	}
+
+	@Override
+	public void del(Role t) {
+		super.del(t);
+	}
+
+	@Override
+	public void edit(Role t) {
+		super.edit(t);
+	}
+	
 }

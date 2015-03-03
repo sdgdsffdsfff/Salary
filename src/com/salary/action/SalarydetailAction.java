@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
 import com.opensymphony.xwork2.ActionContext;
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
@@ -34,8 +33,6 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class SalarydetailAction extends BaseAction {
-	private Logger logger = Logger.getLogger(SalarydetailAction.class);
-
 	private Salary_detailServiceImpl salary_detailService;
 	private Salary_itemServiceImpl salary_itemService;
 	private AccountServiceImpl accountService;
@@ -56,14 +53,6 @@ public class SalarydetailAction extends BaseAction {
 	private Integer salary_item_id; 			// 奖金项目id
 	private Integer departmentid; 				// 部门id
 	private float money; 						// 金额
-
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public Salary_detailServiceImpl getSalary_detailService() {
 		return salary_detailService;
@@ -233,36 +222,27 @@ public class SalarydetailAction extends BaseAction {
 	 */
 	public void initlistSalarydetailPage() {
 		try {
-			String hql = "From Account where id=" + account_id;
-			account = accountService.get(hql, null);
+			account = accountService.getEntityById(id, "Account");
 			// 到quick_sql表中查找相应的sql语句，status为0 则可以使用
 			String sql = "select dynmaicsql,status from quick_sql where name='initlistSalarydetailPage'";
-			List<Map<String, Object>> listquick_sql = salary_detailService
-					.queryNaviSql(sql, null);
+			List<Map<String, Object>> listquick_sql = salary_detailService.queryNaviSql(sql, null);
 			if (listquick_sql != null && listquick_sql.size() > 0) {
 				// 如果状态为0，则可以直接读取出来
 				if (listquick_sql.get(0).get("status").toString().equals("0")) {
 					System.out.println("initlistSalarydetailPage 调用了快速sql...");
-					dynmaiccolumn = listquick_sql.get(0).get("dynmaicsql")
-							.toString().replaceAll("\"", "\'");
+					dynmaiccolumn = listquick_sql.get(0).get("dynmaicsql").toString().replaceAll("\"", "\'");
 					return;
 				}
 			}
 
-			hql = "From Salary_item where isdel=:isdel and isshow=:isshow";
+			String hql = "From Salary_item where isdel=:isdel and isshow=:isshow";
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("isdel", 0);
 			params.put("isshow", 1);
 
-			List<Salary_item> listsalaryitem = salary_itemService.query(hql,
-					params);
+			List<Salary_item> listsalaryitem = salary_itemService.query(hql,params);
 
 			StringBuffer dynmaicBuffer = new StringBuffer(5000);
-
-			// //这段代码写在页面了，使用了冻结窗格
-			// dynmaicBuffer.append("[[{field:'empid',title:'人员编号'},{field:'empname',title:'姓名'},");
-			// dynmaicBuffer.append("{field:'code',title:'工号'},{field:'deptname',title:'部门名称'},");
-
 			dynmaicBuffer.append("[[");
 
 			if (listsalaryitem != null) {
@@ -284,21 +264,16 @@ public class SalarydetailAction extends BaseAction {
 
 			dynmaicBuffer.append("]]");
 			dynmaiccolumn = dynmaicBuffer.toString();
-
 			String dynmaicsql = dynmaiccolumn.replaceAll("'", "\"");
 			System.out.println("Salarydetail dynmaicsql:" + dynmaicsql);
 			String update_quick_sql = "update quick_sql set status=0,dynmaicsql='"
 					+ dynmaicsql + "' where name='initlistSalarydetailPage'";
 			salary_itemService.executeSQL(update_quick_sql);
 
-			logger.info("initlistSalarydetailPage-->dynmaiccolumn length:"
-					+ dynmaiccolumn.length());
-			System.out
-					.println("initlistSalarydetailPage-->dynmaiccolumn length:"
-							+ dynmaiccolumn.length());
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 		}
+		
 	}
 
 	/**
@@ -322,15 +297,12 @@ public class SalarydetailAction extends BaseAction {
 			// 先初始化本期奖金明细表
 			salary_detailService.callprInitsalarydetail(account_id);
 
-			Employee employee = (Employee) ActionContext.getContext()
-					.getSession().get("employeeinfo");
+			Employee employee = (Employee) ActionContext.getContext().getSession().get("employeeinfo");
 			// 返回动态sql语句
-			String sql = salary_detailService.GetfnGetsalarysql(account_id,
-					employee);
+			String sql = salary_detailService.GetfnGetsalarysql(account_id,employee);
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("account_id", account_id);
-			List<Map<String, Object>> listsalarydetail = salary_detailService
-					.queryNaviSql(sql, params);
+			List<Map<String, Object>> listsalarydetail = salary_detailService.queryNaviSql(sql, params);
 
 			Map<String, Object> jsonMap = new HashMap<String, Object>();
 
@@ -340,8 +312,8 @@ public class SalarydetailAction extends BaseAction {
 
 			// 读取需要合计的奖金项目
 			String hql_salary_item_issum = "From Salary_item where issum=1";
-			List<Salary_item> listsalary_item = salary_itemService.query(
-					hql_salary_item_issum, null);
+			List<Salary_item> listsalary_item = salary_itemService.query(hql_salary_item_issum, null);
+			
 			if (listsalary_item != null && !listsalary_item.isEmpty()) {
 				StringBuffer sqlBufferin = new StringBuffer(2000);// 内层sql，读取明细
 				StringBuffer sqlBufferout = new StringBuffer(2000);// 外层sql，用来汇总
@@ -375,7 +347,6 @@ public class SalarydetailAction extends BaseAction {
 			}
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage = e.getMessage();
 			return ERROR;
 		}
@@ -393,17 +364,17 @@ public class SalarydetailAction extends BaseAction {
 			// 第一步，取出人员的列表，关联上公式模板
 			String hql = "From Employee where isdel=0 ";
 			// 如果人员的信息不为空，则表示非超级管理员，则只能计算自己部门的信息
-			Employee tmpEmployee = (Employee) ActionContext.getContext()
-					.getSession().get("employeeinfo");
+			Employee tmpEmployee = (Employee) ActionContext.getContext().getSession().get("employeeinfo");
 			if (tmpEmployee != null) {
 				hql += " and department_id=" + tmpEmployee.getDepartment_id();
 			}
 			List<Employee> listemployee = employeeService.query(hql, null);
 
 			String exp_hql = "From Salary_item_expression";
-			List<Salary_item_expression> listsalaryitemexpression = salary_item_expressionService
-					.query(exp_hql, null);
-			Map<String, Salary_item_expression> expressionMap = new HashMap<String, Salary_item_expression>();
+			List<Salary_item_expression> listsalaryitemexpression =  
+					salary_item_expressionService.query(exp_hql, null);
+			Map<String, Salary_item_expression> expressionMap = 
+					new HashMap<String, Salary_item_expression>();
 
 			for (Salary_item_expression salary_item_expression : listsalaryitemexpression) {
 				expressionMap.put(
@@ -430,7 +401,6 @@ public class SalarydetailAction extends BaseAction {
 			// 第四步，显示计算好的页面
 			initlistSalarydetailPage();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage = "奖金项目公式设置错误,请检查奖金公式...";
 			return ERROR;
 		}
@@ -447,23 +417,20 @@ public class SalarydetailAction extends BaseAction {
 		try {
 			String hql = "From Salary_item where isedit=1";
 			if (json_str != null && !json_str.isEmpty()) {
-				List<Salary_item> listsalary_item = salary_itemService.query(
-						hql, null);
-				List<Map<String, Object>> listmap = SalaryUtils
-						.parseDatagridJson(json_str);
+				List<Salary_item> listsalary_item = salary_itemService.query(hql, null);
+				List<Map<String, Object>> listmap = SalaryUtils.parseDatagridJson(json_str);
 
 				for (Map<String, Object> jsonMap : listmap) {
 					if (jsonMap != null && !jsonMap.isEmpty()) {
 						for (Salary_item salary_item : listsalary_item) {
 							if (jsonMap.containsKey(salary_item.getName())) {
 								salary_detailService.callprSetsalarydetail(
-										account_id, SalaryUtils
-												.parseInteger(jsonMap
-														.get("empid")),
-										salary_item.getId(), SalaryUtils
-												.parseBigDecimal(jsonMap
-														.get(salary_item
-																.getName())));
+										account_id, 
+										SalaryUtils.parseInteger(
+												jsonMap.get("empid")),
+												salary_item.getId(), 
+												SalaryUtils.parseBigDecimal(
+														jsonMap.get(salary_item.getName())));
 							}
 						}
 					}
@@ -473,7 +440,6 @@ public class SalarydetailAction extends BaseAction {
 			// 显示奖金明细
 			initlistSalarydetailPage();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage = e.getMessage();
 			return ERROR;
 		}
@@ -493,8 +459,7 @@ public class SalarydetailAction extends BaseAction {
 
 			String hql_dept = "From Department where isdel=0 ";
 			// 如果人员的信息不为空，则表示非超级管理员，则只能读取自己部门的信息
-			Employee tmpEmployee = (Employee) ActionContext.getContext()
-					.getSession().get("employeeinfo");
+			Employee tmpEmployee = (Employee) ActionContext.getContext().getSession().get("employeeinfo");
 			if (tmpEmployee != null) {
 				hql_dept += " and id=" + tmpEmployee.getDepartment_id();
 			}
@@ -508,7 +473,6 @@ public class SalarydetailAction extends BaseAction {
 				listdepartment.add(0, tmpDepartment);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage = e.getMessage();
 			return ERROR;
 		}
@@ -529,8 +493,7 @@ public class SalarydetailAction extends BaseAction {
 			sqlbuffer.append(" and salary_item_id=" + salary_item_id);
 
 			if (departmentid != null && departmentid != 0) {
-				String hql = "From Employee where department_id="
-						+ departmentid;
+				String hql = "From Employee where department_id=" + departmentid;
 				List<Employee> listemployee = employeeService.query(hql, null);
 				StringBuffer sqlbuffer2 = new StringBuffer(500);
 				sqlbuffer2.append(" and emp_id in(");
@@ -539,18 +502,16 @@ public class SalarydetailAction extends BaseAction {
 					sqlbuffer2.append(employee.getId() + ",");
 				}
 
-				String sql2 = sqlbuffer2.substring(0, sqlbuffer2.length() - 1)
-						+ ")";
+				String sql2 = sqlbuffer2.substring(0, sqlbuffer2.length() - 1)+ ")";
+				
 				sqlbuffer.append(sql2);
 			}
 
-			System.out.println(sqlbuffer.length());
 			salary_detailService.executeSQL(sqlbuffer.toString());
 
 			// 显示奖金明细页面数据
 			initlistSalarydetailPage();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage = e.getMessage();
 			return ERROR;
 		}
@@ -565,8 +526,7 @@ public class SalarydetailAction extends BaseAction {
 	 */
 	public String initSalaryDetail() {
 		if (account_id != null) {
-			String hql = "From Account where id=" + account_id;
-			account = accountService.get(hql, null);
+			account = accountService.getEntityById(account_id, "Account");
 			salary_detailService.initSalaryDetail(account);
 		}
 
@@ -589,22 +549,18 @@ public class SalarydetailAction extends BaseAction {
 		for (Employee employee : listemployee) {
 			// 第二步，读取该人员的公式模板
 			String[] salary_item_expressionid = mapsalary_item_unit.get(
-					Integer.toString(employee.getSalary_item_unit_id())).split(
-					",");
+					Integer.toString(employee.getSalary_item_unit_id())).split(",");
 			// 第三步，循环执行该计算公式
 			for (String expressionid : salary_item_expressionid) {
-				Salary_item_expression salary_item_expression = expressionMap
-						.get(expressionid);
+				Salary_item_expression salary_item_expression = expressionMap.get(expressionid);
 				String hql_money = salary_item_expression.getDynmaicsql();
-				hql_money = SalaryUtils.parseSQL(hql_money, account_id,
-						employee.getId());
+				hql_money = SalaryUtils.parseSQL(hql_money, account_id,employee.getId());
 
 				// 用来存储sql语句获取到的money值
 
 				BigDecimal money = NumberUtils
-						.ObjectToBigDecimal(salary_item_expressionService
-								.queryNaviSql(hql_money, null).get(0)
-								.get("money"));
+						.ObjectToBigDecimal(
+								salary_item_expressionService.queryNaviSql(hql_money, null).get(0).get("money"));
 				salary_detailService.callprSetsalarydetail(account_id,
 						employee.getId(),
 						salary_item_expression.getSalary_item_id(), money);

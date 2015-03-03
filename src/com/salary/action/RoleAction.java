@@ -3,15 +3,12 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
 import com.salary.entity.Role;
 import com.salary.entity.Salary_item;
 import com.salary.service.impl.RoleServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 角色处理action
@@ -20,8 +17,6 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class RoleAction extends BaseAction {
-	private Logger logger=Logger.getLogger(RoleAction.class);
-	
 	private RoleServiceImpl roleService;
 	private Role role;								//角色
 	private Integer account_id;						//奖金期间id
@@ -29,14 +24,6 @@ public class RoleAction extends BaseAction {
 	private Account account;						//账户期间
 	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public RoleServiceImpl getRoleService() {
 		return roleService;
@@ -108,10 +95,8 @@ public class RoleAction extends BaseAction {
 	 */
 	public String editRolePage(){
 		try {
-			String hql="From Role where id="+id;
-			role=roleService.get(hql, null);
+			role=roleService.getEntityById(id, "Role");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -125,26 +110,13 @@ public class RoleAction extends BaseAction {
 	 */
 	public String addRole(){
 		try {
-			//先检测是否存在相同名称的角色
-			String sql="select count(1) as money from role where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", role.getName());
-			Integer rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, params).get(0).get("money"));
-			
-			if(rol_count>0){
-				errormessage="添加角色信息失败，已有相同的角色名称...";
-				return ERROR;
-			}
-			
 			roleService.add(role);
 			
 			//要在角色权限表中批量添加该角色的角色权限信息
-			sql="insert into role_author(role_id,author_id,isallow) select "+role.getId()+",id,0 from author";
-			roleService.executeSQL(sql);
-			
+			String sql_ins_role_author="insert into role_author(role_id,author_id,isallow) select "+role.getId()+",id,0 from author";
+			roleService.executeSQL(sql_ins_role_author);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="添加角色信息失败，已有相同的角色名称...";
 			return ERROR;
 		}
 		
@@ -157,28 +129,10 @@ public class RoleAction extends BaseAction {
 	 */
 	public String delRole(){
 		try {
-			//先检测在操作员表中是否有引用该角色
-			String sql="select count(1) as money from Operator where role_id="+id;
-			Integer rol_count=0;
-			rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, null).get(0).get("money"));
-			
-			if(rol_count>0){
-				errormessage="删除角色信息失败，该角色已经在使用中...";
-				return ERROR;
-			}
-			
-			//删除角色前先删除角色权限表下与此角色关联的信息
-			String sql_del_role_author="delete from role_author where role_id="+id;
-			String sql_del_role_menu="delete from role_menu where role_id="+id;
-			roleService.executeSQL(sql_del_role_author);
-			roleService.executeSQL(sql_del_role_menu);
-			
-			String hql="From Role where id="+id;
-			role=roleService.get(hql, null);
+			role=roleService.getEntityById(id, "Role");
 			roleService.del(role);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除角色信息失败，该角色已经在使用中...";
 			return ERROR;
 		}
 		
@@ -191,27 +145,9 @@ public class RoleAction extends BaseAction {
 	 */
 	public String editRole(){
 		try {
-			//先检测角色名称和原来的是否一样，如果不一样，则要检测角色名称在表中是否重复
-			String hql="From Role where id="+role.getId();
-			Role tmpRole=roleService.get(hql, null);
-			
-			if(!tmpRole.getName().equals(role.getName())){
-				//先检测是否存在相同名称的角色
-				String sql="select count(1) as money from role where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", role.getName());
-				Integer rol_count=NumberUtils.BigIntegerToInteger(roleService.queryNaviSql(sql, params).get(0).get("money"));
-				
-				if(rol_count>0){
-					errormessage="修改角色信息失败，已有相同的角色名称...";
-					return ERROR;
-				}
-			}
-			
 			roleService.edit(role);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改角色信息失败，已有相同的角色名称...";
 			return ERROR;
 		}
 		
@@ -233,18 +169,22 @@ public class RoleAction extends BaseAction {
 	public String getRolelist(){
 		this.init();
 		String hql="From Role where isdel=0";
-		List<Role> listrole=roleService.queryByPage(hql, null, page, rows);
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listrole);
-		jsonMap.put("total", roleService.query(hql, null).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Role> listrole=roleService.queryByPage(hql, null, page, rows);
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("rows", listrole);
+			jsonMap.put("total", roleService.getRowCountByHql(hql, null));
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="获取角色信息列表失败...";
+			e.printStackTrace();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
-	
 	
 	
 }

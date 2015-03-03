@@ -3,15 +3,12 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
 import com.salary.entity.Salary_item;
 import com.salary.service.impl.AccountServiceImpl;
 import com.salary.service.impl.Salary_detailServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 奖金期间action
@@ -20,8 +17,6 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class AccountAction extends BaseAction {
-	private Logger logger=Logger.getLogger(AccountAction.class);
-	
 	private AccountServiceImpl accountService;
 	private Salary_detailServiceImpl salary_detailService;
 	private Integer account_id;						//奖金期间id
@@ -32,14 +27,6 @@ public class AccountAction extends BaseAction {
 	private String daystart;						//日期开始
 	private String dayend;							//日期结束
 	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-
 	public AccountServiceImpl getAccountService() {
 		return accountService;
 	}
@@ -47,12 +34,13 @@ public class AccountAction extends BaseAction {
 	public void setAccountService(AccountServiceImpl accountService) {
 		this.accountService = accountService;
 	}
-
+	
 	public Salary_detailServiceImpl getSalary_detailService() {
 		return salary_detailService;
 	}
 
-	public void setSalary_detailService(Salary_detailServiceImpl salary_detailService) {
+	public void setSalary_detailService(
+			Salary_detailServiceImpl salary_detailService) {
 		this.salary_detailService = salary_detailService;
 	}
 
@@ -125,16 +113,9 @@ public class AccountAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editAccountPage(){
-		try {
-			String hql="From Account where id="+id;
-			account=accountService.get(hql, null);
-			daystart=account.getDaystart().toString();
-			dayend=account.getDayend().toString();
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
-			return ERROR;
-		}
+		account=accountService.getEntityById(id, "Account");
+		daystart=account.getDaystart().toString();
+		dayend=account.getDayend().toString();
 		
 		return SUCCESS;
 	}
@@ -145,24 +126,13 @@ public class AccountAction extends BaseAction {
 	 */
 	public String addAccount(){
 		try {
-			//先检测奖金期间表中是否有相同的奖金期间名称
-			String sql="select count(1) as money from account where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", account.getName());
-			Integer acc_count=NumberUtils.BigIntegerToInteger(accountService.queryNaviSql(sql, params).get(0).get("money"));
-			if(acc_count>0){
-				errormessage="添加奖金期间失败，已有相同名称的奖金期间...";
-				return ERROR;
-			}
-			
 			accountService.add(account);
 			salary_detailService.initSalaryDetail(account);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="已有相同的奖金期间名称，请检查...";
+			e.printStackTrace();
 			return ERROR;
 		}
-		
 		return SUCCESS;
 	}
 	
@@ -172,25 +142,10 @@ public class AccountAction extends BaseAction {
 	 */
 	public String editAccount(){
 		try {
-			//先读取原奖金期间的名称，如果与现在的名称不一致，则需要检测是否有重名的奖金期间
-			String hql="From Account where id="+account.getId();
-			Account tmpAccount=accountService.get(hql, null);
-			if(!tmpAccount.getName().equals(account.getName())){
-				//先检测奖金期间表中是否有相同的奖金期间名称
-				String sql="select count(1) as money from account where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", account.getName());
-				Integer acc_count=NumberUtils.BigIntegerToInteger(accountService.queryNaviSql(sql, params).get(0).get("money"));
-				if(acc_count>0){
-					errormessage="修改奖金期间失败，已有相同名称的奖金期间...";
-					return ERROR;
-				}
-			}
-			
 			accountService.edit(account);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="已有相同的奖金期间名称，请检查...";
+			e.printStackTrace();
 			return ERROR;
 		}
 		
@@ -203,30 +158,12 @@ public class AccountAction extends BaseAction {
 	 */
 	public String delAccount(){
 		try {
-			//检测在奖金明细表中该奖金期间的金额合计是否为0(为0则视为没有任何数据)
-			String sql="select ifnull(sum(money),0) as money from salary_detail where account_id="+id;
-			float acc_money=0;
-			
-			acc_money=NumberUtils.BigDecimalToFloat(accountService.queryNaviSql(sql, null).get(0).get("money"));
-			if(acc_money>0){
-				errormessage="删除奖金期间失败，该期间存在数据信息...";
-				return ERROR;
-			}
-			
-			//删除奖金明细表数据
-			String sql_del_salary_detail="delete from salary_detail where account_id="+id;
-			accountService.executeSQL(sql_del_salary_detail);
-			
 			//删除奖金期间
-			String hql="From Account where id="+id;
-			account=accountService.get(hql, null);
+			account=accountService.getEntityById(id, "Account");
 			accountService.del(account);
-			
-			
-			
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除奖金期间失败，该期间有奖金数据...";
+			e.printStackTrace();
 			return ERROR;
 		}
 		
@@ -248,13 +185,19 @@ public class AccountAction extends BaseAction {
 	public String getAccountlist(){
 		this.init();
 		String hql="From Account order by daystart desc";
-		List<Account> listaccount=accountService.queryByPage(hql, null,page,rows);
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listaccount);
-		jsonMap.put("total", accountService.query(hql,null).size());
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Account> listaccount=accountService.queryByPage(hql, null,page,rows);
+			
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("rows", listaccount);
+			jsonMap.put("total", accountService.getRowCountByHql(hql, null));
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="读取奖金期间列表失败...";
+			e.printStackTrace();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -267,8 +210,14 @@ public class AccountAction extends BaseAction {
 		String sql_del_salary_detail="truncate table salary_detail";
 		String sql_del_account="delete from account";
 		
-		accountService.executeSQL(sql_del_salary_detail);
-		accountService.executeSQL(sql_del_account);
+		try {
+			accountService.executeSQL(sql_del_salary_detail);
+			accountService.executeSQL(sql_del_account);
+		} catch (Exception e) {
+			errormessage="清除所有奖金期间失败...";
+			e.printStackTrace();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}

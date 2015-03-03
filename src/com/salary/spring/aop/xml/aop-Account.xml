@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+    <bean id="aopAccount" class="com.salary.spring.aop.AopAccount" >
+    	<property name="accountService" ref="accountService" />
+    	<property name="salary_detailService" ref="salary_detailService" />
+    </bean>
+	<aop:config>
+		<aop:aspect ref="aopAccount">
+			<aop:pointcut id="addAccount" expression="execution (* com.salary.service.impl.AccountServiceImpl.add(..))" />
+			<aop:around method="addCheck" pointcut-ref="addAccount" />
+			
+			<aop:pointcut id="editAccount" expression="execution (* com.salary.service.impl.AccountServiceImpl.edit(..))" />
+			<aop:around method="editCheck" pointcut-ref="editAccount" />
+			
+			<aop:pointcut id="delAccount" expression="execution (* com.salary.service.impl.AccountServiceImpl.del(..))" />
+			<aop:around method="delCheck" pointcut-ref="delAccount" />
+		</aop:aspect>
+	</aop:config>
+</beans>

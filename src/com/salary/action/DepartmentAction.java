@@ -3,14 +3,11 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Department;
 import com.salary.entity.Salary_item;
 import com.salary.service.impl.DepartmentServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 部门信息action
@@ -19,7 +16,6 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class DepartmentAction extends BaseAction {
-	private Logger logger=Logger.getLogger(DepartmentAction.class);
 	
 	private DepartmentServiceImpl departmentService;
 	private Integer id;								//部门id
@@ -28,14 +24,6 @@ public class DepartmentAction extends BaseAction {
 	private Salary_item salary_item;				//奖金项目
 	private Department department;					//部门信息
 	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-
 	public DepartmentServiceImpl getDepartmentService() {
 		return departmentService;
 	}
@@ -98,11 +86,9 @@ public class DepartmentAction extends BaseAction {
 	 */
 	public String editDepartmentPage(){
 		try {
-			String hql="From Department where id="+id;
-			department=departmentService.get(hql, null);
+			department=departmentService.getEntityById(id, "Department");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="读取部门信息失败...";
 			return ERROR;
 		}
 		
@@ -115,21 +101,9 @@ public class DepartmentAction extends BaseAction {
 	 */
 	public String addDepartment(){
 		try {
-			//先检测在表中是否有重名的部门信息
-			String sql="select count(1) as money from department where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", department.getName());
-			Integer dept_count=NumberUtils.BigIntegerToInteger(
-					departmentService.queryNaviSql(sql, params).get(0).get("money"));
-			if(dept_count>0){
-				errormessage="添加部门失败，已有相同名称的部门信息...";
-				return ERROR;
-			}
-			
 			departmentService.add(department);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="添加部门信息失败，已存在相同名称的部门名称...";
 			return ERROR;
 		}
 		
@@ -142,26 +116,9 @@ public class DepartmentAction extends BaseAction {
 	 */
 	public String editDepartment(){
 		try {
-			//先检测原部门名称和现在的部门名称是否相同，如果相同，则需要检测是否有同名的部门
-			String hql="From Department where id="+department.getId();
-			Department tmpDepartment=departmentService.get(hql, null);
-			if(!tmpDepartment.getName().equals(department.getName())){
-				//先检测在表中是否有重名的部门信息
-				String sql="select count(1) as money from department where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", department.getName());
-				Integer dept_count=NumberUtils.BigIntegerToInteger(
-						departmentService.queryNaviSql(sql, params).get(0).get("money"));
-				if(dept_count>0){
-					errormessage="修改部门失败，已有相同名称的部门信息...";
-					return ERROR;
-				}
-			}
-			
 			departmentService.edit(department);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改部门信息失败，已存在相同名称的部门名称...";
 			return ERROR;
 		}
 		
@@ -174,23 +131,10 @@ public class DepartmentAction extends BaseAction {
 	 */
 	public String delDepartment(){
 		try {
-			//先检测该部门是否有人员在引用
-			String sql="select count(1) as money from employee where department_id="+id;
-			Integer dept_count=0;
-			dept_count=NumberUtils.BigIntegerToInteger(departmentService.queryNaviSql(sql, null).get(0).get("money"));
-			
-			if(dept_count>0){
-				errormessage="删除部门失败，该部门已经在使用中...";
-				return ERROR;
-			}
-			
-			String hql="From Department where id="+id;
-			department=departmentService.get(hql, null);
+			department=departmentService.getEntityById(id, "Department");
 			departmentService.del(department);
-			
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除部门失败，该部门已经被使用...";
 			return ERROR;
 		}
 		
@@ -212,14 +156,19 @@ public class DepartmentAction extends BaseAction {
 	public String getDepartmentlist(){
 		this.init();
 		String hql="From Department where isdel=0";
-		List<Department> listdepartment=departmentService.queryByPage(hql, null, page, rows);
 		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listdepartment);
-		jsonMap.put("total", departmentService.query(hql, null).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Department> listdepartment=departmentService.queryByPage(hql, null, page, rows);
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("rows", listdepartment);
+			jsonMap.put("total", departmentService.getRowCountByHql(hql, null));
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="读取部门信息列表失败...";
+			return ERROR;
+		}
 				
 		return SUCCESS;
 	}

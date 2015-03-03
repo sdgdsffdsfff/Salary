@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Menu;
 import com.salary.entity.Role;
@@ -23,8 +21,6 @@ import com.salary.service.impl.Role_menuServiceImpl;
  */
 @SuppressWarnings("serial")
 public class RolemenuAction extends BaseAction {
-	private Logger logger=Logger.getLogger(RolemenuAction.class);
-	
 	private Role_menuServiceImpl role_menuService;		//角色菜单服务
 	private MenuServiceImpl menuService;				//菜单表服务
 	private RoleServiceImpl roleService;				//角色服务
@@ -35,14 +31,6 @@ public class RolemenuAction extends BaseAction {
 	private Integer roleid;							//角色id
 	private Integer pid;							//上级id
 	private List<Menu> listmenu;					//菜单列表
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public Role_menuServiceImpl getRole_menuService() {
 		return role_menuService;
@@ -138,10 +126,8 @@ public class RolemenuAction extends BaseAction {
 	 */
 	public String editRolemenuPage(){
 		try {
-			String hql="From Role_menu where id="+id;
-			role_menu=role_menuService.get(hql, null);
+			role_menu=role_menuService.getEntityById(id, "Role_menu");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -155,10 +141,8 @@ public class RolemenuAction extends BaseAction {
 	 */
 	public String listRolemenuPage(){
 		try {
-			String hql="From Role where id="+id;
-			role=roleService.get(hql, null);
+			role=roleService.getEntityById(id, "Role");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -196,7 +180,6 @@ public class RolemenuAction extends BaseAction {
 				role_menuService.executeSQL(sql2);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -220,7 +203,6 @@ public class RolemenuAction extends BaseAction {
 		try {
 			//检测菜单权限表中是否有新增加的权限，有的话就自动添加到角色菜单权限表中
 			role_menuService.initRolemenu();
-			
 			String hql="From Role_menu where role_id="+id;
 			List<Role_menu> listrole_menu=role_menuService.query(hql, null);
 			List<MenuJson> list_jsonmenu=new ArrayList<MenuJson>();
@@ -262,7 +244,6 @@ public class RolemenuAction extends BaseAction {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}

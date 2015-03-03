@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Department;
 import com.salary.entity.Employee;
@@ -14,7 +12,6 @@ import com.salary.entity.Salary_item_unit;
 import com.salary.service.impl.DepartmentServiceImpl;
 import com.salary.service.impl.EmployeeServiceImpl;
 import com.salary.service.impl.Salary_item_unitServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 职员信息action
@@ -23,8 +20,6 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class EmployeeAction extends BaseAction {
-	private Logger logger=Logger.getLogger(EmployeeAction.class);
-	
 	private EmployeeServiceImpl employeeService;
 	private DepartmentServiceImpl departmentService;	
 	private Salary_item_unitServiceImpl salary_item_unitService;
@@ -37,14 +32,6 @@ public class EmployeeAction extends BaseAction {
 	private Employee employee;						//职员
 	private List<Employee> listemployee;			//员工列表
 	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-
 	public EmployeeServiceImpl getEmployeeService() {
 		return employeeService;
 	}
@@ -145,8 +132,6 @@ public class EmployeeAction extends BaseAction {
 			hql="From Salary_item_unit";
 			listsalary_item_unit=salary_item_unitService.query(hql, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
 			return ERROR;
 		}
 		
@@ -168,8 +153,6 @@ public class EmployeeAction extends BaseAction {
 			String hql_sala="From Salary_item_unit";
 			listsalary_item_unit=salary_item_unitService.query(hql_sala, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
 			return ERROR;
 		}
 		
@@ -182,21 +165,9 @@ public class EmployeeAction extends BaseAction {
 	 */
 	public String addEmployee(){
 		try {
-			//先检测员工表中是否有相同的code，如果有则抛出错误信息
-			String sql="select count(1) as money from employee where code=:code";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("code", employee.getCode());
-			Integer emp_count=NumberUtils.BigIntegerToInteger(
-					employeeService.queryNaviSql(sql, params).get(0).get("money"));
-			if(emp_count>0){
-				errormessage="添加员工失败，已有相同的员工编号...";
-				return ERROR;
-			}
-			
 			employeeService.add(employee);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="添加员工失败，已有相同的员工编号...";
 			return ERROR;
 		}
 		
@@ -209,26 +180,9 @@ public class EmployeeAction extends BaseAction {
 	 */
 	public String editEmployee(){
 		try {
-			//先检测原员工表中的code是否和现在一样，不一样则需要检测
-			String hql="From Employee where id="+employee.getId();
-			Employee tmpEmployee=employeeService.get(hql, null);
-			if(!tmpEmployee.getCode().equals(employee.getCode())){
-				//先检测员工表中是否有相同的code，如果有则抛出错误信息
-				String sql="select count(1) as money from employee where code=:code";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("code", employee.getCode());
-				Integer emp_count=NumberUtils.BigIntegerToInteger(
-						employeeService.queryNaviSql(sql, params).get(0).get("money"));
-				if(emp_count>0){
-					errormessage="修改员工失败，已有相同的员工编号...";
-					return ERROR;
-				}
-			}
-			
 			employeeService.edit(employee);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改员工失败，已有相同的员工编号...";
 			return ERROR;
 		}
 		
@@ -241,25 +195,10 @@ public class EmployeeAction extends BaseAction {
 	 */
 	public String delEmployee(){
 		try {
-			//先检测该人员是否在奖金明细表中
-			String sql="select count(1) as money from salary_detail where emp_id="+id;
-			Integer emp_count=0;
-			emp_count=NumberUtils.BigIntegerToInteger(
-									employeeService.queryNaviSql(sql, null).get(0).get("money"));
-			
-			if(emp_count>0){
-				errormessage="删除人员失败，该人员已经在奖金明细表中使用...";
-				return ERROR;
-			}
-			
-			//删除人员信息
-			String hql="From Employee where id="+id;
-			employee=employeeService.get(hql, null);
+			employee=employeeService.getEntityById(id, "Employee");
 			employeeService.del(employee);
-			
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除人员失败，该人员已经在奖金明细表中使用...";
 			return ERROR;
 		}
 		
@@ -288,13 +227,18 @@ public class EmployeeAction extends BaseAction {
 		hqlBuffer.append(" on emp.department_id=dept.id ");
 		hqlBuffer.append(" where emp.isdel=0 ");
 		
-		List<Map<String,Object>> listemployee=employeeService.queryNaviSqlByPage(hqlBuffer.toString(), null, page, rows);
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listemployee);
-		jsonMap.put("total", employeeService.queryNaviSql(hqlBuffer.toString(), null).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Map<String,Object>> listemployee=employeeService.queryNaviSqlByPage(hqlBuffer.toString(), null, page, rows);
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("rows", listemployee);
+			jsonMap.put("total", employeeService.getRowCountBySql(hqlBuffer.toString(), null));
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="读取员工信息列表失败...";
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -304,7 +248,12 @@ public class EmployeeAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String syncEmployeeFromA6(){
-		employeeService.syncEmployeeFromA6();
+		try {
+			employeeService.syncEmployeeFromA6();
+		} catch (Exception e) {
+			errormessage="同步A6员工编码失败...";
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 	

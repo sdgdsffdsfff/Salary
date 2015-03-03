@@ -186,9 +186,20 @@ public class CRUDDaoImpl<T> implements CRUDDao<T> {
 	 * @param sql
 	 */
 	public void executeSQL(String sql){
-		Session session=sessionFactory.getCurrentSession();
-		Query query=session.createSQLQuery(sql);
-		query.executeUpdate();
+		Session session=null;
+		try {
+			session=sessionFactory.openSession();
+			Transaction tr=session.beginTransaction();
+			Query query=session.createSQLQuery(sql);
+			query.executeUpdate();
+			tr.commit();
+		} catch (HibernateException e) {
+			logger.error(e.getMessage());
+		}finally{
+			session.clear();
+			session.close();
+		}
+		
 	}
 	
 	/**

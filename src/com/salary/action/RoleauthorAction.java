@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Author;
 import com.salary.entity.Role;
@@ -23,23 +21,13 @@ import com.salary.service.impl.Role_authorServiceImpl;
  */
 @SuppressWarnings("serial")
 public class RoleauthorAction extends BaseAction {
-	private Logger logger=Logger.getLogger(RoleauthorAction.class);
-	
 	private Role_authorServiceImpl role_authorService;
 	private AuthorServiceImpl authorService;			
 	private Role role;								//角色信息
 	private Role_author role_author;				//角色权限
 	private String authorids;						//未选中的权限集合
-	private RoleServiceImpl roleService;				//角色服务
+	private RoleServiceImpl roleService;			//角色服务
 	private Integer id;								//主键
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public Role_authorServiceImpl getRole_authorService() {
 		return role_authorService;
@@ -111,10 +99,8 @@ public class RoleauthorAction extends BaseAction {
 	 */
 	public String editRoleauthorPage(){
 		try {
-			String hql="From Role_author where id="+id;
-			role_author=role_authorService.get(hql, null);
+			role_author=role_authorService.getEntityById(id, "Role_author");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -130,7 +116,6 @@ public class RoleauthorAction extends BaseAction {
 		try {
 			role_authorService.add(role_author);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -144,7 +129,6 @@ public class RoleauthorAction extends BaseAction {
 	 */
 	public String editRoleauthor(){
 		try {
-			
 			String sql="update role_author set isallow=0 where role_id="+role.getId();
 			
 			//如果是超级管理员，则直接将所有权限更新为1
@@ -163,7 +147,6 @@ public class RoleauthorAction extends BaseAction {
 				role_authorService.executeSQL(sql2);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -185,10 +168,8 @@ public class RoleauthorAction extends BaseAction {
 	 */
 	public String listRoleauthorPage(){
 		try {
-			String hql="From Role where id="+id;
-			role=roleService.get(hql, null);
+			role=roleService.getEntityById(id, "Role");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -204,7 +185,6 @@ public class RoleauthorAction extends BaseAction {
 		try {
 			//检测权限表中是否有新增加的权限，有的话就自动添加到角色权限表中
 			role_authorService.initRoleauthor();
-			
 			String hql="From Role_author where role_id="+id;
 			List<Role_author> listrole_author=role_authorService.query(hql, null);
 			List<AuthorJson> list_jsonauthor=new ArrayList<AuthorJson>();
@@ -245,7 +225,6 @@ public class RoleauthorAction extends BaseAction {
 			jsonobj=new JSONObject();
 			jsonobj=JSONObject.fromObject(jsonMap);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}

@@ -3,17 +3,13 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
-import com.salary.entity.Salary_item_unit;
 import com.salary.service.impl.Salary_itemServiceImpl;
 import com.salary.service.impl.Salary_item_expressionServiceImpl;
 import com.salary.service.impl.Salary_item_unitServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 奖金项目公式
@@ -22,8 +18,6 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class SalaryitemexpressionAction extends BaseAction{
-	private Logger logger=Logger.getLogger(SalaryitemexpressionAction.class);
-	
 	private Salary_item_expressionServiceImpl salary_item_expressionService;
 	private Salary_itemServiceImpl salary_itemService;
 	private Salary_item_unitServiceImpl salary_item_unitService;
@@ -34,19 +28,9 @@ public class SalaryitemexpressionAction extends BaseAction{
 	private Salary_item salary_item;						//奖金项目
 	private List<Salary_item> listsalary_item;				//奖金项目列表
 	private List<Salary_item> listsalary_item2;				//奖金项目列表2
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
-
 	public Salary_item_expressionServiceImpl getSalary_item_expressionService() {
 		return salary_item_expressionService;
 	}
-
 	public void setSalary_item_expressionService(
 			Salary_item_expressionServiceImpl salary_item_expressionService) {
 		this.salary_item_expressionService = salary_item_expressionService;
@@ -143,7 +127,6 @@ public class SalaryitemexpressionAction extends BaseAction{
 			params2.put("isdel", 0);
 			listsalary_item2=salary_itemService.query(hql2, params2);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -171,7 +154,6 @@ public class SalaryitemexpressionAction extends BaseAction{
 			hql="From Salary_item_expression where id="+id;
 			salary_item_expression=salary_item_expressionService.get(hql, null);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			errormessage=e.getMessage();
 			return ERROR;
 		}
@@ -186,24 +168,10 @@ public class SalaryitemexpressionAction extends BaseAction{
 	 */
 	public String addSalaryitemexpression(){
 		try {
-			//检测奖金公式表中是否有同名的奖金公式名称
-			String sql="select count(1) as money from salary_item_expression where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", salary_item_expression.getName());
-			Integer sal_count=0;
-			sal_count=NumberUtils.BigIntegerToInteger(
-						salary_item_expressionService.queryNaviSql(sql, params).get(0).get("money"));
-			
-			if(sal_count>0){
-				errormessage="添加奖金项目公式失败，已有相同名称的奖金项目公式...";
-				return ERROR;	
-			}
-			
 			salary_item_expressionService.add(salary_item_expression);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
-			return ERROR;
+			errormessage="添加奖金项目公式失败，已有相同名称的奖金项目公式...";
+			return ERROR;	
 		}
 		
 		return SUCCESS;
@@ -215,29 +183,9 @@ public class SalaryitemexpressionAction extends BaseAction{
 	 */
 	public String editSalaryitemexpression(){
 		try {
-			//先检测是否和原先的公式名称相同，不相同则需要检测是否有重名的奖金项目名称
-			String hql="From Salary_item_expression where id="+salary_item_expression.getId();
-			Salary_item_expression tmpExp=salary_item_expressionService.get(hql, null);
-			
-			if(!tmpExp.getName().equals(salary_item_expression.getName())){
-				//检测奖金公式表中是否有同名的奖金公式名称
-				String sql="select count(1) as money from salary_item_expression where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", salary_item_expression.getName());
-				Integer sal_count=0;
-				sal_count=NumberUtils.BigIntegerToInteger(
-							salary_item_expressionService.queryNaviSql(sql, params).get(0).get("money"));
-				
-				if(sal_count>0){
-					errormessage="修改奖金项目公式失败，已有相同名称的奖金项目公式...";
-					return ERROR;	
-				}
-			}
-			
 			salary_item_expressionService.edit(salary_item_expression);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改奖金项目公式失败，已有相同名称的奖金项目公式...";
 			return ERROR;
 		}
 		
@@ -250,34 +198,10 @@ public class SalaryitemexpressionAction extends BaseAction{
 	 */
 	public String delSalaryitemexpression(){
 		try {
-			//先查询出奖金模板的计算序列，查看是否含有此id号
-			String hql_unit="From Salary_item_unit";
-			List<Salary_item_unit> listsalary_item_unit=salary_item_unitService.query(hql_unit, null);
-			
-			if(listsalary_item_unit!=null && listsalary_item_unit.size()>0){
-				StringBuffer unitBuffer=new StringBuffer(200);
-				for(Salary_item_unit salary_item_unit:listsalary_item_unit){
-					unitBuffer.append(salary_item_unit.getSequence());
-				}
-				
-				//检测是否存在此id
-				String[] sequence=unitBuffer.toString().split(",");
-				for(String str_seq:sequence){
-					if(Integer.parseInt(str_seq)==id){
-						errormessage="删除奖金公式失败，该奖金公式已在使用中...";
-						return ERROR;
-					}
-				}
-			}
-			
-			
-			//删除奖金项目公式
-			String hql="From Salary_item_expression where id="+id;
-			salary_item_expression=salary_item_expressionService.get(hql, null);
+			salary_item_expression=salary_item_expressionService.getEntityById(id, "Salary_item_expression");
 			salary_item_expressionService.del(salary_item_expression);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除奖金公式失败，该奖金公式已在使用中...";
 			return ERROR;
 		}
 		
@@ -306,16 +230,21 @@ public class SalaryitemexpressionAction extends BaseAction{
 		sqlBuffer.append(" left join salary_item sal_i ");
 		sqlBuffer.append(" on sal_e.salary_item_id=sal_i.id ");
 		
-		Map<String,Object> params=new HashMap<String,Object>();
-		List<Map<String,Object>> listSalaryitemexpression=
-				salary_item_expressionService.queryNaviSqlByPage(sqlBuffer.toString(), params, page, rows);
-		
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		jsonMap.put("rows", listSalaryitemexpression);
-		jsonMap.put("total", salary_item_expressionService.queryNaviSql(sqlBuffer.toString(), params).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			Map<String,Object> params=new HashMap<String,Object>();
+			List<Map<String,Object>> listSalaryitemexpression=
+					salary_item_expressionService.queryNaviSqlByPage(sqlBuffer.toString(), params, page, rows);
+			
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			jsonMap.put("rows", listSalaryitemexpression);
+			jsonMap.put("total", salary_item_expressionService.getRowCountBySql(sqlBuffer.toString(), params));
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="读取奖金公式列表失败...";
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}

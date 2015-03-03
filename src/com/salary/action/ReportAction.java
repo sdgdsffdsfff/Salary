@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Report;
 import com.salary.service.impl.ReportServiceImpl;
@@ -22,7 +20,6 @@ import com.salary.util.ReportUtils;
  */
 @SuppressWarnings("serial")
 public class ReportAction extends BaseAction {
-	private Logger logger=Logger.getLogger(ReportAction.class);
 	private ReportServiceImpl reportService;
 	private Integer id;
 	private Integer report_id;						//报表id
@@ -33,14 +30,6 @@ public class ReportAction extends BaseAction {
 	private String formparams;						//form表单的参数列表,用逗号分割
 	private String formparamstype;					//form表单的Easyui类型列表,用逗号分割
 	private InputStream inputStream;				//文件输出流
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public ReportServiceImpl getReportService() {
 		return reportService;
@@ -171,8 +160,7 @@ public class ReportAction extends BaseAction {
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String delReport(){
-		String hql="From Report where id="+id;
-		report=reportService.get(hql, null);
+		report=reportService.getEntityById(id, "Report");
 		reportService.del(report);
 		
 		return SUCCESS;
@@ -185,14 +173,20 @@ public class ReportAction extends BaseAction {
 	public String getReportlist(){
 		this.init();
 		String hql="From Report";
-		List<Report> listreport=reportService.queryByPage(hql, null, page, rows);
 		
-		Map<String,Object> reportMap=new HashMap<String,Object>();
-		reportMap.put("rows", listreport);
-		reportMap.put("total", reportService.query(hql, null).size());
-		
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(reportMap);
+		try {
+			List<Report> listreport=reportService.queryByPage(hql, null, page, rows);
+			Map<String,Object> reportMap=new HashMap<String,Object>();
+			reportMap.put("rows", listreport);
+			reportMap.put("total", reportService.getRowCountByHql(hql, null));
+			
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(reportMap);
+		} catch (Exception e) {
+			errormessage="读取报表信息列表失败...";
+			e.printStackTrace();
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -203,8 +197,7 @@ public class ReportAction extends BaseAction {
 	 */
 	public String queryReportPage(){
 		//生成EasyUI的表格、组件
-		String hql="From Report where id="+report_id;
-		report=reportService.get(hql, null);
+		report=reportService.getEntityById(report_id, "Report");
 		this.generalEasyuiDataGrid(report);
 		return SUCCESS;
 	}
@@ -215,8 +208,7 @@ public class ReportAction extends BaseAction {
 	 */
 	public String queryReportlist(){
 		try {
-			String hql="From Report where id="+report_id;
-			report=reportService.get(hql, null);
+			report=reportService.getEntityById(report_id, "Report");
 			
 			HttpServletRequest request=ServletActionContext.getRequest();
 			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
@@ -229,7 +221,6 @@ public class ReportAction extends BaseAction {
 			jsonobj=new JSONObject();
 			jsonobj=JSONObject.fromObject(jsonMap);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			e.printStackTrace();
 			errormessage="动态查询语句不正确，请检查...";
 			return ERROR;
@@ -270,8 +261,7 @@ public class ReportAction extends BaseAction {
 	 */
 	public String getReportExcel(){
 		try {
-			String hql="From Report where id="+report_id;
-			report=reportService.get(hql, null);
+			report=reportService.getEntityById(report_id, "Report");
 			
 			HttpServletRequest request=ServletActionContext.getRequest();
 			List<Map<String,Object>> listjson=reportService.queryReportlist(report,request);
@@ -283,7 +273,6 @@ public class ReportAction extends BaseAction {
 			inputStream=excel.getExcelInputStream(titles,fields, listjson);
 			
 		} catch (Exception e) {
-			logger.error(e.getMessage());
 			e.printStackTrace();
 			errormessage="动态查询语句不正确，请检查...";
 			return ERROR;

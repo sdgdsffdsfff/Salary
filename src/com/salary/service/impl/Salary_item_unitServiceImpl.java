@@ -10,5 +10,20 @@ import com.salary.service.Salary_item_unitService;
  *
  */
 public class Salary_item_unitServiceImpl extends CRUDDaoImpl<Salary_item_unit> implements  Salary_item_unitService{
+
+	@Override
+	public void add(Salary_item_unit t) {
+		super.add(t);
+	}
+
+	@Override
+	public void del(Salary_item_unit t) {
+		super.del(t);
+	}
+
+	@Override
+	public void edit(Salary_item_unit t) {
+		super.edit(t);
+	}
 	
 }

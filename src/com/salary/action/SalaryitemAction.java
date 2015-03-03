@@ -3,13 +3,10 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 import net.sf.json.JSONObject;
-
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Salary_item;
 import com.salary.service.impl.Salary_itemServiceImpl;
-import com.salary.util.NumberUtils;
 
 /**
  * 奖金项目action
@@ -18,22 +15,12 @@ import com.salary.util.NumberUtils;
  */
 @SuppressWarnings("serial")
 public class SalaryitemAction extends BaseAction{
-	private Logger logger=Logger.getLogger(SalaryitemAction.class);
-	
 	private Salary_itemServiceImpl salary_itemService;	//工资项目业务处理sercice
 	private Integer id;								//工资项目id
 	private Integer salary_item_id;					//工资项目的id
 	private Integer account_id;						//奖金期间id
 	private Integer emp_id;							//员工id
 	private Salary_item salary_item;				//奖金项目
-	
-	public Logger getLogger() {
-		return logger;
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
-	}
 
 	public Salary_itemServiceImpl getSalary_itemService() {
 		return salary_itemService;
@@ -96,8 +83,7 @@ public class SalaryitemAction extends BaseAction{
 	 * @return		ACTION执行正常返回SUCCESS,没有权限和执行错误则返回ERROR
 	 */
 	public String editSalaryitemPage(){
-		String hql="From Salary_item where id="+id;
-		salary_item=salary_itemService.get(hql, null);
+		salary_item=salary_itemService.getEntityById(id, "Salary_item");
 		return SUCCESS;
 	}
 	
@@ -107,22 +93,10 @@ public class SalaryitemAction extends BaseAction{
 	 */
 	public String addSalaryitem(){
 		try {
-			//先检测奖金项目名称是否有重复
-			String sql="select count(1) as money from salary_item where name=:name";
-			Map<String,Object> params=new HashMap<String,Object>();
-			params.put("name", salary_item.getName());
-			Integer sal_count=NumberUtils.BigIntegerToInteger(
-					salary_itemService.queryNaviSql(sql, params).get(0).get("money"));
-			if(sal_count>0){
-				errormessage="添加奖金项目失败，已有相同的奖金项目名称...";
-				return ERROR;
-			}
-			
 			salary_item.setIsdel(0);
 			salary_itemService.add(salary_item);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="添加奖金项目失败，已有相同的奖金项目名称...";
 			return ERROR;
 		}
 		
@@ -135,26 +109,9 @@ public class SalaryitemAction extends BaseAction{
 	 */
 	public String editSalaryitem(){
 		try {
-			//先读取原奖金项目的名称，查看是否和现在一致，如果不一致，则需要检测在奖金项目表中是否有重名
-			String hql="From Salary_item where id="+salary_item.getId();
-			Salary_item tmpSalary_item=salary_itemService.get(hql, null);
-			if(!tmpSalary_item.getName().equals(salary_item.getName())){
-				//先检测奖金项目名称是否有重复
-				String sql="select count(1) as money from salary_item where name=:name";
-				Map<String,Object> params=new HashMap<String,Object>();
-				params.put("name", salary_item.getName());
-				Integer sal_count=NumberUtils.BigIntegerToInteger(
-						salary_itemService.queryNaviSql(sql, params).get(0).get("money"));
-				if(sal_count>0){
-					errormessage="修改奖金项目失败，已有相同的奖金项目名称...";
-					return ERROR;
-				}
-			}
-			
 			salary_itemService.edit(salary_item);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="修改奖金项目失败，已有相同的奖金项目名称...";
 			return ERROR;
 		}
 		
@@ -167,40 +124,10 @@ public class SalaryitemAction extends BaseAction{
 	 */
 	public String delSalaryitem(){
 		try {
-			//删除奖金项目之前，需要检测奖金项目公式是否有引用此奖金项目id
-			//统计出包含奖金项目id的数量
-			String sql="select count(1) as money from salary_item_expression ";
-			sql+=" where 0<INSTR(dynmaicsql,':account_id,:emp_id,"+id+"')";
-			Integer sal_count=0;
-			sal_count=NumberUtils.BigIntegerToInteger(
-					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
-			if(sal_count>0){
-				errormessage="删除奖金项目失败,该奖金项目已经在奖金项目公式中使用...";
-				return ERROR;
-			}
-			
-			sql="select count(1) as money from salary_item_expression where salary_item_id="+id;
-			sal_count=NumberUtils.BigIntegerToInteger(
-					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
-			if(sal_count>0){
-				errormessage="删除奖金项目失败,该奖金项目已经在奖金项目公式中使用...";
-				return ERROR;
-			}
-			
-			sql="select count(1) as money from salary_detail where salary_item_id="+id;
-			sal_count=NumberUtils.BigIntegerToInteger(
-					salary_itemService.queryNaviSql(sql, null).get(0).get("money"));
-			if(sal_count>0){
-				errormessage="删除奖金项目失败,该奖金项目已经在奖金明细表中使用...";
-				return ERROR;
-			}
-			
-			String hql="From Salary_item where id="+id;
-			salary_item=salary_itemService.get(hql, null);
+			salary_item=salary_itemService.getEntityById(id, "Salary_item");
 			salary_itemService.del(salary_item);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			errormessage=e.getMessage();
+			errormessage="删除奖金项目失败,该奖金项目已经在奖金明细表中使用...";
 			return ERROR;
 		}
 		
@@ -230,13 +157,18 @@ public class SalaryitemAction extends BaseAction{
 		sqlBuffer.append(" From salary_item sal ");
 		sqlBuffer.append(" where isdel=0 ");
 		
-		List<Map<String,Object>> listSalaryitem=salary_itemService.queryNaviSqlByPage(sqlBuffer.toString(), null,page, rows);
-		Map<String,Object> jsonMap=new HashMap<String,Object>();
-		
-		jsonMap.put("rows", listSalaryitem);
-		jsonMap.put("total", salary_itemService.queryNaviSql(sqlBuffer.toString(), null).size());
-		jsonobj=new JSONObject();
-		jsonobj=JSONObject.fromObject(jsonMap);
+		try {
+			List<Map<String,Object>> listSalaryitem=salary_itemService.queryNaviSqlByPage(sqlBuffer.toString(), null,page, rows);
+			Map<String,Object> jsonMap=new HashMap<String,Object>();
+			
+			jsonMap.put("rows", listSalaryitem);
+			jsonMap.put("total", salary_itemService.queryNaviSql(sqlBuffer.toString(), null).size());
+			jsonobj=new JSONObject();
+			jsonobj=JSONObject.fromObject(jsonMap);
+		} catch (Exception e) {
+			errormessage="读取奖金项目列表失败...";
+			return ERROR;
+		}
 	
 		return SUCCESS;
 	}

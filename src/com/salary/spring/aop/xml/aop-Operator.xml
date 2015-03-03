@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+    <bean id="aopOperator" class="com.salary.spring.aop.AopOperator" >
+    	<property name="operatorService" ref="operatorService" />
+    </bean>
+	<aop:config>
+		<aop:aspect ref="aopOperator">
+			<aop:pointcut id="addOperator" expression="execution (* com.salary.service.impl.OperatorServiceImpl.add(..))" />
+			<aop:around method="addCheck" pointcut-ref="addOperator" />
+			
+			<aop:pointcut id="editOperator" expression="execution (* com.salary.service.impl.OperatorServiceImpl.edit(..))" />
+			<aop:around method="editCheck" pointcut-ref="editOperator" />
+			
+			<aop:pointcut id="delOperator" expression="execution (* com.salary.service.impl.OperatorServiceImpl.del(..))" />
+			<aop:around method="delCheck" pointcut-ref="delOperator" />
+		</aop:aspect>
+	</aop:config>
+</beans>

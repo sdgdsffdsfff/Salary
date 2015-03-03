@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+    <bean id="aopSalaryitem" class="com.salary.spring.aop.AopSalaryitem" >
+    	<property name="salary_itemService" ref="salary_itemService" />
+    </bean>
+	<aop:config>
+		<aop:aspect ref="aopSalaryitem">
+			<aop:pointcut id="addSalary_item" expression="execution (* com.salary.service.impl.Salary_itemServiceImpl.add(..))" />
+			<aop:around method="addCheck" pointcut-ref="addSalary_item" />
+			
+			<aop:pointcut id="editSalary_item" expression="execution (* com.salary.service.impl.Salary_itemServiceImpl.edit(..))" />
+			<aop:around method="editCheck" pointcut-ref="editSalary_item" />
+			
+			<aop:pointcut id="delSalary_item" expression="execution (* com.salary.service.impl.Salary_itemServiceImpl.del(..))" />
+			<aop:around method="delCheck" pointcut-ref="delSalary_item" />
+		</aop:aspect>
+	</aop:config>
+</beans>

@@ -27,6 +27,7 @@ public class Role_authorServiceImpl extends CRUDDaoImpl<Role_author> implements 
 		sqlBuffer.append(" from role,author where author.id not in ");
 		sqlBuffer.append(" (select distinct author_id from role_author)) t ");
 		sqlBuffer.append(" order by role_id,author_id ");
+		
 		this.executeSQL(sqlBuffer.toString());
 	}
 }
