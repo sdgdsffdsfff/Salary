@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Report;
 import com.salary.service.ReportService;
 import com.salary.sync.a6.A6Service;
@@ -20,7 +20,7 @@ import com.salary.util.ReportUtils;
  * @author 陈捷
  *
  */
-public class ReportServiceImpl extends CRUDDaoImpl<Report> implements ReportService {
+public class ReportServiceImpl extends CRUDDaoHibernate3Impl<Report> implements ReportService {
 	private A6Service a6Service;
 	private CRMService crmService;
 	public A6Service getA6Service() {

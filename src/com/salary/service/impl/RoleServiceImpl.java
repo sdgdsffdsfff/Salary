@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Role;
 import com.salary.service.RoleService;
 
@@ -9,7 +9,7 @@ import com.salary.service.RoleService;
  * @author 陈捷
  *
  */
-public class RoleServiceImpl extends CRUDDaoImpl<Role> implements RoleService {
+public class RoleServiceImpl extends CRUDDaoHibernate3Impl<Role> implements RoleService {
 
 	@Override
 	public void add(Role t) {

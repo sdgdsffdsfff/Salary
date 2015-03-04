@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Account;
 import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
@@ -23,7 +23,7 @@ import com.salary.util.NumberUtils;
  * @author 陈捷
  *
  */
-public class Salary_detailServiceImpl extends CRUDDaoImpl<Salary_detail> implements Salary_detailService {
+public class Salary_detailServiceImpl extends CRUDDaoHibernate3Impl<Salary_detail> implements Salary_detailService {
 	private Salary_itemService salary_itemService;
 	private A6Service a6Service;
 	private CRMService crmService;

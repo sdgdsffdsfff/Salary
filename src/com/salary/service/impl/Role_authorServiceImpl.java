@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Role_author;
 import com.salary.service.Role_authorService;
 
@@ -9,7 +9,7 @@ import com.salary.service.Role_authorService;
  * @author 陈捷
  *
  */
-public class Role_authorServiceImpl extends CRUDDaoImpl<Role_author> implements Role_authorService {
+public class Role_authorServiceImpl extends CRUDDaoHibernate3Impl<Role_author> implements Role_authorService {
 	
 	/**
 	 * 初始化角色权限

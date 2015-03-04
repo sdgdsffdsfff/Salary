@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Salary_item_expression;
 import com.salary.service.Salary_item_expressionService;
 
@@ -9,7 +9,7 @@ import com.salary.service.Salary_item_expressionService;
  * @author 陈捷
  *
  */
-public class Salary_item_expressionServiceImpl extends CRUDDaoImpl<Salary_item_expression> implements Salary_item_expressionService {
+public class Salary_item_expressionServiceImpl extends CRUDDaoHibernate3Impl<Salary_item_expression> implements Salary_item_expressionService {
 
 	@Override
 	public void add(Salary_item_expression t) {

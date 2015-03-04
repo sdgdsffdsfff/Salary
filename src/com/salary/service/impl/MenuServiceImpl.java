@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Menu;
 import com.salary.service.MenuService;
 
@@ -9,6 +9,6 @@ import com.salary.service.MenuService;
  * @author 陈捷
  *
  */
-public class MenuServiceImpl extends CRUDDaoImpl<Menu> implements MenuService {
+public class MenuServiceImpl extends CRUDDaoHibernate3Impl<Menu> implements MenuService {
 
 }

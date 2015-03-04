@@ -24,8 +24,8 @@ import com.salary.util.NumberUtils;
  *
  */
 @SuppressWarnings("unchecked")
-public class CRUDDaoImpl<T> implements CRUDDao<T> {
-	private Logger logger=Logger.getLogger(CRUDDaoImpl.class);
+public class CRUDDaoHibernate3Impl<T> implements CRUDDao<T> {
+	private Logger logger=Logger.getLogger(CRUDDaoHibernate3Impl.class);
 	
 	public SessionFactory sessionFactory;
 	

@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Author;
 import com.salary.service.AuthorService;
 
@@ -9,6 +9,6 @@ import com.salary.service.AuthorService;
  * @author 陈捷
  *
  */
-public class AuthorServiceImpl extends CRUDDaoImpl<Author> implements AuthorService {
+public class AuthorServiceImpl extends CRUDDaoHibernate3Impl<Author> implements AuthorService {
 
 }

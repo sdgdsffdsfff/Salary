@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Account;
 import com.salary.service.AccountService;
 
@@ -9,7 +9,7 @@ import com.salary.service.AccountService;
  * @author 陈捷
  *
  */
-public class AccountServiceImpl extends CRUDDaoImpl<Account> implements AccountService {
+public class AccountServiceImpl extends CRUDDaoHibernate3Impl<Account> implements AccountService {
 
 	@Override
 	public void add(Account t) {

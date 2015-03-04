@@ -78,7 +78,7 @@
 		</property>
 	</bean>
 
-	<bean id="crudDaoImpl" class="com.salary.dao.CRUDDaoImpl">
+	<bean id="crudDaoHibernate3Impl" class="com.salary.dao.CRUDDaoHibernate3Impl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	

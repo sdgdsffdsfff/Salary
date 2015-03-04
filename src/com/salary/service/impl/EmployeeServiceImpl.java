@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Employee;
 import com.salary.service.EmployeeService;
 import com.salary.sync.a6.A6Service;
@@ -14,7 +14,7 @@ import com.salary.sync.a6.A6Service;
  * @author 陈捷
  *
  */
-public class EmployeeServiceImpl extends CRUDDaoImpl<Employee> implements EmployeeService {
+public class EmployeeServiceImpl extends CRUDDaoHibernate3Impl<Employee> implements EmployeeService {
 	private A6Service a6Service;
 	public A6Service getA6Service() {
 		return a6Service;

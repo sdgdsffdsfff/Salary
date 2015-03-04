@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Menu;
 import com.salary.entity.Role_menu;
 import com.salary.service.Role_menuService;
@@ -14,7 +14,7 @@ import com.salary.service.Role_menuService;
  * @author 陈捷
  *
  */
-public class Role_menuServiceImpl extends CRUDDaoImpl<Role_menu> implements Role_menuService {
+public class Role_menuServiceImpl extends CRUDDaoHibernate3Impl<Role_menu> implements Role_menuService {
 
 	/**
 	 * 初始化角色菜单权限

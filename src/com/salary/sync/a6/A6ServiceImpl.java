@@ -2,7 +2,7 @@ package com.salary.sync.a6;
 
 import java.util.List;
 import java.util.Map;
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Author;
 
 /**
@@ -10,7 +10,7 @@ import com.salary.entity.Author;
  * @author 陈捷
  *
  */
-public class A6ServiceImpl extends CRUDDaoImpl<Author> implements A6Service{
+public class A6ServiceImpl extends CRUDDaoHibernate3Impl<Author> implements A6Service{
 	
 	/**
 	 * 返回A6的所有员工信息

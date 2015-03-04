@@ -1,6 +1,6 @@
 package com.salary.service.impl;
 
-import com.salary.dao.CRUDDaoImpl;
+import com.salary.dao.CRUDDaoHibernate3Impl;
 import com.salary.entity.Department;
 import com.salary.service.DepartmentService;
 
@@ -9,7 +9,7 @@ import com.salary.service.DepartmentService;
  * @author 陈捷
  *
  */
-public class DepartmentServiceImpl extends CRUDDaoImpl<Department> implements DepartmentService {
+public class DepartmentServiceImpl extends CRUDDaoHibernate3Impl<Department> implements DepartmentService {
 
 	@Override
 	public void add(Department t) {
