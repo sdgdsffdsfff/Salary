@@ -3,10 +3,12 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Employee;
-import com.salary.service.impl.EmployeeServiceImpl;
+import com.salary.service.EmployeeService;
 
 /**
  * 职员信息action
@@ -15,15 +17,15 @@ import com.salary.service.impl.EmployeeServiceImpl;
  */
 @SuppressWarnings("serial")
 public class EmployeeAction extends BaseAction {
-	private EmployeeServiceImpl employeeService;
+	private EmployeeService employeeService;
 	private Integer id;								//员工id
 	private Employee employee;						//职员
 	
-	public EmployeeServiceImpl getEmployeeService() {
+	public EmployeeService getEmployeeService() {
 		return employeeService;
 	}
 
-	public void setEmployeeService(EmployeeServiceImpl employeeService) {
+	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 

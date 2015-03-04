@@ -35,7 +35,7 @@
 		</property>
 	</bean>
 
-	<bean id="crmDaoImpl" class="com.salary.sync.crm.CRMDaoImpl">
+	<bean id="crmService" class="com.salary.sync.crm.CRMServiceImpl">
 		<property name="sessionFactory" ref="sessionFactoryCrm" />
 	</bean>
 

@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
@@ -14,13 +16,13 @@ import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
 import com.salary.entity.Salary_item_unit;
-import com.salary.service.impl.AccountServiceImpl;
-import com.salary.service.impl.DepartmentServiceImpl;
-import com.salary.service.impl.EmployeeServiceImpl;
-import com.salary.service.impl.Salary_detailServiceImpl;
-import com.salary.service.impl.Salary_itemServiceImpl;
-import com.salary.service.impl.Salary_item_expressionServiceImpl;
-import com.salary.service.impl.Salary_item_unitServiceImpl;
+import com.salary.service.AccountService;
+import com.salary.service.DepartmentService;
+import com.salary.service.EmployeeService;
+import com.salary.service.Salary_detailService;
+import com.salary.service.Salary_itemService;
+import com.salary.service.Salary_item_expressionService;
+import com.salary.service.Salary_item_unitService;
 import com.salary.util.JsonUtils;
 import com.salary.util.NumberUtils;
 import com.salary.util.SalaryUtils;
@@ -33,13 +35,13 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class SalarydetailAction extends BaseAction {
-	private Salary_detailServiceImpl salary_detailService;
-	private Salary_itemServiceImpl salary_itemService;
-	private AccountServiceImpl accountService;
-	private EmployeeServiceImpl employeeService;
-	private Salary_item_unitServiceImpl salary_item_unitService;
-	private Salary_item_expressionServiceImpl salary_item_expressionService;
-	private DepartmentServiceImpl departmentService;
+	private Salary_detailService salary_detailService;
+	private Salary_itemService salary_itemService;
+	private AccountService accountService;
+	private EmployeeService employeeService;
+	private Salary_item_unitService salary_item_unitService;
+	private Salary_item_expressionService salary_item_expressionService;
+	private DepartmentService departmentService;
 	private Integer account_id; 				// 奖金期间id
 	private Integer id; 						// 奖金期间id
 	private Integer emp_id; 					// 员工id
@@ -53,63 +55,61 @@ public class SalarydetailAction extends BaseAction {
 	private Integer salary_item_id; 			// 奖金项目id
 	private Integer departmentid; 				// 部门id
 	private float money; 						// 金额
-
-	public Salary_detailServiceImpl getSalary_detailService() {
+	public Salary_detailService getSalary_detailService() {
 		return salary_detailService;
 	}
 
-	public void setSalary_detailService(
-			Salary_detailServiceImpl salary_detailService) {
+	public void setSalary_detailService(Salary_detailService salary_detailService) {
 		this.salary_detailService = salary_detailService;
 	}
 
-	public Salary_itemServiceImpl getSalary_itemService() {
+	public Salary_itemService getSalary_itemService() {
 		return salary_itemService;
 	}
 
-	public void setSalary_itemService(Salary_itemServiceImpl salary_itemService) {
+	public void setSalary_itemService(Salary_itemService salary_itemService) {
 		this.salary_itemService = salary_itemService;
 	}
 
-	public AccountServiceImpl getAccountService() {
+	public AccountService getAccountService() {
 		return accountService;
 	}
 
-	public void setAccountService(AccountServiceImpl accountService) {
+	public void setAccountService(AccountService accountService) {
 		this.accountService = accountService;
 	}
 
-	public EmployeeServiceImpl getEmployeeService() {
+	public EmployeeService getEmployeeService() {
 		return employeeService;
 	}
 
-	public void setEmployeeService(EmployeeServiceImpl employeeService) {
+	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 
-	public Salary_item_unitServiceImpl getSalary_item_unitService() {
+	public Salary_item_unitService getSalary_item_unitService() {
 		return salary_item_unitService;
 	}
 
 	public void setSalary_item_unitService(
-			Salary_item_unitServiceImpl salary_item_unitService) {
+			Salary_item_unitService salary_item_unitService) {
 		this.salary_item_unitService = salary_item_unitService;
 	}
 
-	public Salary_item_expressionServiceImpl getSalary_item_expressionService() {
+	public Salary_item_expressionService getSalary_item_expressionService() {
 		return salary_item_expressionService;
 	}
 
 	public void setSalary_item_expressionService(
-			Salary_item_expressionServiceImpl salary_item_expressionService) {
+			Salary_item_expressionService salary_item_expressionService) {
 		this.salary_item_expressionService = salary_item_expressionService;
 	}
 
-	public DepartmentServiceImpl getDepartmentService() {
+	public DepartmentService getDepartmentService() {
 		return departmentService;
 	}
 
-	public void setDepartmentService(DepartmentServiceImpl departmentService) {
+	public void setDepartmentService(DepartmentService departmentService) {
 		this.departmentService = departmentService;
 	}
 

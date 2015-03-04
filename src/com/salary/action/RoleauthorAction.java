@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Author;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
 import com.salary.json.AuthorJson;
-import com.salary.service.impl.AuthorServiceImpl;
+import com.salary.service.AuthorService;
+import com.salary.service.RoleService;
+import com.salary.service.Role_authorService;
 import com.salary.service.impl.RoleServiceImpl;
-import com.salary.service.impl.Role_authorServiceImpl;
 
 /**
  * 角色权限处理action
@@ -21,28 +24,32 @@ import com.salary.service.impl.Role_authorServiceImpl;
  */
 @SuppressWarnings("serial")
 public class RoleauthorAction extends BaseAction {
-	private Role_authorServiceImpl role_authorService;
-	private AuthorServiceImpl authorService;			
+	private Role_authorService role_authorService;
+	private AuthorService authorService;			
 	private Role role;								//角色信息
 	private Role_author role_author;				//角色权限
 	private String authorids;						//未选中的权限集合
-	private RoleServiceImpl roleService;			//角色服务
+	private RoleService roleService;			//角色服务
 	private Integer id;								//主键
-
-	public Role_authorServiceImpl getRole_authorService() {
+	
+	public Role_authorService getRole_authorService() {
 		return role_authorService;
 	}
 
-	public void setRole_authorService(Role_authorServiceImpl role_authorService) {
+	public void setRole_authorService(Role_authorService role_authorService) {
 		this.role_authorService = role_authorService;
 	}
 
-	public AuthorServiceImpl getAuthorService() {
+	public AuthorService getAuthorService() {
 		return authorService;
 	}
 
-	public void setAuthorService(AuthorServiceImpl authorService) {
+	public void setAuthorService(AuthorService authorService) {
 		this.authorService = authorService;
+	}
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
 	}
 
 	public Role getRole() {
@@ -67,10 +74,6 @@ public class RoleauthorAction extends BaseAction {
 
 	public void setAuthorids(String authorids) {
 		this.authorids = authorids;
-	}
-
-	public RoleServiceImpl getRoleService() {
-		return roleService;
 	}
 
 	public void setRoleService(RoleServiceImpl roleService) {

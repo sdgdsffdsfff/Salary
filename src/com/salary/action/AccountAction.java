@@ -3,11 +3,13 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Account;
-import com.salary.service.impl.AccountServiceImpl;
-import com.salary.service.impl.Salary_detailServiceImpl;
+import com.salary.service.AccountService;
+import com.salary.service.Salary_detailService;
 
 /**
  * 奖金期间action
@@ -16,27 +18,26 @@ import com.salary.service.impl.Salary_detailServiceImpl;
  */
 @SuppressWarnings("serial")
 public class AccountAction extends BaseAction {
-	private AccountServiceImpl accountService;
-	private Salary_detailServiceImpl salary_detailService;
+	private AccountService accountService;
+	private Salary_detailService salary_detailService;
 	private Integer id;								//奖金期间id
 	private Account account;						//账户期间
 	private String daystart;						//日期开始
 	private String dayend;							//日期结束
 	
-	public AccountServiceImpl getAccountService() {
+	public AccountService getAccountService() {
 		return accountService;
 	}
 
-	public void setAccountService(AccountServiceImpl accountService) {
+	public void setAccountService(AccountService accountService) {
 		this.accountService = accountService;
 	}
-	
-	public Salary_detailServiceImpl getSalary_detailService() {
+
+	public Salary_detailService getSalary_detailService() {
 		return salary_detailService;
 	}
 
-	public void setSalary_detailService(
-			Salary_detailServiceImpl salary_detailService) {
+	public void setSalary_detailService(Salary_detailService salary_detailService) {
 		this.salary_detailService = salary_detailService;
 	}
 

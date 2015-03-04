@@ -3,13 +3,16 @@ package com.salary.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts2.ServletActionContext;
+
 import com.salary.dao.CRUDDaoImpl;
 import com.salary.entity.Report;
 import com.salary.service.ReportService;
-import com.salary.sync.a6.A6DaoImpl;
-import com.salary.sync.crm.CRMDaoImpl;
+import com.salary.sync.a6.A6Service;
+import com.salary.sync.crm.CRMService;
 import com.salary.util.ReportUtils;
 
 /**
@@ -18,21 +21,22 @@ import com.salary.util.ReportUtils;
  *
  */
 public class ReportServiceImpl extends CRUDDaoImpl<Report> implements ReportService {
-	private A6DaoImpl a6DaoImpl;
-	private CRMDaoImpl crmDaoImpl;
-	
-	public A6DaoImpl getA6DaoImpl() {
-		return a6DaoImpl;
+	private A6Service a6Service;
+	private CRMService crmService;
+	public A6Service getA6Service() {
+		return a6Service;
 	}
-	public void setA6DaoImpl(A6DaoImpl a6DaoImpl) {
-		this.a6DaoImpl = a6DaoImpl;
+	public void setA6Service(A6Service a6Service) {
+		this.a6Service = a6Service;
 	}
-	public CRMDaoImpl getCrmDaoImpl() {
-		return crmDaoImpl;
+	public CRMService getCrmService() {
+		return crmService;
 	}
-	public void setCrmDaoImpl(CRMDaoImpl crmDaoImpl) {
-		this.crmDaoImpl = crmDaoImpl;
+	public void setCrmService(CRMService crmService) {
+		this.crmService = crmService;
 	}
+
+
 	/**
 	 * 根据报表信息来获取动态报表的数据列表
 	 * @param report		报表信息
@@ -51,10 +55,10 @@ public class ReportServiceImpl extends CRUDDaoImpl<Report> implements ReportServ
 			listjson=this.queryNaviSql(sql, params);
 			break;
 		case 1:
-			listjson=crmDaoImpl.queryNaviSql(sql, params);
+			listjson=crmService.queryNaviSql(sql, params);
 			break;
 		case 2:
-			listjson=a6DaoImpl.queryNaviSql(sql, params);
+			listjson=a6Service.queryNaviSql(sql, params);
 			break;
 		}
 		

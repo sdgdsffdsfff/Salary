@@ -3,13 +3,15 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Salary_item;
 import com.salary.entity.Salary_item_expression;
-import com.salary.service.impl.Salary_itemServiceImpl;
-import com.salary.service.impl.Salary_item_expressionServiceImpl;
-import com.salary.service.impl.Salary_item_unitServiceImpl;
+import com.salary.service.Salary_itemService;
+import com.salary.service.Salary_item_expressionService;
+import com.salary.service.Salary_item_unitService;
 
 /**
  * 奖金项目公式
@@ -18,35 +20,37 @@ import com.salary.service.impl.Salary_item_unitServiceImpl;
  */
 @SuppressWarnings("serial")
 public class SalaryitemexpressionAction extends BaseAction{
-	private Salary_item_expressionServiceImpl salary_item_expressionService;
-	private Salary_itemServiceImpl salary_itemService;
-	private Salary_item_unitServiceImpl salary_item_unitService;
+	private Salary_item_expressionService salary_item_expressionService;
+	private Salary_itemService salary_itemService;
+	private Salary_item_unitService salary_item_unitService;
 	private Salary_item_expression salary_item_expression;	//奖金项目公式
 	private Integer id;										//奖金项目公式id
 	private List<Salary_item> listsalary_item;				//奖金项目列表
 	private List<Salary_item> listsalary_item2;				//奖金项目列表2
-	public Salary_item_expressionServiceImpl getSalary_item_expressionService() {
+	
+	public Salary_item_expressionService getSalary_item_expressionService() {
 		return salary_item_expressionService;
 	}
+
 	public void setSalary_item_expressionService(
-			Salary_item_expressionServiceImpl salary_item_expressionService) {
+			Salary_item_expressionService salary_item_expressionService) {
 		this.salary_item_expressionService = salary_item_expressionService;
 	}
 
-	public Salary_itemServiceImpl getSalary_itemService() {
+	public Salary_itemService getSalary_itemService() {
 		return salary_itemService;
 	}
 
-	public void setSalary_itemService(Salary_itemServiceImpl salary_itemService) {
+	public void setSalary_itemService(Salary_itemService salary_itemService) {
 		this.salary_itemService = salary_itemService;
 	}
 
-	public Salary_item_unitServiceImpl getSalary_item_unitService() {
+	public Salary_item_unitService getSalary_item_unitService() {
 		return salary_item_unitService;
 	}
 
 	public void setSalary_item_unitService(
-			Salary_item_unitServiceImpl salary_item_unitService) {
+			Salary_item_unitService salary_item_unitService) {
 		this.salary_item_unitService = salary_item_unitService;
 	}
 

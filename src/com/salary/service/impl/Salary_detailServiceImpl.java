@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.salary.dao.CRUDDaoImpl;
 import com.salary.entity.Account;
 import com.salary.entity.Employee;
 import com.salary.entity.Salary_detail;
 import com.salary.entity.Salary_item;
 import com.salary.service.Salary_detailService;
-import com.salary.sync.a6.A6DaoImpl;
-import com.salary.sync.crm.CRMDaoImpl;
+import com.salary.service.Salary_itemService;
+import com.salary.sync.a6.A6Service;
+import com.salary.sync.crm.CRMService;
 import com.salary.util.DateUtils;
 import com.salary.util.NumberUtils;
 
@@ -22,32 +24,32 @@ import com.salary.util.NumberUtils;
  *
  */
 public class Salary_detailServiceImpl extends CRUDDaoImpl<Salary_detail> implements Salary_detailService {
-	private Salary_itemServiceImpl salary_itemService;
-	private A6DaoImpl a6DaoImpl;
-	private CRMDaoImpl crmDaoImpl;
-
-	public A6DaoImpl getA6DaoImpl() {
-		return a6DaoImpl;
-	}
-
-	public void setA6DaoImpl(A6DaoImpl a6DaoImpl) {
-		this.a6DaoImpl = a6DaoImpl;
-	}
-
-	public CRMDaoImpl getCrmDaoImpl() {
-		return crmDaoImpl;
-	}
-
-	public void setCrmDaoImpl(CRMDaoImpl crmDaoImpl) {
-		this.crmDaoImpl = crmDaoImpl;
-	}
+	private Salary_itemService salary_itemService;
+	private A6Service a6Service;
+	private CRMService crmService;
 	
-	public Salary_itemServiceImpl getSalary_itemService() {
+	public Salary_itemService getSalary_itemService() {
 		return salary_itemService;
 	}
 
-	public void setSalary_itemService(Salary_itemServiceImpl salary_itemService) {
+	public void setSalary_itemService(Salary_itemService salary_itemService) {
 		this.salary_itemService = salary_itemService;
+	}
+
+	public A6Service getA6Service() {
+		return a6Service;
+	}
+
+	public void setA6Service(A6Service a6Service) {
+		this.a6Service = a6Service;
+	}
+
+	public CRMService getCrmService() {
+		return crmService;
+	}
+
+	public void setCrmService(CRMService crmService) {
+		this.crmService = crmService;
 	}
 
 	/**
@@ -90,7 +92,7 @@ public class Salary_detailServiceImpl extends CRUDDaoImpl<Salary_detail> impleme
 		if(lista6sql!=null && !lista6sql.isEmpty()){
 			for(Map<String,Object> a6sqlMap:lista6sql){
 				
-				listSalarydetail=a6DaoImpl.queryNaviSql(a6sqlMap.get("DYNMAICSQL").toString(), params);
+				listSalarydetail=a6Service.queryNaviSql(a6sqlMap.get("DYNMAICSQL").toString(), params);
 				if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
 					System.out.println(a6sqlMap.get("COMMENT")+":"+listSalarydetail.size());
 					salary_detail.setSalary_item_id(Integer.parseInt(a6sqlMap.get("SALARY_ITEM_ID").toString()));
@@ -107,7 +109,7 @@ public class Salary_detailServiceImpl extends CRUDDaoImpl<Salary_detail> impleme
 		
 		if(listcrmsql!=null && !listcrmsql.isEmpty()){
 			for(Map<String,Object> crmsqlMap:listcrmsql){
-				listSalarydetail=crmDaoImpl.queryNaviSql(crmsqlMap.get("DYNMAICSQL").toString(), params);
+				listSalarydetail=crmService.queryNaviSql(crmsqlMap.get("DYNMAICSQL").toString(), params);
 				if(listSalarydetail!=null && !listSalarydetail.isEmpty()){
 					System.out.println(crmsqlMap.get("COMMENT")+":"+listSalarydetail.size());
 					salary_detail.setSalary_item_id(Integer.parseInt(crmsqlMap.get("SALARY_ITEM_ID").toString()));

@@ -35,7 +35,7 @@
 		</property>
 	</bean>
 
-	<bean id="a6DaoImpl" class="com.salary.sync.a6.A6DaoImpl">
+	<bean id="a6Service" class="com.salary.sync.a6.A6ServiceImpl">
 		<property name="sessionFactory" ref="sessionFactoryA6" />
 	</bean>
 </beans>

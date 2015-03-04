@@ -4,12 +4,16 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.apache.struts2.ServletActionContext;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Report;
-import com.salary.service.impl.ReportServiceImpl;
+import com.salary.service.ReportService;
 import com.salary.util.ExcelUtils;
 import com.salary.util.ReportUtils;
 
@@ -20,7 +24,7 @@ import com.salary.util.ReportUtils;
  */
 @SuppressWarnings("serial")
 public class ReportAction extends BaseAction {
-	private ReportServiceImpl reportService;
+	private ReportService reportService;
 	private Integer id;
 	private Integer report_id;						//报表id
 	private Report report;							//自定义报表类
@@ -29,12 +33,12 @@ public class ReportAction extends BaseAction {
 	private String formparams;						//form表单的参数列表,用逗号分割
 	private String formparamstype;					//form表单的Easyui类型列表,用逗号分割
 	private InputStream inputStream;				//文件输出流
-
-	public ReportServiceImpl getReportService() {
+	
+	public ReportService getReportService() {
 		return reportService;
 	}
 
-	public void setReportService(ReportServiceImpl reportService) {
+	public void setReportService(ReportService reportService) {
 		this.reportService = reportService;
 	}
 

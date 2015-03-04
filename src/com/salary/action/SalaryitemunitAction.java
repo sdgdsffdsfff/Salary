@@ -3,10 +3,12 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Salary_item_unit;
-import com.salary.service.impl.Salary_item_unitServiceImpl;
+import com.salary.service.Salary_item_unitService;
 
 /**
  * 奖金公式单元action
@@ -15,14 +17,15 @@ import com.salary.service.impl.Salary_item_unitServiceImpl;
  */
 @SuppressWarnings("serial")
 public class SalaryitemunitAction extends BaseAction {
-	private Salary_item_unitServiceImpl salary_item_unitService;
+	private Salary_item_unitService salary_item_unitService;
 	private Integer id;								//奖金期间id
 	private Salary_item_unit salary_item_unit;		//奖金公式单元
-	public Salary_item_unitServiceImpl getSalary_item_unitService() {
+	
+	public Salary_item_unitService getSalary_item_unitService() {
 		return salary_item_unitService;
 	}
 	public void setSalary_item_unitService(
-			Salary_item_unitServiceImpl salary_item_unitService) {
+			Salary_item_unitService salary_item_unitService) {
 		this.salary_item_unitService = salary_item_unitService;
 	}
 	public Integer getId() {

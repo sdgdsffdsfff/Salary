@@ -2,27 +2,15 @@ package com.salary.sync.a6;
 
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
 import com.salary.dao.CRUDDaoImpl;
-import com.salary.entity.Account;
+import com.salary.entity.Author;
 
 /**
  * A6系统数据处理Dao
  * @author 陈捷
  *
  */
-public class A6DaoImpl extends CRUDDaoImpl<Account>{
-	
-	@Test
-	public void test1(){
-		A6DaoImpl a6Daoimpl=new A6DaoImpl();
-		List<Map<String,Object>> listemp=a6Daoimpl.getEmployeelist();
-		for(Map<String,Object> mapEmployee:listemp){
-			System.out.println(
-					"EMP_NAME:"+mapEmployee.get("EMP_NAME")+
-					"\t MONEY:"+mapEmployee.get("EMP_CODE"));
-		}
-	}
+public class A6ServiceImpl extends CRUDDaoImpl<Author> implements A6Service{
 	
 	/**
 	 * 返回A6的所有员工信息

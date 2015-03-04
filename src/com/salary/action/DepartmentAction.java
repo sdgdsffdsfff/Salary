@@ -3,10 +3,12 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Department;
-import com.salary.service.impl.DepartmentServiceImpl;
+import com.salary.service.DepartmentService;
 
 /**
  * 部门信息action
@@ -16,15 +18,15 @@ import com.salary.service.impl.DepartmentServiceImpl;
 @SuppressWarnings("serial")
 public class DepartmentAction extends BaseAction {
 	
-	private DepartmentServiceImpl departmentService;
+	private DepartmentService departmentService;
 	private Integer id;								//部门id
 	private Department department;					//部门信息
 	
-	public DepartmentServiceImpl getDepartmentService() {
+	public DepartmentService getDepartmentService() {
 		return departmentService;
 	}
 
-	public void setDepartmentService(DepartmentServiceImpl departmentService) {
+	public void setDepartmentService(DepartmentService departmentService) {
 		this.departmentService = departmentService;
 	}
 

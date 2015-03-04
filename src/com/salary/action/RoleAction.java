@@ -3,10 +3,12 @@ package com.salary.action;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Role;
-import com.salary.service.impl.RoleServiceImpl;
+import com.salary.service.RoleService;
 
 /**
  * 角色处理action
@@ -15,15 +17,15 @@ import com.salary.service.impl.RoleServiceImpl;
  */
 @SuppressWarnings("serial")
 public class RoleAction extends BaseAction {
-	private RoleServiceImpl roleService;
+	private RoleService roleService;
 	private Role role;								//角色
 	private Integer id;								//奖金期间id
-
-	public RoleServiceImpl getRoleService() {
+	
+	public RoleService getRoleService() {
 		return roleService;
 	}
 
-	public void setRoleService(RoleServiceImpl roleService) {
+	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
 	}
 

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.sf.json.JSONObject;
+
 import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.salary.action.base.BaseAction;
 import com.salary.entity.Author;
@@ -14,11 +17,11 @@ import com.salary.entity.Menu;
 import com.salary.entity.Operator;
 import com.salary.entity.Role;
 import com.salary.entity.Role_author;
-import com.salary.service.impl.AuthorServiceImpl;
-import com.salary.service.impl.EmployeeServiceImpl;
-import com.salary.service.impl.OperatorServiceImpl;
-import com.salary.service.impl.Role_authorServiceImpl;
-import com.salary.service.impl.Role_menuServiceImpl;
+import com.salary.service.AuthorService;
+import com.salary.service.EmployeeService;
+import com.salary.service.OperatorService;
+import com.salary.service.Role_authorService;
+import com.salary.service.Role_menuService;
 import com.salary.util.MD5Util;
 import com.salary.util.SalaryUtils;
 
@@ -29,52 +32,52 @@ import com.salary.util.SalaryUtils;
  */
 @SuppressWarnings("serial")
 public class OperatorAction extends BaseAction {
-	private OperatorServiceImpl operatorService;
-	private Role_authorServiceImpl role_authorService;
-	private AuthorServiceImpl authorService;
-	private Role_menuServiceImpl role_menuService;
-	private EmployeeServiceImpl employeeService;
+	private OperatorService operatorService;
+	private Role_authorService role_authorService;
+	private AuthorService authorService;
+	private Role_menuService role_menuService;
+	private EmployeeService employeeService;
 	private Operator operator;						//操作员
 	private Integer id;								//奖金期间id
 	private Role role;								//角色信息
 	
-	public OperatorServiceImpl getOperatorService() {
+	public OperatorService getOperatorService() {
 		return operatorService;
 	}
 
-	public void setOperatorService(OperatorServiceImpl operatorService) {
+	public void setOperatorService(OperatorService operatorService) {
 		this.operatorService = operatorService;
 	}
 
-	public Role_authorServiceImpl getRole_authorService() {
+	public Role_authorService getRole_authorService() {
 		return role_authorService;
 	}
 
-	public void setRole_authorService(Role_authorServiceImpl role_authorService) {
+	public void setRole_authorService(Role_authorService role_authorService) {
 		this.role_authorService = role_authorService;
 	}
 
-	public AuthorServiceImpl getAuthorService() {
+	public AuthorService getAuthorService() {
 		return authorService;
 	}
 
-	public void setAuthorService(AuthorServiceImpl authorService) {
+	public void setAuthorService(AuthorService authorService) {
 		this.authorService = authorService;
 	}
 
-	public Role_menuServiceImpl getRole_menuService() {
+	public Role_menuService getRole_menuService() {
 		return role_menuService;
 	}
 
-	public void setRole_menuService(Role_menuServiceImpl role_menuService) {
+	public void setRole_menuService(Role_menuService role_menuService) {
 		this.role_menuService = role_menuService;
 	}
 
-	public EmployeeServiceImpl getEmployeeService() {
+	public EmployeeService getEmployeeService() {
 		return employeeService;
 	}
 
-	public void setEmployeeService(EmployeeServiceImpl employeeService) {
+	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 
