@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="Rolemenu" namespace="/" extends="struts-global">
+		<!-- 页面显示部分 -->
+		<!-- 显示操作员添加页面 -->
+		<action name="addRolemenuPage" class="com.salary.action.RolemenuAction" method="addRolemenuPage">
+			<result name="success">/rolemenu/addRolemenuPage.jsp</result>
+		</action>
+		<!-- 显示操作员编辑页面 -->
+		<action name="editRolemenuPage" class="com.salary.action.RolemenuAction" method="editRolemenuPage">
+			<result name="success">/rolemenu/editRolemenuPage.jsp</result>
+		</action>
+		<!-- 显示操作员列表页面 -->
+		<action name="listRolemenuPage" class="com.salary.action.RolemenuAction" method="listRolemenuPage">
+			<result name="success">/rolemenu/listRolemenuPage.jsp</result>
+		</action>
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 操作员 -->
+		<action name="addRolemenu" class="com.salary.action.RolemenuAction" method="addRolemenu">
+			<result name="success">/rolemenu/listRolemenuPage.jsp</result>
+		</action>
+		<!-- 操作员 -->
+		<action name="editRolemenu" class="com.salary.action.RolemenuAction" method="editRolemenu">
+			<result name="success">/role/listRolePage.jsp</result>
+		</action>
+		<!-- 操作员 -->
+		<action name="delRolemenu" class="com.salary.action.RolemenuAction" method="delRolemenu">
+			<result name="success">/rolemenu/listRolemenuPage.jsp</result>
+		</action>
+		
+		
+		<!-- json数据部分 -->
+		<!-- 操作员 -->
+		<action name="getRolemenulist" class="com.salary.action.RolemenuAction" method="getRolemenulist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+		
+    </package>
+</struts>

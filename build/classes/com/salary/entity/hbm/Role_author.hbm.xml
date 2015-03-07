@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping 
+	package="com.salary.entity" >
+	<class name="Role_author" table="role_author">
+		<id name="id">
+			<generator class="increment"/>
+		</id>
+
+		<property name="role_id" />
+		<property name="author_id" />
+		<property name="isallow" />
+		
+		<many-to-one name="author"
+						column="author_id"
+						class="com.salary.entity.Author"
+						fetch="select"
+						update="false"
+						insert="false" />
+	</class>
+</hibernate-mapping>

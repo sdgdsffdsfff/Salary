@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="Account" namespace="/" extends="struts-global">
+    
+		 <!-- 奖金期间页面显示 -->
+		 <!-- 显示奖金期间列表页面 -->
+		 <action name="listAccountPage" class="com.salary.action.AccountAction" method="listAccountPage">
+		 	<result name="success">/account/listAccountPage.jsp</result>
+		 </action>
+		 <!-- 添加奖金期间页面 -->
+		 <action name="addAccountPage" class="com.salary.action.AccountAction" method="addAccountPage">
+		 	<result name="success">/account/addAccountPage.jsp</result>
+		 </action>
+		 <!-- 修改奖金期间 -->
+		 <action name="editAccountPage" class="com.salary.action.AccountAction" method="editAccountPage">
+		 	<result name="success">/account/editAccountPage.jsp</result>
+		 </action>
+		 
+		 <!-- 奖金期间业务处理 -->
+		 <!-- 添加奖金期间 -->
+		 <action name="addAccount" class="com.salary.action.AccountAction" method="addAccount">
+		 	<result name="success">/account/listAccountPage.jsp</result>
+		 </action>
+		 <!-- 修改奖金期间 -->
+		 <action name="editAccount" class="com.salary.action.AccountAction" method="editAccount">
+		 	<result name="success">/account/listAccountPage.jsp</result>
+		 </action>
+		 <!-- 删除奖金期间 -->
+		 <action name="delAccount" class="com.salary.action.AccountAction" method="delAccount">
+		 	<result name="success">/account/listAccountPage.jsp</result>
+		 </action>
+		 <!-- 清空所有奖金期间 -->
+		 <action name="cleanAllAccount" class="com.salary.action.AccountAction" method="cleanAllAccount">
+		 	<result name="success">/account/listAccountPage.jsp</result>
+		 </action>
+		 
+		 <!-- 奖金期间json数据 -->
+		 <!-- 获取奖金期间列表json数据 -->
+		 <action name="getAccountlist" class="com.salary.action.AccountAction" method="getAccountlist">
+		 	<result type="json">
+		 		<param name="root">jsonobj</param>
+		 	</result>
+		 </action>
+    </package>
+</struts>

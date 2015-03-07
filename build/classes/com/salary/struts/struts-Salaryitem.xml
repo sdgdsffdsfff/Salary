@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="Salaryitem" namespace="/" extends="struts-global">
+		<!-- 工资项目页面显示区 -->
+		<!-- 增加工资项目 -->
+		<action name="addSalaryitemPage" class="com.salary.action.SalaryitemAction" method="addSalaryitemPage">
+			<result name="success">/salaryitem/addSalaryitemPage.jsp</result>
+		</action>
+		<!-- 修改工资项目 -->
+		<action name="editSalaryitemPage" class="com.salary.action.SalaryitemAction" method="editSalaryitemPage">
+			<result name="success">/salaryitem/editSalaryitemPage.jsp</result>
+		</action>
+		<!-- 显示工资项目列表页 -->
+		<action name="listSalaryitemPage" class="com.salary.action.SalaryitemAction" method="listSalaryitemPage">
+			<result name="success">/salaryitem/listSalaryitemPage.jsp</result>
+		</action>
+
+
+		<!-- 工资项目业务处理区 -->
+		<!-- 增加工资项目 -->
+		<action name="addSalaryitem" class="com.salary.action.SalaryitemAction" method="addSalaryitem">
+			<result name="success">/salaryitem/listSalaryitemPage.jsp</result>
+		</action>
+		<!-- 删除工资项目 -->
+		<action name="delSalaryitem" class="com.salary.action.SalaryitemAction" method="delSalaryitem">
+			<result name="success">/salaryitem/listSalaryitemPage.jsp</result>
+		</action>
+		<!-- 修改工资项目 -->
+		<action name="editSalaryitem" class="com.salary.action.SalaryitemAction" method="editSalaryitem">
+			<result name="success">/salaryitem/listSalaryitemPage.jsp</result>
+		</action>
+
+
+		<!-- 工资项目json数据区 -->
+		<!-- 获取工资项目列表json数据 -->
+		<action name="getSalaryitemlist" class="com.salary.action.SalaryitemAction" method="getSalaryitemlist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+	</package>
+</struts>

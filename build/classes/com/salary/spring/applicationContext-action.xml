@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+	<!-- Action层 -->
+	<bean id="accountAction" class="com.salary.action.AccountAction">
+		<property name="accountService" ref="accountService" />
+		<property name="salary_detailService" ref="salary_detailService" />
+	</bean>
+	
+	<bean id="departmentAction" class="com.salary.action.DepartmentAction">
+		<property name="departmentService" ref="departmentService" />
+	</bean>
+	
+	<bean id="employeeAction" class="com.salary.action.EmployeeAction">
+		<property name="employeeService" ref="employeeService" />
+	</bean>
+	
+	<bean id="salarydetailAction" class="com.salary.action.SalarydetailAction">
+		<property name="salary_detailService" ref="salary_detailService" />
+		<property name="salary_itemService" ref="salary_itemService" />
+		<property name="accountService" ref="accountService" />
+		<property name="employeeService" ref="employeeService" />
+		<property name="salary_item_unitService" ref="salary_item_unitService" />
+		<property name="salary_item_expressionService" ref="salary_item_expressionService" />
+		<property name="departmentService" ref="departmentService" />
+	</bean>
+	
+	<bean id="salaryitemAction" class="com.salary.action.SalaryitemAction">
+		<property name="salary_itemService" ref="salary_itemService" />
+	</bean>
+	
+	<bean id="salaryitemexpressionAction" class="com.salary.action.SalaryitemexpressionAction">
+		<property name="salary_item_expressionService" ref="salary_item_expressionService" />
+		<property name="salary_itemService" ref="salary_itemService" />
+		<property name="salary_item_unitService" ref="salary_item_unitService" />
+	</bean>
+	
+	<bean id="salaryitemunitAction" class="com.salary.action.SalaryitemunitAction">
+		<property name="salary_item_unitService" ref="salary_item_unitService" />
+	</bean>
+	
+	<bean id="operatorAction" class="com.salary.action.OperatorAction">
+		<property name="operatorService" ref="operatorService" />
+		<property name="role_authorService" ref="role_authorService" />
+		<property name="authorService" ref="authorService" />
+		<property name="role_menuService" ref="role_menuService" />
+	</bean>
+	
+	<bean id="roleauthorAction" class="com.salary.action.RoleauthorAction">
+		<property name="role_authorService" ref="role_authorService" />
+		<property name="roleService" ref="roleService" />
+	</bean>
+	
+	<bean id="roleAction" class="com.salary.action.RoleAction">
+		<property name="roleService" ref="roleService" />
+	</bean>
+	
+	<bean id="reportAction" class="com.salary.action.ReportAction">
+		<property name="reportService" ref="reportService" />
+	</bean>
+	
+	<bean id="rolemenuAction" class="com.salary.action.RolemenuAction">
+		<property name="role_menuService" ref="role_menuService" />
+	</bean>
+	
+	
+</beans>

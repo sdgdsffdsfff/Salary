@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+	<!-- 基本资料模块开始 -->
+	<bean id="accountService" class="com.salary.service.impl.AccountServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="departmentService" class="com.salary.service.impl.DepartmentServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="employeeService" class="com.salary.service.impl.EmployeeServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="a6Service" ref="a6Service" />
+	</bean>
+	<!-- 基本资料模块结束-->
+	
+	
+	
+	<!-- 奖金项目模块开始 -->
+	<bean id="salary_item_expressionService" class="com.salary.service.impl.Salary_item_expressionServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="salary_item_unitService" class="com.salary.service.impl.Salary_item_unitServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="salary_itemService" class="com.salary.service.impl.Salary_itemServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="salary_detailService" class="com.salary.service.impl.Salary_detailServiceImpl">
+		<property name="salary_itemService" ref="salary_itemService" />
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="a6Service" ref="a6Service" />
+		<property name="crmService" ref="crmService" />
+	</bean>
+	<!-- 奖金项目模块结束 -->
+	
+	
+	
+	<!-- 报表模块开始 -->
+	<bean id="reportService" class="com.salary.service.impl.ReportServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="a6Service" ref="a6Service" />
+		<property name="crmService" ref="crmService" />
+	</bean>
+	<!-- 报表模块结束 -->
+	
+	
+	
+	<!-- 角色权限模块开始 -->
+	<bean id="authorService" class="com.salary.service.impl.AuthorServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="operatorService" class="com.salary.service.impl.OperatorServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="role_authorService" class="com.salary.service.impl.Role_authorServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="roleService" class="com.salary.service.impl.RoleServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="role_menuService" class="com.salary.service.impl.Role_menuServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="menuService" class="com.salary.service.impl.MenuServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 角色权限模块结束 -->
+</beans>

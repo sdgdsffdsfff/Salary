@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="Department" namespace="/" extends="struts-global">
+		<!-- 页面显示部分 -->
+		<!-- 添加部门页面 -->
+		<action name="addDepartmentPage" class="com.salary.action.DepartmentAction" method="addDepartmentPage">
+			<result name="success">/department/addDepartmentPage.jsp</result>
+		</action>
+		<!-- 修改部门页面 -->
+		<action name="editDepartmentPage" class="com.salary.action.DepartmentAction" method="editDepartmentPage">
+			<result name="success">/department/editDepartmentPage.jsp</result>
+		</action>
+		<!-- 显示部门列表页面 -->
+		<action name="listDepartmentPage" class="com.salary.action.DepartmentAction" method="listDepartmentPage">
+			<result name="success">/department/listDepartmentPage.jsp</result>
+		</action>
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 添加部门 -->
+		<action name="addDepartment" class="com.salary.action.DepartmentAction" method="addDepartment">
+			<result name="success">/department/listDepartmentPage.jsp</result>
+		</action>
+		<!-- 删除部门 -->
+		<action name="delDepartment" class="com.salary.action.DepartmentAction" method="delDepartment">
+			<result name="success">/department/listDepartmentPage.jsp</result>
+		</action>
+		<!-- 修改部门 -->
+		<action name="editDepartment" class="com.salary.action.DepartmentAction" method="editDepartment">
+			<result name="success">/department/listDepartmentPage.jsp</result>
+		</action>
+		
+		
+		
+		<!-- json数据部分 -->
+		<!-- 获取部门列表json数据 -->
+		<action name="getDepartmentlist" class="com.salary.action.DepartmentAction" method="getDepartmentlist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+    </package>
+</struts>

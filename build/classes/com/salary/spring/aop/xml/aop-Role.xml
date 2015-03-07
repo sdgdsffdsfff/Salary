@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     
+    <bean id="aopRole" class="com.salary.spring.aop.AopRole" >
+    	<property name="roleService" ref="roleService" />
+    </bean>
+	<aop:config>
+		<aop:aspect ref="aopRole">
+			<aop:pointcut id="addRole" expression="execution (* com.salary.service.impl.RoleServiceImpl.add(..))" />
+			<aop:around method="addCheck" pointcut-ref="addRole" />
+			
+			<aop:pointcut id="editRole" expression="execution (* com.salary.service.impl.RoleServiceImpl.edit(..))" />
+			<aop:around method="editCheck" pointcut-ref="editRole" />
+			
+			<aop:pointcut id="delRole" expression="execution (* com.salary.service.impl.RoleServiceImpl.del(..))" />
+			<aop:around method="delCheck" pointcut-ref="delRole" />
+		</aop:aspect>
+	</aop:config>
+</beans>

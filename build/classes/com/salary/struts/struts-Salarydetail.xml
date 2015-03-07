@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="Salarydetail" namespace="/" extends="struts-global">
+		<!-- 页面显示部分 -->
+		<!-- 显示奖金明细页面 -->
+		<action name="listSalarydetailPage" class="com.salary.action.SalarydetailAction" method="listSalarydetailPage">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		<!-- 显示批量设置奖金明细页面 -->
+		<action name="batchSetSalarydetailPage" class="com.salary.action.SalarydetailAction" method="batchSetSalarydetailPage">
+			<result name="success">/salarydetail/batchSetSalarydetailPage.jsp</result>
+		</action>
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 自动核算奖金 -->
+		<action name="calcSalarydetail" class="com.salary.action.SalarydetailAction" method="calcSalarydetail">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		<!-- 自动核算奖金 -->
+		<action name="editSalarydetailFromDatagrid" class="com.salary.action.SalarydetailAction" method="editSalarydetailFromDatagrid">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		<!-- 批量设置奖金明细 -->
+		<action name="batchSetSalarydetail" class="com.salary.action.SalarydetailAction" method="batchSetSalarydetail">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		<!-- 重新读取CRM/A6数据 -->
+		<action name="initSalaryDetail" class="com.salary.action.SalarydetailAction" method="initSalaryDetail">
+			<result name="success">/salarydetail/listSalarydetailPage.jsp</result>
+		</action>
+		
+		
+		<!-- json数据部分 -->
+		<!-- 获取奖金明细json数据 -->
+		<action name="getSalarydetaillist" class="com.salary.action.SalarydetailAction" method="getSalarydetaillist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+    </package>
+</struts>

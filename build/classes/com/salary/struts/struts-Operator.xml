@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="no-author" namespace="/" extends="struts-default">
+    	<result-types>
+	    	<result-type name="json" class="org.apache.struts2.json.JSONResult"></result-type>
+	    </result-types>
+		<global-results>
+            <result name="input">/login.jsp</result>
+            <result name="none">/common/noAuthor.jsp</result>
+        </global-results>
+		<!-- 操作员登录 -->
+		<action name="login" class="com.salary.action.OperatorAction" method="login">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+		<!-- 用来初始化超级管理员admin的初始密码admin -->
+		<action name="initOperator" class="com.salary.action.OperatorAction" method="initOperator">
+			<result name="success">/login.jsp</result>
+		</action>
+		<!-- 显示修改密码页面 -->
+		<action name="editPasswordPage" class="com.salary.action.OperatorAction" method="editPasswordPage">
+			<result name="success">/operator/editPasswordPage.jsp</result>
+		</action>
+		<!-- 修改密码 -->
+		<action name="editPassword" class="com.salary.action.OperatorAction" method="editPassword">
+			<result name="success">/operator/listOperatorPage.jsp</result>
+		</action>
+	</package>
+	
+	
+    <package name="Operator" namespace="/" extends="struts-global">
+		<!-- 页面显示部分 -->
+		<!-- 显示操作员添加页面 -->
+		<action name="addOperatorPage" class="com.salary.action.OperatorAction" method="addOperatorPage">
+			<result name="success">/operator/addOperatorPage.jsp</result>
+		</action>
+		<!-- 显示操作员编辑页面 -->
+		<action name="editOperatorPage" class="com.salary.action.OperatorAction" method="editOperatorPage">
+			<result name="success">/operator/editOperatorPage.jsp</result>
+		</action>
+		<!-- 显示操作员列表页面 -->
+		<action name="listOperatorPage" class="com.salary.action.OperatorAction" method="listOperatorPage">
+			<result name="success">/operator/listOperatorPage.jsp</result>
+		</action>
+		
+		
+		<!-- 业务处理部分 -->
+		<!-- 添加操作员 -->
+		<action name="addOperator" class="com.salary.action.OperatorAction" method="addOperator">
+			<result name="success">/operator/listOperatorPage.jsp</result>
+		</action>
+		<!-- 修改操作员 -->
+		<action name="editOperator" class="com.salary.action.OperatorAction" method="editOperator">
+			<result name="success">/operator/listOperatorPage.jsp</result>
+		</action>
+		<!-- 删除操作员 -->
+		<action name="delOperator" class="com.salary.action.OperatorAction" method="delOperator">
+			<result name="success">/operator/listOperatorPage.jsp</result>
+		</action>
+		
+		<!-- json数据部分 -->
+		<!-- 操作员 -->
+		<action name="getOperatorlist" class="com.salary.action.OperatorAction" method="getOperatorlist">
+			<result type="json">
+				<param name="root">jsonobj</param>
+			</result>
+		</action>
+		
+    </package>
+</struts>
