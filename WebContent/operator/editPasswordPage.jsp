@@ -59,7 +59,7 @@
 		});
 		
 		//验证密码是否一致
-		$('#pass2').textbox({
+		$('#pass1').textbox({
 			validType:["equals['#pass1']",],
 		});
 	});
