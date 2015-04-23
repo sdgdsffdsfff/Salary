@@ -63,6 +63,12 @@ label.iPhoneCheckLabelOn span {
 }
 </style>
 </head>
+<script type="text/javascript">
+	//如果上级不是父窗口，则刷新本页
+	if(window.parent!=window){
+		window.parent.location.reload(true);
+	}
+</script>
 <body>
     <div id="alertMessage"></div>
     <div id="successLogin"></div>
