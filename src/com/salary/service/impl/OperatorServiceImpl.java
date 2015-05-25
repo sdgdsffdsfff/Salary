@@ -25,5 +25,11 @@ public class OperatorServiceImpl extends CRUDDaoHibernate3Impl<Operator> impleme
 	public void edit(Operator t) {
 		super.edit(t);
 	}
+
+	@Override
+	public void addDataBase(String dataBaseName) {
+		String sql_add="Create Database "+dataBaseName+" character set utf8";
+		this.executeSQL(sql_add);
+	}
 	
 }

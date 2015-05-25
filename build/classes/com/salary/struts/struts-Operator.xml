@@ -18,6 +18,10 @@
 				<param name="root">jsonobj</param>
 			</result>
 		</action>
+		<!-- 测试添加数据库 -->
+		<action name="testAddDataBase" class="com.salary.action.OperatorAction" method="testAddDataBase">
+			<result name="success">/login.jsp</result>
+		</action>
 		
 		<!-- 用来初始化超级管理员admin的初始密码admin -->
 		<action name="initOperator" class="com.salary.action.OperatorAction" method="initOperator">
