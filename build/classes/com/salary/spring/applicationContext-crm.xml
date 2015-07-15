@@ -16,7 +16,7 @@
 			<value>oracle.jdbc.driver.OracleDriver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:oracle:thin:@192.168.0.242:1521:CRM</value>
+			<value>jdbc:oracle:thin:@192.168.101.4:1521:CRM</value>
 		</property>
 		<property name="username">
 			<value>CRMZS</value>

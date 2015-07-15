@@ -16,7 +16,7 @@
 			<value>com.microsoft.sqlserver.jdbc.SQLServerDriver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:sqlserver://192.168.0.247:49162;databaseName=A610032015</value>
+			<value>jdbc:sqlserver://192.168.101.5:49162;databaseName=A610032015</value>
 		</property>
 		<property name="username">
 			<value>sa</value>
