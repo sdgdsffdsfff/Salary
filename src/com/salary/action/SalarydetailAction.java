@@ -401,14 +401,14 @@ public class SalarydetailAction extends BaseAction {
 		titles[16] = "文本组件奖励专项";
 		titles[17] = "客服组奖励专项";
 		titles[18] = "发票查询软件奖励专项";
-		titles[19] = "销售额超额奖励专项";
+		titles[19] = "销售超额奖励专项";
 		titles[20] = "专项奖励合计";
 		titles[21] = "综合表现";
 		titles[22] = "人员分值";
 		titles[23] = "部门奖金分配";
 		titles[24] = "奖金合计";
 		titles[25] = "部门可分配余额";
-		titles[26] = "POS巡检工作量";
+		titles[26] = "pos巡检工作量";
 		return titles;
 	}
 
@@ -433,14 +433,14 @@ public class SalarydetailAction extends BaseAction {
 		fields[16] = "文本组件奖励专项";
 		fields[17] = "客服组奖励专项";
 		fields[18] = "发票查询软件奖励专项";
-		fields[19] = "销售额超额奖励专项";
+		fields[19] = "销售超额奖励专项";
 		fields[20] = "专项奖励合计";
 		fields[21] = "综合表现";
 		fields[22] = "人员分值";
 		fields[23] = "部门奖金分配";
 		fields[24] = "奖金合计";
 		fields[25] = "部门可分配余额";
-		fields[26] = "POS巡检工作量";
+		fields[26] = "pos巡检工作量";
 		return fields;
 	}
 
