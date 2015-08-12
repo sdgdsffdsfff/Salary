@@ -207,7 +207,7 @@ public class CRUDDaoHibernate3Impl<T> implements CRUDDao<T> {
 	 * @param account_id	奖金期间id
 	 */
 	@SuppressWarnings("deprecation")
-	public void callprInitsalarydetail(Integer account_id){
+	public synchronized void callprInitsalarydetail(Integer account_id){
 		Session session=sessionFactory.openSession();
 		Connection conn=null;
 		CallableStatement stmt=null;

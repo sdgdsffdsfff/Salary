@@ -42,6 +42,15 @@
 				<param name="root">jsonobj</param>
 			</result>
 		</action>
+		<!-- 导出Excel -->
+		<action name="getSalarydetailExcel" class="com.salary.action.SalarydetailAction" method="getSalarydetailExcel">
+			<result name="success" type="stream">
+				<param name="contentType">application/msexcel;charset=UTF-8</param>
+				<param name="inputName">inputStream</param>
+				<param name="bufferSize">1024</param>
+				<param name="contentDisposition">attachment;filename="salaryDetail.xls"</param>
+			</result>
+		</action>
 		
     </package>
 </struts>
