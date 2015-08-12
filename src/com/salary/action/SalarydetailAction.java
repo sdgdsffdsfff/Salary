@@ -365,15 +365,10 @@ public class SalarydetailAction extends BaseAction {
 			params.put("account_id", account_id);
 			List<Map<String, Object>> listsalarydetail = salary_detailService.queryNaviSql(sql, params);
 			if (listsalarydetail != null && listsalarydetail.size() > 0) {
-				Map<String, Object> mapSalaryDetail = listsalarydetail.get(0);
-				String[] titles = new String[mapSalaryDetail.size()];
-				int count = 0;
-				for (String key : mapSalaryDetail.keySet()) {
-					titles[count++] = key;
-				}
-
+				String[] titles = getSalarydetailExcelTitle();
+				String[] fields = getSalarydetailExcelFields();
 				ExcelUtils excel = new ExcelUtils();
-				inputStream = excel.getExcelInputStream(titles, titles, listsalarydetail);
+				inputStream = excel.getExcelInputStream(titles, fields, listsalarydetail);
 			}
 
 			return SUCCESS;
@@ -383,6 +378,70 @@ public class SalarydetailAction extends BaseAction {
 		}
 
 		return ERROR;
+	}
+
+	public String[] getSalarydetailExcelTitle() {
+		String[] titles = new String[27];
+		titles[0] = "姓名";
+		titles[1] = "员工编号";
+		titles[2] = "部门";
+		titles[3] = "工作量";
+		titles[4] = "工作量奖励";
+		titles[5] = "服务费户数";
+		titles[6] = "服务费奖励";
+		titles[7] = "二次销售";
+		titles[8] = "二次销售奖励";
+		titles[9] = "IT外包销售额";
+		titles[10] = "IT外包奖励专项";
+		titles[11] = "产业化招生销售额";
+		titles[12] = "产业化招生奖励专项";
+		titles[13] = "企业管理软件销售额";
+		titles[14] = "企业管理软件奖励专项";
+		titles[15] = "文本组件销售额";
+		titles[16] = "文本组件奖励专项";
+		titles[17] = "客服组奖励专项";
+		titles[18] = "发票查询软件奖励专项";
+		titles[19] = "销售额超额奖励专项";
+		titles[20] = "专项奖励合计";
+		titles[21] = "综合表现";
+		titles[22] = "人员分值";
+		titles[23] = "部门奖金分配";
+		titles[24] = "奖金合计";
+		titles[25] = "部门可分配余额";
+		titles[26] = "POS巡检工作量";
+		return titles;
+	}
+
+	public String[] getSalarydetailExcelFields() {
+		String[] fields = new String[27];
+		fields[0] = "empname";
+		fields[1] = "code";
+		fields[2] = "deptname";
+		fields[3] = "工作量";
+		fields[4] = "工作量奖励";
+		fields[5] = "服务费户数";
+		fields[6] = "服务费奖励";
+		fields[7] = "二次销售";
+		fields[8] = "二次销售奖励";
+		fields[9] = "IT外包销售额";
+		fields[10] = "IT外包奖励专项";
+		fields[11] = "产业化招生销售额";
+		fields[12] = "产业化招生奖励专项";
+		fields[13] = "企业管理软件销售额";
+		fields[14] = "企业管理软件奖励专项";
+		fields[15] = "文本组件销售额";
+		fields[16] = "文本组件奖励专项";
+		fields[17] = "客服组奖励专项";
+		fields[18] = "发票查询软件奖励专项";
+		fields[19] = "销售额超额奖励专项";
+		fields[20] = "专项奖励合计";
+		fields[21] = "综合表现";
+		fields[22] = "人员分值";
+		fields[23] = "部门奖金分配";
+		fields[24] = "奖金合计";
+		fields[25] = "部门可分配余额";
+		fields[26] = "POS巡检工作量";
+		return fields;
 	}
 
 	/**
